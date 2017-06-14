@@ -32,6 +32,8 @@ public class ConnectionSettings {
     public static final String UPDATE = "http://" + IP + PUERTO_HOST + "/actualizar_meta.php";
     public static final String DELETE = "http://" + IP + PUERTO_HOST + "/borrar_meta.php";
     public static final String INSERT = "http://" + IP + PUERTO_HOST + "/insertar_meta.php";
+        public static final String GetDisease = "http://" + IP + PUERTO_HOST + "/obtener_enfermedades.php";// el id del arrayJson es "diseases"
+            public static final String GetDiseaseSymptom = "http://" + IP + PUERTO_HOST + "/obtener_multitabla.php"; // el id del arrayJson es "multitable"
 
     /**
      * Clave para el valor extra que representa al identificador de una meta
