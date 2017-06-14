@@ -11,9 +11,18 @@
     tools:context="org.dev4u.hv.my_diagnostic.TestActivity">
 
 
-
-    <TextView
+    <Button
+        android:text="Test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test" />
+        android:id="@+id/btnTest"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/lblPrueba"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:layout_below="@+id/btnTest" />
 </RelativeLayout>

@@ -38,6 +38,20 @@ public class Database {
                 "select id_symptom as id , symptom as name from symptoms"
                 , null);
     }
+    void saveSymptom(String id, String symptom) {
+        dbHelper.getWritableDatabase().execSQL(String.format("insert into symptoms values('%s','%s')", id, symptom));
+    }
+    void deleteData(){
+        dbHelper.getWritableDatabase().execSQL("delete from symptoms");
+        dbHelper.getWritableDatabase().execSQL("delete from User_system");
+        dbHelper.getWritableDatabase().execSQL("delete from medicalhistory");
+        dbHelper.getWritableDatabase().execSQL("delete from symptoms_diseases");
+        dbHelper.getWritableDatabase().execSQL("delete from diseases");
+        dbHelper.getWritableDatabase().execSQL("delete from country");
+        dbHelper.getWritableDatabase().execSQL("delete from allergies");
+        dbHelper.getWritableDatabase().execSQL("delete from bloodtype");
+        dbHelper.getWritableDatabase().execSQL("delete from database_version");
+    }
     /*public void saveUser(SingleUser user){
         //dbHelper.getWritableDatabase().insertWithOnConflict();
     }*/
