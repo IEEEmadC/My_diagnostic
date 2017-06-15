@@ -14,7 +14,7 @@ public class DiseaseUtilites {
 
     Disease searchDisease(String name){
         for (Disease disease : diseasesList) {
-            if (disease.getName().equals(name)) {
+            if (disease.getName_disease().equals(name)) {
                 return disease;
             }
         }

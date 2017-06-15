@@ -27,7 +27,7 @@ public class ConnectionSettings {
      * URLs del Web Service
      */
 
-    public static final String GET = "http://" + IP + PUERTO_HOST + "/obtener_metas.php";
+    public static final String GETSymptom = "http://" + IP + PUERTO_HOST + "/obtener_metas.php";
     public static final String GET_BY_ID = "http://" + IP + PUERTO_HOST + "/obtener_meta_por_id.php";
     public static final String UPDATE = "http://" + IP + PUERTO_HOST + "/actualizar_meta.php";
     public static final String DELETE = "http://" + IP + PUERTO_HOST + "/borrar_meta.php";

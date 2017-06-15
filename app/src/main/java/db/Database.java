@@ -17,29 +17,40 @@ public class Database {
     }
     Cursor getDatabaseVersion() {
         return dbHelper.getReadableDatabase().rawQuery(
-                "select id_version as id , version, To_date as date from database_version"
+                "select id_version as id_disease , version, To_date as date from database_version"
                 , null);
     }
     public Cursor getDiseases(){
         return dbHelper.getReadableDatabase().rawQuery(
-                "select d.id_diseases as id ,d.name_disease as name ,d.description as description," +
+                "select d.id_diseases as id_disease ,d.name_disease as name_disease ,d.description as description," +
                 "COUNT(sd.id_diseases) as symptons from diseases d, symptoms_diseases sd " +
                 "where d.id_diseases=sd.id_diseases group by sd.id_diseases"
                 ,null);
     }
     public Cursor getDiseaseSymptoms(String id_disease) {
-        return dbHelper.getReadableDatabase().rawQuery("select s.id_symptom as id,s.symptom as name " +
+        return dbHelper.getReadableDatabase().rawQuery("select s.id_symptom as id_disease,s.symptom as name_disease " +
                 "from symptoms_diseases sd, symptoms s where sd.id_symptom=s.id_symptom and " +
                 "sd.id_diseases=?"
                 ,new String[]{id_disease});
     }
     public Cursor getSymptoms() {
         return dbHelper.getReadableDatabase().rawQuery(
-                "select id_symptom as id , symptom as name from symptoms"
+                "select id_symptom as id_disease , symptom as name_disease from symptoms"
+                , null);
+    }
+    public Cursor getDiseasesSymptoms() {
+        return dbHelper.getReadableDatabase().rawQuery(
+                "select * from symptoms_diseases"
                 , null);
     }
     void saveSymptom(String id, String symptom) {
         dbHelper.getWritableDatabase().execSQL(String.format("insert into symptoms values('%s','%s')", id, symptom));
+    }
+    void saveDisease(String id, String name,String description) {
+        dbHelper.getWritableDatabase().execSQL(String.format("insert into diseases values('%s','%s','%s')", id, name,description));
+    }
+    void saveSymptomDisease(String id, String id_disease,String id_symptom) {
+        dbHelper.getWritableDatabase().execSQL(String.format("insert into symptoms_diseases values('%s','%s','%s')", id, id_disease,id_symptom));
     }
     void deleteData(){
         dbHelper.getWritableDatabase().execSQL("delete from symptoms");

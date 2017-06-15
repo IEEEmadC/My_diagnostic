@@ -36,6 +36,8 @@ public class TestActivity extends AppCompatActivity {
     public void test(){
         localDatabase.deleteData();
         localDatabase.getSymptoms();
+        localDatabase.getDisease();
+        localDatabase.getSymptomsDisease();
         //como se ejecuta en un hilo hay que esperar a que haya terminado
     }
 }

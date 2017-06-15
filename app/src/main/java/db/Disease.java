@@ -8,23 +8,23 @@ import java.util.ArrayList;
 
 public class Disease {
 
-    String id;
-    String name;
+    String id_disease;
+    String name_disease;
     String description;
     ArrayList<Symptom> symptoms;
     double matchPercentage;
 
     public Disease(String id, String name, String description, ArrayList<Symptom> symptoms) {
-        this.id = id;
-        this.name = name;
+        this.id_disease = id;
+        this.name_disease = name;
         this.description = description;
         this.symptoms = symptoms;
         this.matchPercentage=0;
         this.symptoms = new ArrayList<>();
     }
     public Disease(String id, String name, String description) {
-        this.id = id;
-        this.name = name;
+        this.id_disease = id;
+        this.name_disease = name;
         this.description = description;
         this.matchPercentage=0;
         this.symptoms = new ArrayList<>();
@@ -42,20 +42,28 @@ public class Disease {
         return matchPercentage;
     }
 
-    public String getId() {
-        return id;
+
+    public ArrayList<Symptom> getSymptoms() {
+        return symptoms;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSymptoms(ArrayList<Symptom> symptoms) {
+        this.symptoms = symptoms;
+    }
+    public String getId_disease() {
+        return id_disease;
     }
 
-    public String getName() {
-        return name;
+    public void setId_disease(String id_disease) {
+        this.id_disease = id_disease;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName_disease() {
+        return name_disease;
+    }
+
+    public void setName_disease(String name_disease) {
+        this.name_disease = name_disease;
     }
 
     public String getDescription() {
@@ -66,13 +74,6 @@ public class Disease {
         this.description = description;
     }
 
-    public ArrayList<Symptom> getSymptoms() {
-        return symptoms;
-    }
-
-    public void setSymptoms(ArrayList<Symptom> symptoms) {
-        this.symptoms = symptoms;
-    }
 
 }
 
