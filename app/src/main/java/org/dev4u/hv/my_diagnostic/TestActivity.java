@@ -35,9 +35,11 @@ public class TestActivity extends AppCompatActivity {
 
     public void test(){
         localDatabase.deleteData();
-        localDatabase.getSymptoms();
-        localDatabase.getDisease();
-        localDatabase.getSymptomsDisease();
+        //localDatabase.getSymptoms();
+        //localDatabase.getDisease();
+        //localDatabase.getSymptomsDisease();
+        localDatabase.setTextView( (TextView)findViewById(R.id.lblPrueba) );
+        localDatabase.initDatabase();
         //como se ejecuta en un hilo hay que esperar a que haya terminado
     }
 }
