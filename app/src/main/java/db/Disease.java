@@ -32,7 +32,7 @@ public class Disease {
     public double evaluateSymptoms(ArrayList<String> input){
         double matches=0;
         for(int i=0;i<input.size();i++){
-          //  for(int j=0;j<symptoms.size();j++) if(input.get(i).equals(symptoms.get(j).getName())) matches++;
+            for(int j=0;j<symptoms.size();j++) if(input.get(i).equals(symptoms.get(j).getSymptom())) matches++;
         }
         matchPercentage = (100*matches)/(input.size()*1.0);
         return matchPercentage;

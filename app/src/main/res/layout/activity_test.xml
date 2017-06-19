@@ -20,9 +20,27 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/lblPrueba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/btnTest" />
+
+    <Button
+        android:text="Test 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTest2"
+        android:layout_below="@+id/lblPrueba"
+        android:layout_centerHorizontal="true" />
+    <AutoCompleteTextView
+        android:inputType="textAutoComplete|textAutoCorrect"
+        android:id="@+id/txtSymptom"
+        android:hint="add a symptom"
+        android:layout_below="@+id/btnTest2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
