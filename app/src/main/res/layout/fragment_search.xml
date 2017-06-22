@@ -15,22 +15,23 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                android:layout_weight="0.95"
+                android:layout_weight="1.0"
                 android:id="@+id/input_layout_password"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
-                <EditText
+                <AutoCompleteTextView
                     android:layout_marginLeft="10dp"
                     android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Symptom" />
+                    android:inputType="textAutoComplete|textAutoCorrect"
+                    android:hint="Write a Symptom" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:text="Add"
                 android:background="@drawable/personalized_button"
-                android:layout_weight="0.05"
+                android:layout_weight="0.0"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/button2" />
