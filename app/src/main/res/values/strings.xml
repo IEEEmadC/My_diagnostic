@@ -6,4 +6,6 @@
     <string name="delete">Delete</string>
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
+    <string name="more">More</string>
+    <string name="clear_symptoms">Clear Symptoms</string>
 </resources>

@@ -5,8 +5,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:textSize="40dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="Fragment Disease"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Framento de la lista de enfermedades" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

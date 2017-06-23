@@ -1,14 +1,13 @@
 package org.dev4u.hv.my_diagnostic.Fragments;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,19 +23,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
-import org.dev4u.hv.my_diagnostic.MainActivity;
 import org.dev4u.hv.my_diagnostic.R;
 
-import db.Disease;
 import db.Symptom;
-import utils.AlertDialogHelper;
 import utils.AutoCompleteAdapter;
 import utils.DiseaseUtilitesSingleton;
 import utils.MultiSelectAdapter;
 import utils.RecyclerItemClickListener;
 
 import android.view.ActionMode;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,6 +43,7 @@ public class SearchFragment extends Fragment {
 
 
     //widgets
+    private ViewGroup container;
     private CoordinatorLayout coordinatorLayout;
     private View view;
     private Button btnAddSymptom;
@@ -71,6 +67,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.container = container;
         //adding option menu
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -83,7 +80,7 @@ public class SearchFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //search
+                searchDisease();
             }
         });
         btnAddSymptom.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +146,12 @@ public class SearchFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_search_fragment,menu);
+    }
+
     public void refreshAdapter()
     {
         multiSelectAdapter.selected_symptom=multiselect_list;
@@ -196,10 +199,18 @@ public class SearchFragment extends Fragment {
 
 
     private void addSymptom(){
+
         if(DiseaseUtilitesSingleton.getInstance().getSymptomsNames().contains(txtSymptom.getText().toString())){
             Symptom temporary = new Symptom("",txtSymptom.getText().toString());
-            txtSymptom.setText("");
             hideKeyBoard();
+            for (Symptom s:DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms()) {
+                if(s.getSymptom().equals(txtSymptom.getText().toString())){
+                    Snackbar.make(coordinatorLayout,"Ya se agrego el sintoma "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
+                    txtSymptom.setText("");
+                    return;
+                }
+            }
+            txtSymptom.setText("");
             Snackbar.make(coordinatorLayout,"Agregado "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
             if (mActionMode != null) {
                 mActionMode.finish();
@@ -257,5 +268,25 @@ public class SearchFragment extends Fragment {
         });
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void searchDisease(){
+
+        //aqui es de hacer la magia
+
+        Fragment fragment;
+        Bundle args = new Bundle();
+        fragment = new DiseaseFragment();
+
+// Insert the fragment by replacing any existing fragment
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frm_search, fragment)
+                .addToBackStack("null")
+                .commit();
+        if (container != null) {
+            //container.removeViewInLayout(coordinatorLayout);
+        }
     }
 }

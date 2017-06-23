@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:id="@+id/frm_search">
 
     <!-- TODO: Update blank fragment layout -->
@@ -59,7 +60,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnSearchDisease"
-        android:src="@drawable/ic_search_24dp"
+        android:src="@drawable/ic_search"
+        android:tint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

@@ -4,6 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "23.0.1"
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "org.dev4u.hv.my_diagnostic"
         minSdkVersion 21
         targetSdkVersion 25
