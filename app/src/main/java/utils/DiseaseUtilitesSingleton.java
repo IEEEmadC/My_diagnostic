@@ -17,6 +17,8 @@ import db.Symptom;
  */
 
 public class DiseaseUtilitesSingleton {
+
+    private ArrayList<Symptom> temporarySymptoms;
     private ArrayList<Disease> diseasesList;
     private ArrayList<Symptom> allSymptomsList;
     private ArrayList<String> diseasesNames;
@@ -28,7 +30,9 @@ public class DiseaseUtilitesSingleton {
     private Handler fillHandler = new Handler();
     private static DiseaseUtilitesSingleton instance = null;
 
-    protected DiseaseUtilitesSingleton(){}
+    protected DiseaseUtilitesSingleton(){
+        temporarySymptoms=new ArrayList<>();
+    }
 
     public static DiseaseUtilitesSingleton getInstance(){
         if(instance==null){
@@ -114,5 +118,13 @@ public class DiseaseUtilitesSingleton {
 
     public ArrayList<String> getSymptomsNames() {
         return symptomsNames;
+    }
+
+    public ArrayList<Symptom> getTemporarySymptoms() {
+        return temporarySymptoms;
+    }
+
+    public void setTemporarySymptoms(ArrayList<Symptom> temporarySymptoms) {
+        this.temporarySymptoms = temporarySymptoms;
     }
 }

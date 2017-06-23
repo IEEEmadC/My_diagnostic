@@ -1,5 +1,6 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.TextScale;
 import android.support.design.widget.BottomNavigationView;
@@ -14,7 +15,12 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
@@ -23,13 +29,19 @@ import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.AutoCompleteAdapter;
+import utils.DiseaseUtilitesSingleton;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    BottomNavigationView bottomNavigationView;
-    DashboardNavigationController dashboardNavigationController;
-    MenuItem prevMenuItem;
-    boolean clic = false;
+    private BottomNavigationView bottomNavigationView;
+    private MenuItem prevMenuItem;
+    private Handler handler = new Handler();
+    private SearchFragment frmSearch;
+    private HistoryFragment frmHistory;
+    private DiseaseFragment frmDisease;
+    private static boolean threadFinish=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,22 +55,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        clic=true;
                         switch (item.getItemId()) {
                             case R.id.action_search:
                                 viewPager.setCurrentItem(0);
                                 return true;
-                                //break;
                             case R.id.action_history:
                                 viewPager.setCurrentItem(1);
                                 return true;
-                                //break;
                             case R.id.action_diseases:
                                 viewPager.setCurrentItem(2);
                                 return true;
-                                //break;
                         }
-                        clic=false;
                         return false;
                     }
                 });
@@ -77,9 +84,10 @@ public class MainActivity extends AppCompatActivity {
                     bottomNavigationView.getMenu().getItem(position).setChecked(false);
                 }
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-                //if(!clic) dashboardNavigationController.startAnimation();
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                clic=false;
+                if(position==0 && threadFinish){
+                    updateFragments();
+                }
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -89,15 +97,37 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager(viewPager);
 
-        dashboardNavigationController = new DashboardNavigationController(bottomNavigationView);
+        Init();
 
     }//end onCreate
 
+
+
+    public void Init(){
+        DiseaseUtilitesSingleton.getInstance().init(this);
+        new Thread(new Runnable() {
+            public void run() {
+                DiseaseUtilitesSingleton.getInstance().fillData();
+                handler.post(new Runnable() {
+                    public void run() {
+                        threadFinish=true;
+                        updateFragments();
+                        //llenarCompleter();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void updateFragments(){
+        frmSearch.updateFragment();
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        SearchFragment frmSearch = new SearchFragment();
-        HistoryFragment frmHistory = new HistoryFragment();
-        DiseaseFragment frmDisease = new DiseaseFragment();
+        frmSearch = new SearchFragment();
+        frmHistory = new HistoryFragment();
+        frmDisease = new DiseaseFragment();
         adapter.addFragment(frmSearch);
         adapter.addFragment(frmHistory);
         adapter.addFragment(frmDisease);
@@ -127,21 +157,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class DashboardNavigationController {
-        private BottomNavigationView bottomNavigationView;
-        private final TransitionSet transitionSet;
-        private static final long ACTIVE_ANIMATION_DURATION_MS = 115L;
-        public DashboardNavigationController(BottomNavigationView bottomNavigationView) {
-            this.bottomNavigationView = bottomNavigationView;
-            transitionSet = new AutoTransition();
-            transitionSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
-            transitionSet.setDuration(ACTIVE_ANIMATION_DURATION_MS);
-            transitionSet.setInterpolator(new FastOutSlowInInterpolator());
-            TextScale textScale = new TextScale();
-            transitionSet.addTransition(textScale);
-        }
-        public void startAnimation() {
-            TransitionManager.beginDelayedTransition(bottomNavigationView, transitionSet);
-        }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_commom, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(),"Settings Click",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_exit:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }
