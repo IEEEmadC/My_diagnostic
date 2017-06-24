@@ -3,6 +3,8 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import org.dev4u.hv.my_diagnostic.R;
 
 /**
@@ -23,6 +27,9 @@ import org.dev4u.hv.my_diagnostic.R;
 public class HistoryFragment extends Fragment {
 
     private View view;
+    private ImageView hearth;
+    private Animatable hearthAnim;
+
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -32,17 +39,28 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //supuestamente si llamo a esto tendria que funcar pero nel
-        container.clearDisappearingChildren();
 
-
-        /*if (container != null) {
-            container.removeAllViews();
-        }*/
         view = inflater.inflate(R.layout.fragment_history, container, false);
+        //pulse animation load image view
+        //hearth = (ImageView)view.findViewById(R.id.pulse);
+        //hearthAnim = ((Animatable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
         setHasOptionsMenu(true);
+        restartCursiveAnimation();
+        /*
+        hearth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartCursiveAnimation();
+            }
+        });
+        */
         return view;
+    }
+
+    private void restartCursiveAnimation() {
+
+        //hearthAnim.stop();
+        //hearthAnim.start();
     }
 
 
