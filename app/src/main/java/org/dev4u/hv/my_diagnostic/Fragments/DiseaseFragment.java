@@ -98,6 +98,7 @@ public class DiseaseFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 System.out.println("tap");
+                searchTap(newText);
                 return false;
             }
         });
@@ -118,4 +119,8 @@ public class DiseaseFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void searchTap(String s){
+        //diseaseAdapter.get
+        diseaseAdapter.getFilter().filter(s);
+    }
 }

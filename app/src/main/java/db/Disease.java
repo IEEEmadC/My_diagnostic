@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by admin on 4/6/17.
  */
 
-public class Disease {
+public class Disease implements Comparable<Disease>{
 
     String id_disease;
     String name_disease;
@@ -80,6 +80,11 @@ public class Disease {
 
     public int getSymptoms_match() {
         return symptoms_match;
+    }
+
+    @Override
+    public int compareTo(Disease o) {
+        return this.name_disease.compareTo(o.getName_disease());
     }
 }
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import db.Database;
 import db.Disease;
@@ -92,9 +93,12 @@ public class DiseaseUtilitesSingleton {
                         Log.d("Enfemedad : "+diseaseCursor.getString(1),"Sintoma "+symptomCursor.getString(1));
                     }while (symptomCursor.moveToNext());
                     diseasesNames.add(diseaseCursor.getString(0));
+                    Collections.sort(symptomsList);
                     diseasesList.add(new Disease(diseaseCursor.getString(0),diseaseCursor.getString(1),diseaseCursor.getString(2),symptomsList));
                 }
             }while(diseaseCursor.moveToNext());
+            Collections.sort(diseasesList);
+            Collections.sort(diseasesNames);
         }
         //llenando todos los sintomas
         if(allSymptomsCursor != null && allSymptomsCursor.getCount() > 0){
@@ -102,6 +106,8 @@ public class DiseaseUtilitesSingleton {
                 allSymptomsList.add(new Symptom(allSymptomsCursor.getString(0),allSymptomsCursor.getString(1)));
                 symptomsNames.add(allSymptomsCursor.getString(1));
             }while (allSymptomsCursor.moveToNext());
+            Collections.sort(allSymptomsList);
+            Collections.sort(symptomsNames);
         }
     }
     public ArrayList<Disease> getDiseasesMatches(ArrayList<String> inputs){
@@ -135,4 +141,6 @@ public class DiseaseUtilitesSingleton {
     public void setDiseasesList(ArrayList<Disease> diseasesList) {
         this.diseasesList = diseasesList;
     }
+
+
 }
