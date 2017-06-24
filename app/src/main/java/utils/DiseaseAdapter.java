@@ -61,6 +61,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         Disease disease = diseaseArrayList.get(position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(disease.getName_disease());
+        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0,75)+"...");
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.title_disease));
         sb.setSpan(fcs,0,disease.getName_disease().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
@@ -70,6 +71,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         }
 
         holder.diseaseName.setText(sb);
+        holder.description.setText(descriptionBuild);
         holder.symptomsCount.setText("Symptoms : "+disease.getSymptoms().size());
         holder.percentage.setText("");
         holder.symptomsMatch.setText("");
@@ -146,6 +148,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         public TextView symptomsCount;
         public TextView symptomsMatch;
         public TextView percentage;
+        public TextView description;
         public CardView cardView;
 
         public DiseaseViewHolder(View view) {
@@ -153,7 +156,9 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
             diseaseName = (TextView) view.findViewById(R.id.lblDiseaseName);
             symptomsCount = (TextView) view.findViewById(R.id.lblSymptomsCount);
             percentage = (TextView) view.findViewById(R.id.lblPercentage);
+            description=(TextView) view.findViewById(R.id.lblDescription);
             symptomsMatch = (TextView) view.findViewById(R.id.lblSymptomsMatches);
+
             cardView=(CardView)view.findViewById(R.id.item_symptom);
 
         }
