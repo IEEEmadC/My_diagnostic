@@ -1,21 +1,134 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <android.support.v7.widget.CardView
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:background="@color/cardview_dark_background"
 
-    </android.support.v7.widget.CardView>
-    <TextView
-        android:textSize="40dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:text="Fragment history"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+                    android:weightSum="1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:src="@drawable/ic_profile"
+                        android:layout_weight="0.1"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#ffffff"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp" />
+                    <LinearLayout
+                        android:gravity="left"
+                        android:layout_weight="0.8"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="3dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:gravity="center|left"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:background="@color/colorAccent"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp" />
+                            <TextView
+                                android:layout_marginLeft="2dp"
+                                android:text="Jonathan Giovanni"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
 
-</FrameLayout>
+                        <TextView
+                            android:textSize="30dp"
+                            android:text="20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="Medical History"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_weight="0.1"
+                        android:tint="@color/colorAccent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@null"
+                            app:srcCompat="@drawable/copy_h"
+                            android:id="@+id/pulse"
+                            android:layout_below="@+id/linearLayout2"
+                            android:layout_centerHorizontal="true" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginRight="2dp"
+                        android:tint="@color/gray"
+                        android:src="@drawable/ic_birthday"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                    <TextView
+                        android:layout_gravity="bottom"
+                        android:text="BirthDay : 01/08/1994"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginRight="2dp"
+                        android:tint="@color/gray"
+                        android:src="@drawable/ic_blood"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                    <TextView
+                        android:layout_gravity="bottom"
+                        android:text="BloodType : +O"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
