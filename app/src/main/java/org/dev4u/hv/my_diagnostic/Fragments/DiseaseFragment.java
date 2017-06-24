@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,8 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.dev4u.hv.my_diagnostic.R;
+
+import utils.DiseaseAdapter;
+import utils.DiseaseUtilitesSingleton;
+import utils.MultiSelectAdapter;
 
 
 /**
@@ -26,7 +34,8 @@ import org.dev4u.hv.my_diagnostic.R;
 public class DiseaseFragment extends Fragment {
 
     private View view;
-
+    private RecyclerView recyclerView;
+    private DiseaseAdapter diseaseAdapter;
     public DiseaseFragment() {
         // Required empty public constructor
     }
@@ -38,8 +47,31 @@ public class DiseaseFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_disease, container, false);
         setHasOptionsMenu(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_disease);
+
+        diseaseAdapter = new DiseaseAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getDiseasesList(),false);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(diseaseAdapter);
 
         return view;
+    }
+
+
+    public void updateFragment(){
+        if(recyclerView!=null){
+            diseaseAdapter = new DiseaseAdapter(getContext(),
+                    DiseaseUtilitesSingleton.getInstance().getDiseasesList()
+                    ,false);
+            recyclerView.setAdapter(diseaseAdapter);
+            diseaseAdapter.notifyDataSetChanged();
+
+            Toast.makeText(getContext(),"Iniciado con "+DiseaseUtilitesSingleton.getInstance().getDiseasesList().size()
+                    +" count "+diseaseAdapter.getItemCount(),Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override

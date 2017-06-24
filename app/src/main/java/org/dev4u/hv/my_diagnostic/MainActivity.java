@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 if(position==0 && threadFinish){
                     updateFragments();
                 }
+                if(position==2 && threadFinish){
+                    updateFragments();
+                }
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateFragments(){
+        frmDisease.updateFragment();
         frmSearch.updateFragment();
     }
 

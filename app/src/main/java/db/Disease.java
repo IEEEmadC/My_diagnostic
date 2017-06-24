@@ -13,6 +13,7 @@ public class Disease {
     String description;
     ArrayList<Symptom> symptoms;
     double matchPercentage;
+    int symptoms_match;
 
     public Disease(String id, String name, String description, ArrayList<Symptom> symptoms) {
         this.id_disease = id;
@@ -20,7 +21,8 @@ public class Disease {
         this.description = description;
         this.symptoms = symptoms;
         this.matchPercentage=0;
-        this.symptoms = new ArrayList<>();
+        this.symptoms = symptoms;
+        this.symptoms_match=0;
     }
     public Disease(String id, String name, String description) {
         this.id_disease = id;
@@ -28,12 +30,14 @@ public class Disease {
         this.description = description;
         this.matchPercentage=0;
         this.symptoms = new ArrayList<>();
+        this.symptoms_match=0;
     }
     public double evaluateSymptoms(ArrayList<String> input){
         double matches=0;
         for(int i=0;i<input.size();i++){
             for(int j=0;j<symptoms.size();j++) if(input.get(i).equals(symptoms.get(j).getSymptom())) matches++;
         }
+        this.symptoms_match=(int)matches;
         matchPercentage = (100*matches)/(input.size()*1.0);
         return matchPercentage;
     }
@@ -74,6 +78,8 @@ public class Disease {
         this.description = description;
     }
 
-
+    public int getSymptoms_match() {
+        return symptoms_match;
+    }
 }
 

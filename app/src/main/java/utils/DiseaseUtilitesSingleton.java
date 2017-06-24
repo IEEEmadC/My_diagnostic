@@ -127,4 +127,12 @@ public class DiseaseUtilitesSingleton {
     public void setTemporarySymptoms(ArrayList<Symptom> temporarySymptoms) {
         this.temporarySymptoms = temporarySymptoms;
     }
+
+    public ArrayList<Disease> getDiseasesList() {
+        return diseasesList;
+    }
+
+    public void setDiseasesList(ArrayList<Disease> diseasesList) {
+        this.diseasesList = diseasesList;
+    }
 }
