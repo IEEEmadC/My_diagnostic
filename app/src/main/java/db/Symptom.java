@@ -3,7 +3,7 @@ package db;
 /**
  * Created by admin on 4/6/17.
  */
-public class Symptom {
+public class Symptom implements Comparable<Symptom>{
     private static final String TAG = Symptom.class.getSimpleName();
     /*
         Atributos
@@ -44,5 +44,9 @@ public class Symptom {
     public boolean compararCon(Symptom symptom) {
         return this.symptom.compareTo(symptom.symptom) == 0;
 
+    }
+    @Override
+    public int compareTo(Symptom o) {
+        return this.symptom.compareTo(o.getSymptom());
     }
 }
