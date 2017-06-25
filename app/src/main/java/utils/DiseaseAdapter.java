@@ -122,6 +122,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
                                             mOriginalValues.get(i).getId_disease(),
                                             mOriginalValues.get(i).getName_disease(),
                                             mOriginalValues.get(i).getDescription(),
+                                            mOriginalValues.get(i).getId_disease_category(),
                                             mOriginalValues.get(i).getSymptoms()
                                     )
                             );

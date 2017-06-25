@@ -38,7 +38,7 @@ public class LocalDatabase {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editorPreferences;
     Handler handler = new Handler();
-    int mRequestCount = 3;
+    int mRequestCount = 4;
     CountDownLatch requestCountDown = new CountDownLatch(mRequestCount);
     private Thread checkQueueThread;
     private AlertDialog alertDialog;
@@ -113,6 +113,7 @@ public class LocalDatabase {
             textView.setText("Iniciando descarga");
             checkQueue();
             deleteData();
+            getDiseaseCategory();
             getSymptoms();
             getDisease();
             getSymptomsDisease();
@@ -134,6 +135,71 @@ public class LocalDatabase {
 
     public Database getDatabase(){
         return db;
+    }
+
+
+    public void getDiseaseCategory() {
+        // Petición GET
+        VolleySingleton.
+                getInstance(context).
+                addToRequestQueue(
+                        new JsonObjectRequest(
+                                Request.Method.GET,
+                                ConnectionSettings.GETDiseases_category,
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        saveDiseasesCategory(response);
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        hasError();;
+                                    }
+                                }
+
+                        )
+                );
+    }
+
+    private void saveDiseasesCategory(JSONObject response) {
+        try {
+            String estado = response.getString("estado");
+
+            switch (estado) {
+                case "1": // EXITO
+                    JSONArray mensaje = response.getJSONArray("diseases_category");
+                    Diseases_category[] diseases_categories = gson.fromJson(mensaje.toString(), Diseases_category[].class);
+                    for (Diseases_category s:diseases_categories) {
+                        String n = s.getCategory_name().replaceAll("'","''");
+                        String d = s.getCategory_description().replaceAll("'","''");
+                        db.saveDiseaseCategory(s.getId_disease_category(),n,d);
+                        Log.d("Insercion","id_disease_category : "+s.getId_disease_category()+" nombre :"+s.getCategory_name());
+                    }
+                    Cursor c = db.getDiseases_category();
+                    c.moveToFirst();
+                    String contenido="";
+                    if(c != null && c.getCount() > 0){
+                        c.moveToFirst();
+                        do{
+                            //do logic with cursor.
+                            Log.d("Cursor : "+c.getPosition(),"id_disease_category : "+c.getString(0)+" nombre : "+c.getString(1));
+                        }while(c.moveToNext());
+                    }else{
+                        Log.d("Cursor: ","vacio");
+                    }
+                    requestCountDown.countDown();
+                    break;
+                case "2": // FALLIDO
+                    hasError();;
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void getSymptoms() {
@@ -225,8 +291,8 @@ public class LocalDatabase {
                     for (Disease s:diseases) {
                         String n = s.getName_disease().replaceAll("'","''");
                         String d = s.getDescription().replaceAll("'","''");
-                        db.saveDisease(s.getId_disease(),n,d);
-                        Log.d("Insercion","id_disease : "+s.getId_disease()+" nombre :"+s.getName_disease());
+                        db.saveDisease(s.getId_disease(),n,d,s.getId_disease_category());
+                        Log.d("Insercion","id_disease : "+s.getId_disease()+" nombre :"+s.getName_disease()+" cat "+s.getId_disease_category());
                     }
                     Cursor c = db.getDiseases();
                     c.moveToFirst();
@@ -310,6 +376,10 @@ public class LocalDatabase {
         }
 
     }
+
+
+
+
 
     public TextView getTextView() {
         return textView;

@@ -10,11 +10,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+
+
+    private String createDiseases_category="create table diseases_category"+
+            "("+
+            "id_disease_category INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            "category_name VARCHAR(250),"+
+            "category_description VARCHAR(250)"+
+            ")";
+
     private String createDiseases="create table diseases"+
             "("+
             "id_diseases INTEGER PRIMARY KEY AUTOINCREMENT,"+
             "name_disease VARCHAR(250),"+
-            "description TEXT"+
+            "description TEXT,"+
+            "id_disease_category INTEGER,"+
+            "foreign key (id_disease_category) references diseases_category (id_disease_category)" +
             ")";
     private String createCountry="create table country"+
             "("+
@@ -83,6 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(createDiseases_category);
         db.execSQL(createDiseases);
         db.execSQL(createCountry);
         db.execSQL(createAllergies);
@@ -96,11 +108,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS symptoms_diseases");
         db.execSQL("DROP TABLE IF EXISTS diseases");
         db.execSQL("DROP TABLE IF EXISTS symptoms");
-        db.execSQL("DROP TABLE IF EXISTS symptoms_diseases");
+        db.execSQL("DROP TABLE IF EXISTS diseases_category");
+        db.execSQL(createDiseases_category);
         db.execSQL(createDiseases);
         db.execSQL(createSymptons);
         db.execSQL(createSymptonsDiseases);
+
     }
 }

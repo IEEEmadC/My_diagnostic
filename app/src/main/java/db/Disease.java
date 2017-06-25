@@ -14,8 +14,9 @@ public class Disease implements Comparable<Disease>{
     ArrayList<Symptom> symptoms;
     double matchPercentage;
     int symptoms_match;
+    String id_disease_category;
 
-    public Disease(String id, String name, String description, ArrayList<Symptom> symptoms) {
+    public Disease(String id, String name, String description,String id_disease_category, ArrayList<Symptom> symptoms) {
         this.id_disease = id;
         this.name_disease = name;
         this.description = description;
@@ -23,14 +24,16 @@ public class Disease implements Comparable<Disease>{
         this.matchPercentage=0;
         this.symptoms = symptoms;
         this.symptoms_match=0;
+        this.id_disease_category=id_disease_category;
     }
-    public Disease(String id, String name, String description) {
+    public Disease(String id, String name, String description,String id_disease_category) {
         this.id_disease = id;
         this.name_disease = name;
         this.description = description;
         this.matchPercentage=0;
         this.symptoms = new ArrayList<>();
         this.symptoms_match=0;
+        this.id_disease_category=id_disease_category;
     }
     public double evaluateSymptoms(ArrayList<String> input){
         double matches=0;
@@ -80,6 +83,14 @@ public class Disease implements Comparable<Disease>{
 
     public int getSymptoms_match() {
         return symptoms_match;
+    }
+
+    public String getId_disease_category() {
+        return id_disease_category;
+    }
+
+    public void setId_disease_category(String id_disease_category) {
+        this.id_disease_category = id_disease_category;
     }
 
     @Override
