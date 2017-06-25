@@ -4,6 +4,7 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +30,7 @@ public class HistoryFragment extends Fragment {
 
     private View view;
     private ImageView hearth;
-    private Animatable hearthAnim;
+    private AnimatedVectorDrawable hearthAnim;
 
 
     public HistoryFragment() {
@@ -42,25 +44,32 @@ public class HistoryFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_history, container, false);
         //pulse animation load image view
-        //hearth = (ImageView)view.findViewById(R.id.pulse);
-        //hearthAnim = ((Animatable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
+        hearth = (ImageView)view.findViewById(R.id.pulse);
+        hearthAnim = ((AnimatedVectorDrawable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
         setHasOptionsMenu(true);
-        restartCursiveAnimation();
-        /*
+        //restartCursiveAnimation();
+
+        AnimatedVectorDrawable d = (AnimatedVectorDrawable) getContext().getDrawable(R.drawable.hearth_pulse_animation); // Insert your AnimatedVectorDrawable resource identifier
+        hearth.setImageDrawable(d);
+        d.start();
+
+
         hearth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 restartCursiveAnimation();
             }
         });
-        */
+
         return view;
     }
 
     private void restartCursiveAnimation() {
 
-        //hearthAnim.stop();
-        //hearthAnim.start();
+        Log.d("Estado anim$$$$$$$$$$$","Estado "+hearthAnim.isRunning());
+        hearthAnim.stop();
+        hearthAnim.start();
+        Log.d("Estado anim$$$$$$$$$$$","Estado "+hearthAnim.isRunning());
     }
 
 
