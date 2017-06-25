@@ -30,8 +30,8 @@ public class Database {
     public Cursor getDiseases(){
         return dbHelper.getReadableDatabase().rawQuery(
                 "select d.id_diseases as id_disease ,d.name_disease as name_disease ,d.description as description," +
-                "COUNT(sd.id_diseases) as symptons from diseases d, symptoms_diseases sd " +
-                "where d.id_diseases=sd.id_diseases group by sd.id_diseases"
+                "d.id_disease_category , dc.category_name ,COUNT(sd.id_diseases) as symptons from diseases d, symptoms_diseases sd , diseases_category dc " +
+                "where d.id_diseases=sd.id_diseases and d.id_disease_category=dc.id_disease_category group by sd.id_diseases"
                 ,null);
     }
     public Cursor getDiseaseSymptoms(String id_disease) {

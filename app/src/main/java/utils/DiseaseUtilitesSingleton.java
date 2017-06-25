@@ -94,7 +94,9 @@ public class DiseaseUtilitesSingleton {
                     }while (symptomCursor.moveToNext());
                     diseasesNames.add(diseaseCursor.getString(0));
                     Collections.sort(symptomsList);
-                    diseasesList.add(new Disease(diseaseCursor.getString(0),diseaseCursor.getString(1),diseaseCursor.getString(2),diseaseCursor.getString(3),symptomsList));
+                    Disease d = new Disease(diseaseCursor.getString(0),diseaseCursor.getString(1),diseaseCursor.getString(2),diseaseCursor.getString(3),symptomsList);
+                    d.setCategory_name(diseaseCursor.getString(4));
+                    diseasesList.add(d);
                 }
             }while(diseaseCursor.moveToNext());
             Collections.sort(diseasesList);

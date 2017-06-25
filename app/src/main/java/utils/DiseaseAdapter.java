@@ -71,8 +71,9 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         }
 
         holder.diseaseName.setText(sb);
-        holder.description.setText(descriptionBuild);
+        holder.description.setText("Description : "+descriptionBuild);
         holder.symptomsCount.setText("Symptoms : "+disease.getSymptoms().size());
+        holder.category.setText("Category : " + disease.getCategory_name());
         holder.percentage.setText("");
         holder.symptomsMatch.setText("");
         if(isSearch){
@@ -150,6 +151,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         public TextView symptomsMatch;
         public TextView percentage;
         public TextView description;
+        public TextView category;
         public CardView cardView;
 
         public DiseaseViewHolder(View view) {
@@ -159,7 +161,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
             percentage = (TextView) view.findViewById(R.id.lblPercentage);
             description=(TextView) view.findViewById(R.id.lblDescription);
             symptomsMatch = (TextView) view.findViewById(R.id.lblSymptomsMatches);
-
+            category = (TextView) view.findViewById(R.id.lblCategory);
             cardView=(CardView)view.findViewById(R.id.item_symptom);
 
         }
