@@ -81,7 +81,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         Disease disease = diseaseArrayList.get(position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(disease.getName_disease());
-        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0,75)+"...");
+        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0,82)+"...");
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.title_disease));
         sb.setSpan(fcs,0,disease.getName_disease().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
@@ -91,7 +91,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         }
 
         holder.diseaseName.setText(sb);
-        holder.description.setText("Description : "+descriptionBuild);
+        holder.description.setText(descriptionBuild);
         holder.symptomsCount.setText("Symptoms : "+disease.getSymptoms().size());
         holder.category.setText("Category : " + disease.getCategory_name());
         //holder.percentage.setText("");
