@@ -95,6 +95,7 @@ public class DiseaseUtilitesSingleton {
                     diseasesNames.add(diseaseCursor.getString(0));
                     Collections.sort(symptomsList);
                     Disease d = new Disease(diseaseCursor.getString(0),diseaseCursor.getString(1),diseaseCursor.getString(2),diseaseCursor.getString(3),symptomsList);
+                    Log.d("Cargado"," id categoria "+diseaseCursor.getString(3)+ " nombre "+diseaseCursor.getString(4));
                     d.setCategory_name(diseaseCursor.getString(4));
                     diseasesList.add(d);
                 }
