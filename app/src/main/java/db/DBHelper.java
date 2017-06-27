@@ -62,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "birthday TEXT,"+
             "id_country INTEGER,"+
             "id_bloodtype INTEGER,"+
-            "id_allergy INTEGER,"+
+            "id_allergy INTEGER DEFAULT NULL,"+
             "foreign key (id_country) references country (id_country)," +
             "foreign key (id_bloodtype) references bloodtype (id_bloodtype)," +
             "foreign key (id_allergy) references allergies (id_allergy)" +
@@ -70,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private String createMedicalHistory="create table medicalhistory"+
             "("+
             "id_medicalhistory INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            "title VARCHAR(250),"+
             "date_time TEXT,"+
             "description VARCHAR(250) DEFAULT NULL,"+
             "id_diseases INTEGER DEFAULT NULL,"+

@@ -23,6 +23,7 @@ public class SaveImage extends AsyncTask<Bitmap, Void, Boolean> {
         this.context    = context;
         this.path       = path;
         this.name       = name;
+        Log.d("----------------","se inicio el guardado");
     }
     @Override
     protected Boolean doInBackground(Bitmap... params) {

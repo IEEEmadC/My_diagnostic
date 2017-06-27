@@ -38,7 +38,7 @@ public class LocalDatabase {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editorPreferences;
     Handler handler = new Handler();
-    int mRequestCount = 4;
+    int mRequestCount = 6;//se llenan 6 tablas
     CountDownLatch requestCountDown = new CountDownLatch(mRequestCount);
     private Thread checkQueueThread;
     private AlertDialog alertDialog;
@@ -71,6 +71,9 @@ public class LocalDatabase {
                             Toast.makeText(context, "Symptom insertados " + db.getSymptoms().getCount(), Toast.LENGTH_SHORT).show();
                             Toast.makeText(context, "Disease insertados " + db.getDiseases().getCount(), Toast.LENGTH_SHORT).show();
                             Toast.makeText(context, "SymptomDisease insertados " + db.getDiseasesSymptoms().getCount(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Paises insertados " + db.getCountry().getCount(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Bloodtypes insertados " + db.getBloodType().getCount(), Toast.LENGTH_SHORT).show();
+
                             textView.setText("Finalizado");
                             if (alertDialog.isShowing()) alertDialog.dismiss();
                         }
@@ -113,6 +116,9 @@ public class LocalDatabase {
             textView.setText("Iniciando descarga");
             checkQueue();
             deleteData();
+
+            getCountry();
+            getBloodType();
             getDiseaseCategory();
             getSymptoms();
             getDisease();
@@ -137,6 +143,131 @@ public class LocalDatabase {
         return db;
     }
 
+
+    public void getCountry() {
+        // Petición GET
+        VolleySingleton.
+                getInstance(context).
+                addToRequestQueue(
+                        new JsonObjectRequest(
+                                Request.Method.GET,
+                                ConnectionSettings.GETCountry,
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        saveCountry(response);
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        hasError();;
+                                    }
+                                }
+
+                        )
+                );
+    }
+
+    private void saveCountry(JSONObject response) {
+        try {
+            String estado = response.getString("estado");
+
+            switch (estado) {
+                case "1": // EXITO
+                    JSONArray mensaje = response.getJSONArray("multitable");
+                    Country[] countries = gson.fromJson(mensaje.toString(), Country[].class);
+                    for (Country s:countries) {
+                        String n = s.getName_country().replaceAll("'","''");
+                        db.saveCountry(s.getId_country(),n,s.getShort_name());
+                        Log.d("Insercion","id_country : "+s.getId_country()+" nombre :"+s.getName_country());
+                    }
+                    Cursor c = db.getCountry();
+                    c.moveToFirst();
+                    String contenido="";
+                    if(c != null && c.getCount() > 0){
+                        c.moveToFirst();
+                        do{
+                            //do logic with cursor.
+                            Log.d("Cursor : "+c.getPosition(),"id country : "+c.getString(0)+" nombre : "+c.getString(1));
+                        }while(c.moveToNext());
+                    }else{
+                        Log.d("Cursor: ","vacio");
+                    }
+                    requestCountDown.countDown();
+                    break;
+                case "2": // FALLIDO
+                    hasError();;
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //bloodtype
+    public void getBloodType() {
+        // Petición GET
+        VolleySingleton.
+                getInstance(context).
+                addToRequestQueue(
+                        new JsonObjectRequest(
+                                Request.Method.GET,
+                                ConnectionSettings.GETBlood_type,
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        saveBloodType(response);
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        hasError();;
+                                    }
+                                }
+
+                        )
+                );
+    }
+
+    private void saveBloodType(JSONObject response) {
+        try {
+            String estado = response.getString("estado");
+
+            switch (estado) {
+                case "1": // EXITO
+                    JSONArray mensaje = response.getJSONArray("multitable");
+                    Bloodtype[] bloodtypes = gson.fromJson(mensaje.toString(), Bloodtype[].class);
+                    for (Bloodtype s:bloodtypes) {
+                        db.saveBloodType(s.getId_bloodtype(),s.getBloodtype());
+                        Log.d("Insercion","id_bloodtype: "+s.getId_bloodtype()+" nombre :"+s.getBloodtype());
+                    }
+                    Cursor c = db.getBloodType();
+                    c.moveToFirst();
+                    String contenido="";
+                    if(c != null && c.getCount() > 0){
+                        c.moveToFirst();
+                        do{
+                            //do logic with cursor.
+                            Log.d("Cursor : "+c.getPosition(),"id bloodtype : "+c.getString(0)+" nombre : "+c.getString(1));
+                        }while(c.moveToNext());
+                    }else{
+                        Log.d("Cursor: ","vacio");
+                    }
+                    requestCountDown.countDown();
+                    break;
+                case "2": // FALLIDO
+                    hasError();;
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void getDiseaseCategory() {
         // Petición GET

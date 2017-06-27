@@ -9,9 +9,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import db.Bloodtype;
+import db.Country;
 import db.Database;
 import db.Disease;
 import db.Symptom;
+import db.User;
 
 /**
  * Created by admin on 4/6/17.
@@ -24,6 +27,9 @@ public class DiseaseUtilitesSingleton {
     private ArrayList<Symptom> allSymptomsList;
     private ArrayList<String> diseasesNames;
     private ArrayList<String> symptomsNames;
+    private ArrayList<Country> countryArrayList;
+    private ArrayList<Bloodtype> bloodtypeArrayList;
+    private static User user=null;
     private double minimunPercentage;
     private Database db;
     private Context context;
@@ -75,6 +81,7 @@ public class DiseaseUtilitesSingleton {
         Cursor allSymptomsCursor = db.getSymptoms();
         diseaseCursor.moveToFirst();
         allSymptomsCursor.moveToFirst();
+
         diseasesList = new ArrayList<>();
         allSymptomsList = new ArrayList<>();
         symptomsNames = new ArrayList<>();
@@ -112,7 +119,62 @@ public class DiseaseUtilitesSingleton {
             Collections.sort(allSymptomsList);
             Collections.sort(symptomsNames);
         }
+
+
+
+
+    }//end fillData
+
+    public void fillPrimaryData(){
+        countryArrayList = new ArrayList<>();
+        bloodtypeArrayList = new ArrayList<>();
+        Cursor countriesCursor = db.getCountry();
+        Cursor bloodtypeCursor = db.getBloodType();
+        countriesCursor.moveToFirst();
+        bloodtypeCursor.moveToFirst();
+        if(countriesCursor!=null && countriesCursor.getCount()>0){
+            do{
+                countryArrayList.add(new Country(countriesCursor.getString(0),countriesCursor.getString(1),countriesCursor.getString(2)));
+            }while (countriesCursor.moveToNext());
+        }
+        if(bloodtypeCursor!=null && bloodtypeCursor.getCount()>0){
+            do{
+                bloodtypeArrayList.add(new Bloodtype(bloodtypeCursor.getString(0),bloodtypeCursor.getString(1)));
+            }while (bloodtypeCursor.moveToNext());
+        }
     }
+
+
+    public User getActiveUser(){
+        return user;
+    }
+
+    public void updateUser(User username){
+        db.saveUser(username);
+        user = db.getUser(username.getUsername());
+    }
+
+    public User getUser(String username){
+        return db.getUser(username);
+    }
+
+    public String getIdCountry(String name){
+        String id=null;
+
+        for(int i=0;i<countryArrayList.size();i++)
+            if(countryArrayList.get(i).getName_country().contains(name)) return countryArrayList.get(i).getId_country();
+
+        return id;
+    }
+    public String getIdBloodType(String type){
+        String id=null;
+        for(int i=0;i<bloodtypeArrayList.size();i++)
+            if(bloodtypeArrayList.get(i).getBloodtype().contains(type)) return bloodtypeArrayList.get(i).getId_bloodtype();
+
+        return id;
+    }
+
+
     public ArrayList<Disease> getDiseasesMatches(ArrayList<String> inputs){
         ArrayList<Disease> diseasesfound = new ArrayList<>();
         for(int i=0;i<diseasesList.size();i++)
