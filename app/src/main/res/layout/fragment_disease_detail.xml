@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frm_detail_disease"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context="org.dev4u.hv.my_diagnostic.Fragments.DiseaseDetailFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="77dp"
+            android:layout_height="101dp"
+            app:srcCompat="@drawable/disease_icon"
+            android:id="@+id/img_disease" />
+
+
+
+        <TextView
+            android:textColor="@color/title_disease"
+            android:id="@+id/lblDiseaseName"
+            android:gravity="left"
+            android:text="Carpal Tunnel Syndrome"
+            android:layout_width="142dp"
+            android:layout_height="90dp"
+            android:typeface="serif"
+            android:textAlignment="center"
+            android:textSize="24dp"
+            android:layout_weight="0.87" />
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar3"
+
+
+            android:background="@color/colorAccent"
+            android:progress="80"
+            android:progressTint="@color/cardview_light_background"
+            android:progressBackgroundTint="@color/gray"
+            android:layout_marginRight="-50dp"
+            android:layout_marginTop="7dp" />
+
+        <TextView
+            android:textColor="@android:color/holo_blue_bright"
+            android:id="@+id/lblPercentage"
+            android:gravity="right"
+            android:textSize="25dp"
+            android:text="80%"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/lblCategory"
+                android:text="Category: Liver Diseases"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textAlignment="center"
+                android:gravity="left|center_vertical" />
+
+
+        </LinearLayout>
+
+        <org.dev4u.hv.my_diagnostic.JustifyTextView
+            android:layout_marginRight="5dp"
+            android:id="@+id/lblDescription"
+            android:gravity="left"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="Description: Typical lupus features include a butterfly-shaped rash on the cheeks, a rash that appears on areas exposed to the sun, mouth and nose sores, arthritis affecting one or more joints, kidney inflammation, neurological disorders Such as headaches, personality changes, organic brain syndrome, peripheral neuropathies, sensory neuropathy, psychological problems such as paranoia, mania and schizophrenia, seizures, transverse myelitis, paralysis, and stroke. Other symptoms that can cause lupus are fever, weight loss, hair loss, poor circulation in the fingers and toes, chest pain when breathing deeply, and abdominal pain. The symptoms of lupus vary from person to person. While some people have only a few symptoms, others may show many more. These signals may appear and disappear. . You may notice that your symptoms intensify after being exposed to the sun or after a hard day's work."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:typeface="monospace"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+</LinearLayout>

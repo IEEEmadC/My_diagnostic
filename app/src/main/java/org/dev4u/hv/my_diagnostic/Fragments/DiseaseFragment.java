@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,11 +22,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.dev4u.hv.my_diagnostic.DummyThermometer;
 import org.dev4u.hv.my_diagnostic.R;
 
+import java.util.ArrayList;
+
+import db.Disease;
+import db.Symptom;
 import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
 import utils.MultiSelectAdapter;
+import utils.RecyclerItemClickListener;
 
 
 /**
@@ -36,6 +43,7 @@ public class DiseaseFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private DiseaseAdapter diseaseAdapter;
+    public ArrayList<Disease> diseaseArrayList = new ArrayList<>();
     public DiseaseFragment() {
         // Required empty public constructor
     }
@@ -55,6 +63,30 @@ public class DiseaseFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(diseaseAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Toast.makeText(getContext(),"pos:" + position, Toast.LENGTH_SHORT).show();
+                Fragment fragment ;
+                fragment = new DiseaseDetailFragment();
+                Bundle args = new Bundle();
+                args.putString("posicion",String.valueOf(position));
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frm_disease, fragment)
+                        .addToBackStack("null")
+                        .commit();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+
+        }));
 
         return view;
     }
@@ -123,4 +155,6 @@ public class DiseaseFragment extends Fragment {
         //diseaseAdapter.get
         diseaseAdapter.getFilter().filter(s);
     }
+
+
 }

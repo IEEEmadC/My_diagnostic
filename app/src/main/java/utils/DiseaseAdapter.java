@@ -1,11 +1,16 @@
 package utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -23,7 +28,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.dev4u.hv.my_diagnostic.Fragments.DiseaseDetailFragment;
 import org.dev4u.hv.my_diagnostic.R;
 
 import java.text.DecimalFormat;
@@ -36,15 +43,14 @@ import db.Symptom;
  * Created by admin on 23/6/17.
  */
 
-public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseViewHolder> implements Filterable {
-
+public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseViewHolder> implements Filterable,  ItemClickListener {
+    //private FragmentActivity myContext;
     Context mContext;
-    public ArrayList<Disease> diseaseArrayList =new ArrayList<>();
+    public ArrayList<Disease> diseaseArrayList = new ArrayList<>();
     private ArrayList<Disease> mOriginalValues = new ArrayList<>();
-    boolean isSearch=false;
-    String textSearch="";
+    boolean isSearch = false;
+    String textSearch = "";
     ArrayList<Integer> lstIcons = new ArrayList<>();
-
 
 
     public DiseaseAdapter(Context mContext, ArrayList<Disease> diseaseArrayList, boolean isSearch) {
@@ -73,7 +79,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_disease, parent, false);
 
-        return new DiseaseViewHolder(itemView);
+        return new DiseaseViewHolder(itemView,this);
     }
 
     @Override
@@ -81,31 +87,31 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         Disease disease = diseaseArrayList.get(position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(disease.getName_disease());
-        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0,82)+"...");
+        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0, 82) + "...");
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.title_disease));
-        sb.setSpan(fcs,0,disease.getName_disease().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(fcs, 0, disease.getName_disease().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         if (disease.getName_disease().toLowerCase().startsWith(textSearch)) {
             final ForegroundColorSpan highlight = new ForegroundColorSpan(Color.CYAN);
-            sb.setSpan(highlight,0,textSearch.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            sb.setSpan(highlight, 0, textSearch.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
 
         holder.diseaseName.setText(sb);
         holder.description.setText(descriptionBuild);
-        holder.symptomsCount.setText("Symptoms : "+disease.getSymptoms().size());
+        holder.symptomsCount.setText("Symptoms : " + disease.getSymptoms().size());
         holder.category.setText("Category : " + disease.getCategory_name());
         //holder.percentage.setText("");
         //holder.symptomsMatch.setText("");
-        if(isSearch){
+        if (isSearch) {
             holder.percentage.setText(new DecimalFormat("###.##").format(disease.getMatchPercentage()));
-            holder.symptomsMatch.setText("Matches : "+disease.getSymptoms_match());
+            holder.symptomsMatch.setText("Matches : " + disease.getSymptoms_match());
             //holder.symptomsMatch.setText(disease.);
         }
 
         int id_category = Integer.parseInt(disease.getId_disease_category());
-        Log.d("id guardado : ","======== "+id_category);
-        if(id_category>0 && id_category<lstIcons.size()){
-            holder.imgDisease.setImageResource(lstIcons.get(id_category-1));
+        Log.d("id guardado : ", "======== " + id_category);
+        if (id_category > 0 && id_category < lstIcons.size()) {
+            holder.imgDisease.setImageResource(lstIcons.get(id_category - 1));
             //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1).getWidth());
             //holder.imgDisease.setImageBitmap(lstIcons.get(id_category-1));
         }
@@ -174,7 +180,19 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         return filter;
     }
 
-    public class DiseaseViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onItemClick(View view, int position) {
+
+
+        /*DiseaseDetailFragment.launch(
+                (FragmentActivity) mContext,diseaseArrayList.get(position).getName_disease());*/
+      /*  Disease disease = diseaseArrayList.get(position);
+        Toast.makeText(mContext, disease.toString(), Toast.LENGTH_SHORT).show();
+*/
+
+    }
+
+    public class DiseaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView diseaseName;
         public TextView symptomsCount;
         public TextView symptomsMatch;
@@ -183,17 +201,28 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         public TextView category;
         public CardView cardView;
         public ImageView imgDisease;
-
-        public DiseaseViewHolder(View view) {
+        public ItemClickListener listener;
+        public DiseaseViewHolder(View view, ItemClickListener listener) {
             super(view);
             diseaseName = (TextView) view.findViewById(R.id.lblDiseaseName);
             symptomsCount = (TextView) view.findViewById(R.id.lblSymptomsCount);
             percentage = (TextView) view.findViewById(R.id.lblPercentage);
-            description=(TextView) view.findViewById(R.id.lblDescription);
+            description = (TextView) view.findViewById(R.id.lblDescription);
             symptomsMatch = (TextView) view.findViewById(R.id.lblSymptomsMatches);
             category = (TextView) view.findViewById(R.id.lblCategory);
-            cardView=(CardView)view.findViewById(R.id.item_symptom);
+            cardView = (CardView) view.findViewById(R.id.item_symptom);
             imgDisease = (ImageView) view.findViewById(R.id.img_disease);
+            this.listener = listener;
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            listener.onItemClick(v, getAdapterPosition());
+        }
+
     }
 }
+
+
+
