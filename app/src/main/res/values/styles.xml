@@ -35,4 +35,6 @@
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
+    <style name="TextColor">black</style>
+
 </resources>
