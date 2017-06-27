@@ -57,13 +57,15 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp" />
                             <TextView
+                                android:id="@+id/lblFullname"
                                 android:layout_marginLeft="2dp"
-                                android:text="Jonathan Giovanni"
+                                android:text="User name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/lblMedicalHistoryCount"
                             android:textSize="30dp"
                             android:text="20"
                             android:layout_width="wrap_content"
@@ -96,8 +98,9 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp" />
                     <TextView
+                        android:id="@+id/lblBirthday"
                         android:layout_gravity="bottom"
-                        android:text="BirthDay : 01/08/1994"
+                        android:text="Birth Day : 01/08/1994"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -113,8 +116,9 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp" />
                     <TextView
+                        android:id="@+id/lblBloodtype"
                         android:layout_gravity="bottom"
-                        android:text="BloodType : +O"
+                        android:text="BloodType : O+"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
