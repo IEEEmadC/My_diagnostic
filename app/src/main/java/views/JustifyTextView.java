@@ -1,4 +1,4 @@
-package org.dev4u.hv.my_diagnostic;
+package views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -31,7 +31,7 @@ public class JustifyTextView extends TextView {
         TextPaint paint = getPaint();
         paint.setColor(getCurrentTextColor());
         paint.drawableState = getDrawableState();
-        mViewWidth = getMeasuredWidth();
+        mViewWidth = getMeasuredWidth()+45;
         String text = (String) getText();
         mLineY = 0;
         mLineY += getTextSize();

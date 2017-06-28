@@ -43,7 +43,7 @@ import db.Symptom;
  * Created by admin on 23/6/17.
  */
 
-public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseViewHolder> implements Filterable,  ItemClickListener {
+public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseViewHolder> implements Filterable {
     //private FragmentActivity myContext;
     Context mContext;
     public ArrayList<Disease> diseaseArrayList = new ArrayList<>();
@@ -73,18 +73,24 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         lstIcons.add(R.drawable.ic_cat_13);
         lstIcons.add(R.drawable.ic_cat_14);
     }
+    @Override
+    public long getItemId(int position) {
+        if(position>-1) return Long.parseLong(diseaseArrayList.get(position).getId_disease());
+        return -1;
+    }
 
     @Override
     public DiseaseAdapter.DiseaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_disease, parent, false);
 
-        return new DiseaseViewHolder(itemView,this);
+
+        return new DiseaseViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(DiseaseAdapter.DiseaseViewHolder holder, int position) {
-        Disease disease = diseaseArrayList.get(position);
+        final Disease disease = diseaseArrayList.get(position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(disease.getName_disease());
         final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0, 82) + "...");
@@ -115,6 +121,27 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
             //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1).getWidth());
             //holder.imgDisease.setImageBitmap(lstIcons.get(id_category-1));
         }
+
+        /*
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,"Id disease "+disease.getId_disease(),Toast.LENGTH_SHORT).show();
+
+                Fragment fragment ;
+                fragment = new DiseaseDetailFragment();
+                Bundle args = new Bundle();
+                args.putString("posicion",disease.getId_disease_category());
+                fragment.setArguments(args);
+
+                FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frm_disease, fragment)
+                        .addToBackStack("null")
+                        .commit();
+            }
+        });
+        */
 
     }
 
@@ -180,19 +207,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         return filter;
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-
-
-        /*DiseaseDetailFragment.launch(
-                (FragmentActivity) mContext,diseaseArrayList.get(position).getName_disease());*/
-      /*  Disease disease = diseaseArrayList.get(position);
-        Toast.makeText(mContext, disease.toString(), Toast.LENGTH_SHORT).show();
-*/
-
-    }
-
-    public class DiseaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DiseaseViewHolder extends RecyclerView.ViewHolder  {
         public TextView diseaseName;
         public TextView symptomsCount;
         public TextView symptomsMatch;
@@ -201,8 +216,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         public TextView category;
         public CardView cardView;
         public ImageView imgDisease;
-        public ItemClickListener listener;
-        public DiseaseViewHolder(View view, ItemClickListener listener) {
+        public DiseaseViewHolder(View view) {
             super(view);
             diseaseName = (TextView) view.findViewById(R.id.lblDiseaseName);
             symptomsCount = (TextView) view.findViewById(R.id.lblSymptomsCount);
@@ -212,15 +226,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
             category = (TextView) view.findViewById(R.id.lblCategory);
             cardView = (CardView) view.findViewById(R.id.item_symptom);
             imgDisease = (ImageView) view.findViewById(R.id.img_disease);
-            this.listener = listener;
-            view.setOnClickListener(this);
         }
-
-        @Override
-        public void onClick(View v) {
-            listener.onItemClick(v, getAdapterPosition());
-        }
-
     }
 }
 

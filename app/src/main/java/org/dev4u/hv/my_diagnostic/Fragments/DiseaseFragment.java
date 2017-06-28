@@ -13,6 +13,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +45,8 @@ public class DiseaseFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private DiseaseAdapter diseaseAdapter;
-    public ArrayList<Disease> diseaseArrayList = new ArrayList<>();
+    private MenuItem item;
+    private Fragment fragment ;
     public DiseaseFragment() {
         // Required empty public constructor
     }
@@ -68,17 +71,25 @@ public class DiseaseFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-                Toast.makeText(getContext(),"pos:" + position, Toast.LENGTH_SHORT).show();
-                Fragment fragment ;
+                String id_disease  = Long.toString(diseaseAdapter.getItemId(position));
+
+                Toast.makeText(getContext(),"id "+id_disease,Toast.LENGTH_SHORT).show();
+
+                if(diseaseAdapter.getItemId(position)<0) return;
                 fragment = new DiseaseDetailFragment();
                 Bundle args = new Bundle();
-                args.putString("posicion",String.valueOf(position));
+                args.putString("ID_DISEASE",id_disease);
                 fragment.setArguments(args);
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_fragment,R.anim.exit_fragment)
                         .replace(R.id.frm_disease, fragment)
                         .addToBackStack("null")
                         .commit();
+                item.setVisible(false);
+
+
             }
 
             @Override
@@ -88,8 +99,44 @@ public class DiseaseFragment extends Fragment {
 
         }));
 
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+
+                    if(getFragmentManager().getBackStackEntryCount()==0) return false;
+
+
+                    try{
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_fragment,R.anim.exit_fragment)
+                                .remove(fragment)
+                                .commit();
+                        //Toast.makeText(getContext(),"Presione atras",Toast.LENGTH_SHORT).show();
+                        //getFragmentManager().popBackStack();
+                        getFragmentManager().popBackStack("null", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        item.setVisible(true);
+                    }catch (Exception e){
+                        Log.e("Error",e.toString());
+                    }
+
+                    //if(getFragmentManager().getBackStackEntryCount()==0){
+                    //    item.setVisible(true);
+                    //}
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
         return view;
     }
+
 
 
     public void updateFragment(){
@@ -100,6 +147,7 @@ public class DiseaseFragment extends Fragment {
             recyclerView.setAdapter(diseaseAdapter);
             diseaseAdapter.notifyDataSetChanged();
 
+
             Toast.makeText(getContext(),"Iniciado con "+DiseaseUtilitesSingleton.getInstance().getDiseasesList().size()
                     +" count "+diseaseAdapter.getItemCount(),Toast.LENGTH_LONG).show();
         }
@@ -109,7 +157,7 @@ public class DiseaseFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_find, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
+        item = menu.findItem(R.id.action_search);
 
         Drawable drawable = menu.findItem(R.id.action_search).getIcon();
         if (drawable != null) {
@@ -155,6 +203,9 @@ public class DiseaseFragment extends Fragment {
         //diseaseAdapter.get
         diseaseAdapter.getFilter().filter(s);
     }
+
+
+
 
 
 }

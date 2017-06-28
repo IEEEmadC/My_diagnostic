@@ -62,6 +62,15 @@ public class DiseaseUtilitesSingleton {
         return null;
     }
 
+    public Disease getDisease(String id){
+        for (Disease disease : diseasesList) {
+            if (disease.getId_disease().equals(id)) {
+                return disease;
+            }
+        }
+        return null;
+    }
+
     public void fillDataThread(){
         fillThread = new Thread(new Runnable() {
             public void run() {

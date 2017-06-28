@@ -23,10 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dev4u.hv.my_diagnostic.R;
 
+import db.Disease;
 import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
 
@@ -38,6 +40,11 @@ public class DiseaseDetailFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private DiseaseAdapter diseaseAdapter;
+    private TextView lblDiseaseName;
+    private TextView lblDiseaseCategory;
+    private TextView lblDiseaseDescription;
+    private TextView lblDiseasePercentage;
+
     public DiseaseDetailFragment() {
         // Required empty public constructor
     }
@@ -48,8 +55,18 @@ public class DiseaseDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
-        String variable  = getArguments().getString("posicion");
-        Toast.makeText(getContext(), "detail:" + variable, Toast.LENGTH_SHORT).show();
+
+        String id_disease  = getArguments().getString("ID_DISEASE");
+        lblDiseaseName = (TextView) view.findViewById(R.id.lblDetailDiseaseName);
+        lblDiseaseCategory = (TextView) view.findViewById(R.id.lblDetailCategory);
+        lblDiseaseDescription = (TextView) view.findViewById(R.id.lblDetailDescription);
+
+        Disease disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
+        if(disease!=null){
+            lblDiseaseName.setText(disease.getName_disease());
+            lblDiseaseCategory.setText(disease.getCategory_name());
+            lblDiseaseDescription.setText(disease.getDescription());
+        }
         return view;
     }
 
