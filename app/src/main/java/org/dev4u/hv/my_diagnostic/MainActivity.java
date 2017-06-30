@@ -1,6 +1,7 @@
 package org.dev4u.hv.my_diagnostic;
 
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.internal.TextScale;
 import android.support.design.widget.BottomNavigationView;
@@ -22,6 +23,12 @@ import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import com.ncapdevi.fragnav.FragNavController;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
+import com.roughike.bottombar.OnTabSelectListener;
+
+import org.dev4u.hv.my_diagnostic.Fragments.BaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
@@ -32,79 +39,72 @@ import java.util.List;
 import utils.AutoCompleteAdapter;
 import utils.DiseaseUtilitesSingleton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener{
 
-    private ViewPager viewPager;
-    private BottomNavigationView bottomNavigationView;
-    private MenuItem prevMenuItem;
+
+    private final int INDEX_SEARCH  = FragNavController.TAB1;
+    private final int INDEX_HISTORY = FragNavController.TAB2;
+    private final int INDEX_DISEASE = FragNavController.TAB3;
+    private static SearchFragment frm1   = new SearchFragment();
+    private static HistoryFragment frm2  = new HistoryFragment();
+    private static DiseaseFragment frm3  = new DiseaseFragment();
+
     private Handler handler = new Handler();
-    private SearchFragment frmSearch;
-    private HistoryFragment frmHistory;
-    private DiseaseFragment frmDisease;
+
     private static boolean threadFinish=false;
+    private BottomBar mBottomBar;
+    private FragNavController mNavController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = (ViewPager) findViewById(R.id.pager_main);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_search:
-                                viewPager.setCurrentItem(0);
-                                return true;
-                            case R.id.action_history:
-                                viewPager.setCurrentItem(1);
-                                return true;
-                            case R.id.action_diseases:
-                                viewPager.setCurrentItem(2);
-                                return true;
-                        }
-                        return false;
-                    }
-                });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                }
-                else
-                {
-                    bottomNavigationView.getMenu().getItem(position).setChecked(false);
-                }
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                if(position==0 && threadFinish){
-                    updateFragments();
-                }
-                if(position==2 && threadFinish){
-                    updateFragments();
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        setupViewPager(viewPager);
+        mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        mBottomBar.selectTabAtPosition(0);
+        mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)
+                .transactionListener(this)
+                .rootFragmentListener(this, 3)
+                //.defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
+                .build();
 
         Init();
 
+        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.bb_menu_search:
+                        mNavController.switchTab(INDEX_SEARCH);
+                        break;
+                    case R.id.bb_menu_history:
+                        mNavController.switchTab(INDEX_HISTORY);
+                        break;
+                    case R.id.bb_menu_diseases:
+                        mNavController.switchTab(INDEX_DISEASE);
+                        break;
+                }
+            }
+        });
+
+        mBottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            @Override
+            public void onTabReSelected(@IdRes int tabId) {
+                mNavController.clearStack();
+            }
+        });
+
     }//end onCreate
 
-
+    @Override
+    public void onBackPressed() {
+        if (!mNavController.isRootFragment()) {
+            Log.d("Eliminado de ","Pila pos :"+mNavController.getCurrentStackIndex());
+            mNavController.popFragment();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     public void Init(){
         DiseaseUtilitesSingleton.getInstance().init(this);
@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         threadFinish=true;
                         updateFragments();
-                        //llenarCompleter();
                     }
                 });
             }
@@ -123,42 +122,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateFragments(){
-        frmDisease.updateFragment();
-        frmSearch.updateFragment();
+        frm1.updateFragment();
+        frm3.updateFragment();
+    }
+    @Override
+    public Fragment getRootFragment(int index) {
+        switch (index) {
+            case INDEX_SEARCH:
+                return frm1;
+            case INDEX_HISTORY:
+                return frm2;
+            case INDEX_DISEASE:
+                return frm3;
+        }
+        throw new IllegalStateException("Need to send an index that we know");
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        frmSearch = new SearchFragment();
-        frmHistory = new HistoryFragment();
-        frmDisease = new DiseaseFragment();
-        adapter.addFragment(frmSearch);
-        adapter.addFragment(frmHistory);
-        adapter.addFragment(frmDisease);
-        viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment) {
-            mFragmentList.add(fragment);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mNavController != null) {
+            mNavController.onSaveInstanceState(outState);
         }
     }
 
+
+    @Override
+    public void onTabTransaction(Fragment fragment, int i) {
+
+    }
+
+    @Override
+    public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
+
+    }
+
+    @Override
+    public void pushFragment(Fragment fragment) {
+        if (mNavController != null) {
+            mNavController.pushFragment(fragment);
+        }
+    }
 }

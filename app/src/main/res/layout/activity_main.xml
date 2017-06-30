@@ -10,19 +10,19 @@
 
 
 
-    <android.support.v4.view.ViewPager
-        android:layout_above="@+id/bottom_navigation"
-        android:id="@+id/pager_main"
+    <FrameLayout
+        android:layout_above="@+id/bottomBar"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" />
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:layout_height="match_parent"/>
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:bb_inActiveTabAlpha="0.8"
+        app:bb_activeTabAlpha="1"
+        app:bb_inActiveTabColor="#bdbdbd"
+        app:bb_activeTabColor="#ffffff"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_menu" />
+        app:bb_tabXmlResource="@xml/menu_bottombar"/>
 </RelativeLayout>

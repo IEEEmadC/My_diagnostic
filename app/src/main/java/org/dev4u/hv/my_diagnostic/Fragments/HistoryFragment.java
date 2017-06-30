@@ -41,7 +41,7 @@ import utils.DiseaseUtilitesSingleton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends BaseFragment {
 
     private View view;
     private ImageView hearth;
@@ -81,7 +81,7 @@ public class HistoryFragment extends Fragment {
 
 
         //setting the profile image
-        Bitmap b = loadImageFromStorage("Profile","profile.png");
+        Bitmap b =null;//= loadImageFromStorage("Profile","profile.png");
         if(b!=null) {
             activePicture = b;
             circleImageView.setImageBitmap(Bitmap.createScaledBitmap (b,(int) (b.getWidth() * .4), (int) (b.getHeight() * .4),true));

@@ -39,7 +39,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends BaseFragment {
 
 
     //widgets
@@ -271,22 +271,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchDisease(){
-
-        //aqui es de hacer la magia
-
-        Fragment fragment;
-        Bundle args = new Bundle();
-        fragment = new DiseaseFragment();
-
-// Insert the fragment by replacing any existing fragment
-
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frm_search, fragment)
-                .addToBackStack("null")
-                .commit();
-        if (container != null) {
-            //container.removeViewInLayout(coordinatorLayout);
+        if (mFragmentNavigation != null) {
+            mFragmentNavigation.pushFragment(new DiseaseFragment());
         }
     }
 }

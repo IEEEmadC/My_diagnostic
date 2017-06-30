@@ -36,7 +36,7 @@ import static utils.ConnectionSettings.CODIGO_DETALLE;
 import static utils.ConnectionSettings.EXTRA_ID;
 
 
-public class DiseaseDetailFragment extends Fragment {
+public class DiseaseDetailFragment extends BaseFragment {
     private View view;
     private RecyclerView recyclerView;
     private DiseaseAdapter diseaseAdapter;

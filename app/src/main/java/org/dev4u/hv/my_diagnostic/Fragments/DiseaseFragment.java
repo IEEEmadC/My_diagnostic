@@ -40,7 +40,7 @@ import utils.RecyclerItemClickListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiseaseFragment extends Fragment {
+public class DiseaseFragment extends BaseFragment {
 
     private View view;
     private RecyclerView recyclerView;
@@ -50,7 +50,6 @@ public class DiseaseFragment extends Fragment {
     public DiseaseFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,9 +69,7 @@ public class DiseaseFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 String id_disease  = Long.toString(diseaseAdapter.getItemId(position));
-
                 Toast.makeText(getContext(),"id "+id_disease,Toast.LENGTH_SHORT).show();
 
                 if(diseaseAdapter.getItemId(position)<0) return;
@@ -80,64 +77,19 @@ public class DiseaseFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("ID_DISEASE",id_disease);
                 fragment.setArguments(args);
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_fragment,R.anim.exit_fragment)
-                        .replace(R.id.frm_disease, fragment)
-                        .addToBackStack("null")
-                        .commit();
+                if (mFragmentNavigation != null) {
+                    mFragmentNavigation.pushFragment(fragment);
+                }
                 item.setVisible(false);
-
-
             }
-
             @Override
             public void onItemLongClick(View view, int position) {
 
             }
 
         }));
-
-
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if( keyCode == KeyEvent.KEYCODE_BACK )
-                {
-
-                    if(getFragmentManager().getBackStackEntryCount()==0) return false;
-
-
-                    try{
-                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_fragment,R.anim.exit_fragment)
-                                .remove(fragment)
-                                .commit();
-                        //Toast.makeText(getContext(),"Presione atras",Toast.LENGTH_SHORT).show();
-                        //getFragmentManager().popBackStack();
-                        getFragmentManager().popBackStack("null", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        item.setVisible(true);
-                    }catch (Exception e){
-                        Log.e("Error",e.toString());
-                    }
-
-                    //if(getFragmentManager().getBackStackEntryCount()==0){
-                    //    item.setVisible(true);
-                    //}
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
         return view;
     }
-
-
 
     public void updateFragment(){
         if(recyclerView!=null){
@@ -147,11 +99,9 @@ public class DiseaseFragment extends Fragment {
             recyclerView.setAdapter(diseaseAdapter);
             diseaseAdapter.notifyDataSetChanged();
 
-
             Toast.makeText(getContext(),"Iniciado con "+DiseaseUtilitesSingleton.getInstance().getDiseasesList().size()
                     +" count "+diseaseAdapter.getItemCount(),Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
@@ -174,7 +124,6 @@ public class DiseaseFragment extends Fragment {
                 System.out.println("search query submit");
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 System.out.println("tap");
@@ -203,9 +152,5 @@ public class DiseaseFragment extends Fragment {
         //diseaseAdapter.get
         diseaseAdapter.getFilter().filter(s);
     }
-
-
-
-
 
 }
