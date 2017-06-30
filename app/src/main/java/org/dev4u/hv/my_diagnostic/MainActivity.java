@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     }
 
     private void updateFragments(){
-        frm1.updateFragment();
-        frm3.updateFragment();
+        //frm1.updateFragment();
+        //frm3.updateFragment();
     }
     @Override
     public Fragment getRootFragment(int index) {

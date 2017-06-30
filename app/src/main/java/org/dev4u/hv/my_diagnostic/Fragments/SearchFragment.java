@@ -120,6 +120,8 @@ public class SearchFragment extends BaseFragment {
             }
         }));
 
+        updateFragment();
+
 
         return view;
     }
