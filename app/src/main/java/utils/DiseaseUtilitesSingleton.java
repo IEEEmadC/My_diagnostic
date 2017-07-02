@@ -13,6 +13,7 @@ import db.Bloodtype;
 import db.Country;
 import db.Database;
 import db.Disease;
+import db.MedicalHistory;
 import db.Symptom;
 import db.User;
 
@@ -29,6 +30,7 @@ public class DiseaseUtilitesSingleton {
     private ArrayList<String> symptomsNames;
     private ArrayList<Country> countryArrayList;
     private ArrayList<Bloodtype> bloodtypeArrayList;
+    private ArrayList<MedicalHistory> medicalHistoryArrayList;
     private static User user=null;
     private double minimunPercentage;
     private Database db;

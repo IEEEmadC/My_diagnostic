@@ -69,6 +69,14 @@ public class Database {
                 "select * from User_system"
                 , null);
     }
+    public Cursor getMedicalHistory(String username) {
+        return dbHelper.getReadableDatabase().rawQuery("select md.id_medicalhistory , md.title , " +
+                        "md.description , ds.name_disease , md.date_time "+
+                        "from medicalhistory md, diseases ds where md.id_diseases=ds.id_diseases and " +
+                        "md.username=?"
+                ,new String[]{username});
+    }
+
     public User getUser(String username) {
         User u;
         Cursor userCursor=  dbHelper.getReadableDatabase().rawQuery(
@@ -109,9 +117,27 @@ public class Database {
         int id = (int) dbHelper.getWritableDatabase().insertWithOnConflict("User_system", null, initialValues, SQLiteDatabase.CONFLICT_REPLACE);
         Log.d("Se actualizo user ","filas afectadas "+id);
     }
+
     void saveSymptom(String id, String symptom) {
         dbHelper.getWritableDatabase().execSQL(String.format("insert into symptoms values('%s','%s')", id, symptom));
     }
+
+    public void saveMedicalHistory(MedicalHistory md) {
+        if(md.getId_medicalhistory()==null){
+            dbHelper.getWritableDatabase().execSQL(String.format(
+                    "insert into medicalhistory(title,date_time,description,id_diseases,username) values('%s','%s','%s','%s')"
+                    , md.getTitle(), md.getDate_time(),md.getDescription(),md.getId_diseases(),md.getUsername())
+            );
+        }else{
+            dbHelper.getWritableDatabase().execSQL(String.format(
+                    "update medicalhistory set title='%s',description='%s' where id_medicalhistory='%s'",md.getTitle(),md.getDescription(),md.getId_medicalhistory())
+            );
+        }
+    }
+    public void deleteMedicalHistory(String id){
+        dbHelper.getWritableDatabase().execSQL(String.format("delete from medicalhistory where id_medicalhistory='%s'",id));
+    }
+
     void saveDisease(String id, String name,String description,String id_category) {
         dbHelper.getWritableDatabase().execSQL(String.format("insert into diseases values('%s','%s','%s','%s')", id, name,description,id_category));
     }

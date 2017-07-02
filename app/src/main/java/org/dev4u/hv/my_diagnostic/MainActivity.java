@@ -2,28 +2,12 @@ package org.dev4u.hv.my_diagnostic;
 
 import android.os.Handler;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.design.internal.TextScale;
-import android.support.design.widget.BottomNavigationView;
-import android.support.transition.AutoTransition;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
-
 import com.ncapdevi.fragnav.FragNavController;
+import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -33,10 +17,6 @@ import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import utils.AutoCompleteAdapter;
 import utils.DiseaseUtilitesSingleton;
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener{
@@ -59,16 +39,20 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Init();
+        //animation
+        //.defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations
+        // (R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
 
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.selectTabAtPosition(0);
         mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)
                 .transactionListener(this)
                 .rootFragmentListener(this, 3)
-                //.defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
+                .defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations(R.anim.alpha_in, R.anim.alpha_out,R.anim.alpha_in,R.anim.alpha_out).build())
                 .build();
 
-        Init();
+
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
