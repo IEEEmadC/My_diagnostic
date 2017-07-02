@@ -18,5 +18,11 @@
         title="Diseases"
         barColorWhenSelected="@color/colorPrimary"
         />
+    <tab
+        id="@+id/bb_menu_map"
+        icon="@drawable/ic_world"
+        title="Map"
+        barColorWhenSelected="@color/colorPrimary"
+        />
 
 </tabs>

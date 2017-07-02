@@ -73,19 +73,16 @@ public class HistoryFragment extends BaseFragment {
     private HistoryAdapter historyAdapter;
     private FloatingActionButton btnAddHistory;
     private ArrayList<MedicalHistory> medicalHistoryArrayList;
-    boolean isMultiSelect = false;
-    private ArrayList<MedicalHistory> multiselect_list = new ArrayList<>();
+
     private ActionMode mActionMode;
     private Menu context_menu;
-    MenuItem itemFind;
-    SearchView sv ;
     public HistoryFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -110,7 +107,7 @@ public class HistoryFragment extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         btnAddHistory = (FloatingActionButton) view.findViewById(R.id.btnAddHistory);
 
-        historyAdapter = new HistoryAdapter(getContext(),medicalHistoryArrayList,multiselect_list);
+        historyAdapter = new HistoryAdapter(getContext(),medicalHistoryArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -163,9 +160,6 @@ public class HistoryFragment extends BaseFragment {
                 if (mActionMode != null) {
                     mActionMode.finish();
                 }
-                if (!sv.isIconified()) {
-                    sv.onActionViewCollapsed();
-                }
 
                 MedicalHistory medicalHistory = new MedicalHistory("1","Titulo "+medicalHistoryArrayList.size()+1,
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed augue ut enim elementum efficitur. In in dignissim dolor, sed rutrum tortor. Nunc eget leo varius, maximus lacus sed, faucibus lorem. Vivamus eget facilisis ex, sit amet tristique odio. Vivamus placerat ex nisl, et pharetra mauris porta id. "
@@ -180,21 +174,11 @@ public class HistoryFragment extends BaseFragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (isMultiSelect)
-                    multi_select(position);
-                else
-                    Toast.makeText(getContext(), "Details Page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Details Page", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onItemLongClick(View view, int position) {
-                if (!isMultiSelect) {
-                    multiselect_list = new ArrayList<MedicalHistory>();
-                    isMultiSelect = true;
-                    if (mActionMode == null) {
-                        mActionMode =  getActivity().startActionMode(mActionModeCallback);
-                    }
-                }
-                multi_select(position);
+
             }
         }));
 
@@ -202,26 +186,6 @@ public class HistoryFragment extends BaseFragment {
         return view;
     }
 
-    public void multi_select(int position) {
-        if (mActionMode != null) {
-            if (multiselect_list.contains(medicalHistoryArrayList.get(position)))
-                multiselect_list.remove(medicalHistoryArrayList.get(position));
-            else
-                multiselect_list.add(medicalHistoryArrayList.get(position));
-
-            if (multiselect_list.size() > 0)
-                mActionMode.setTitle("" + multiselect_list.size());
-            else {
-                mActionMode.setTitle("");
-                if (mActionMode != null) {
-                    mActionMode.finish();
-                }
-            }
-
-            refreshAdapter();
-
-        }
-    }
 
     private void restartCursiveAnimation() {
 
@@ -235,7 +199,7 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_find, menu);
-        itemFind = menu.findItem(R.id.action_search);
+        MenuItem item = menu.findItem(R.id.action_search);
 
         Drawable drawable = menu.findItem(R.id.action_search).getIcon();
         if (drawable != null) {
@@ -243,11 +207,9 @@ public class HistoryFragment extends BaseFragment {
             drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         }
 
-        sv = new SearchView(((AppCompatActivity)getActivity()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setShowAsAction(itemFind, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        MenuItemCompat.setActionView(itemFind, sv);
-
-
+        SearchView sv = new SearchView(((AppCompatActivity)getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setActionView(item, sv);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -263,8 +225,6 @@ public class HistoryFragment extends BaseFragment {
             }
         });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -296,81 +256,6 @@ public class HistoryFragment extends BaseFragment {
             e.printStackTrace();
         }
         return null;
-
     }
-    //callback
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.delete_menu, menu);
-            context_menu = menu;
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_delete:
-                    showDialogPicture();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            isMultiSelect = false;
-            multiselect_list = new ArrayList<MedicalHistory>();
-            refreshAdapter();
-        }
-    };
-
-    private void showDialogPicture(){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setTitle("Warning");
-        dialogBuilder.setMessage("Delete this medical history(ies)?");
-        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(multiselect_list.size()>0)
-                {
-                    for(int i=0;i<multiselect_list.size();i++)
-                        medicalHistoryArrayList.remove(multiselect_list.get(i));
-                    historyAdapter.notifyDataSetChanged();
-                    if (mActionMode != null) {
-                        mActionMode.finish();
-                    }
-                    Toast.makeText(getContext(), "Delete Click", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
-    public void refreshAdapter()
-    {
-        //if (!sv.isIconified()) {
-        //    sv.onActionViewCollapsed();
-        //}
-        historyAdapter.selectedList=multiselect_list;
-        historyAdapter.historyArrayList=medicalHistoryArrayList;
-        //historyAdapter.notifyItemRangeRemoved(0,medicalHistoryArrayList.size());
-        historyAdapter.notifyDataSetChanged();
-    }
 }

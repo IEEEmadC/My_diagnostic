@@ -15,6 +15,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import org.dev4u.hv.my_diagnostic.Fragments.BaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
+import org.dev4u.hv.my_diagnostic.Fragments.MapFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 
 import utils.DiseaseUtilitesSingleton;
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     private final int INDEX_SEARCH  = FragNavController.TAB1;
     private final int INDEX_HISTORY = FragNavController.TAB2;
     private final int INDEX_DISEASE = FragNavController.TAB3;
+    private final int INDEX_MAP     = FragNavController.TAB4;
     private static SearchFragment frm1   = new SearchFragment();
     private static HistoryFragment frm2  = new HistoryFragment();
     private static DiseaseFragment frm3  = new DiseaseFragment();
+    private static MapFragment frm4      = new MapFragment();
 
     private Handler handler = new Handler();
 
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         mBottomBar.selectTabAtPosition(0);
         mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)
                 .transactionListener(this)
-                .rootFragmentListener(this, 3)
+                .rootFragmentListener(this, 4)
                 .defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations(R.anim.alpha_in, R.anim.alpha_out,R.anim.alpha_in,R.anim.alpha_out).build())
                 .build();
 
@@ -67,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
                     case R.id.bb_menu_diseases:
                         mNavController.switchTab(INDEX_DISEASE);
                         break;
+                    case R.id.bb_menu_map:
+                        mNavController.switchTab(INDEX_MAP);
+                        break;
+
                 }
             }
         });
@@ -118,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
                 return frm2;
             case INDEX_DISEASE:
                 return frm3;
+            case INDEX_MAP:
+                return frm4;
         }
         throw new IllegalStateException("Need to send an index that we know");
     }

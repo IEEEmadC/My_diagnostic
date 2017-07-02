@@ -30,31 +30,39 @@ import db.MedicalHistory;
  * Created by admin on 1/7/17.
  */
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> implements Filterable {
+public class HistoryAdapter extends SwipeAdapter implements Filterable {
 
     Context mContext;
     public ArrayList<MedicalHistory> historyArrayList = new ArrayList<>();
     public ArrayList<MedicalHistory> mOriginalValues = new ArrayList<>();
-    public ArrayList<MedicalHistory> selectedList =new ArrayList<>();
     String textSearch = "";
 
-    public HistoryAdapter(Context mContext, ArrayList<MedicalHistory> historyArrayList,ArrayList<MedicalHistory> selectedList) {
+    public HistoryAdapter(Context mContext, ArrayList<MedicalHistory> historyArrayList) {
         this.mContext = mContext;
         this.historyArrayList = historyArrayList;
         this.mOriginalValues = historyArrayList;
-        this.selectedList = selectedList;
     }
 
     @Override
-    public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public long getItemId(int position) {
+        if(position>-1) return Long.parseLong(historyArrayList.get(position).getId_medicalhistory());
+        return -1;
+    }
+    
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateSwipeViewHolder(ViewGroup parent, int i) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_history, parent, false);
+                .inflate(R.layout.item_history, parent, true);
         return new HistoryViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(HistoryViewHolder holder, int position) {
+    public void onBindSwipeViewHolder(RecyclerView.ViewHolder swipeViewHolder, int position) {
         final MedicalHistory medicalHistory = historyArrayList.get(position);
+        HistoryViewHolder holder = (HistoryViewHolder) swipeViewHolder;
+
         final SpannableStringBuilder sb = new SpannableStringBuilder(medicalHistory.getTitle());
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.text_color));
         sb.setSpan(fcs, 0, medicalHistory.getTitle().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -67,20 +75,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         holder.description.setText(medicalHistory.getDescription());
         holder.disease.setText(medicalHistory.getName_disease());
         holder.date.setText(medicalHistory.getDate_time());
-
-        if(selectedList.contains(historyArrayList.get(position)))
-            holder.listitem.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.list_item_selected_state));
-        else
-            holder.listitem.setCardBackgroundColor(ContextCompat.getColor(mContext, R.color.list_item_normal_state));
     }
-
-    @Override
-    public long getItemId(int position) {
-        if(position>-1) return Long.parseLong(historyArrayList.get(position).getId_medicalhistory());
-        return -1;
-    }
-
-
 
 
     @Override
@@ -88,6 +83,43 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         return historyArrayList.size();
     }
 
+    @Override
+    public SwipeConfiguration onCreateSwipeConfiguration(Context context, int i) {
+
+        return new SwipeConfiguration.Builder(context)
+                .setLeftBackgroundColorResource(android.R.color.holo_green_light)
+                .setRightBackgroundColorResource(android.R.color.holo_blue_light)
+                .setDrawableResource(R.drawable.ic_delete)
+                .setRightDrawableResource(R.drawable.ic_check_24dp)
+                .setLeftUndoable(true)
+                .setLeftUndoDescription("deshacer")
+                .setDescriptionTextColorResource(android.R.color.white)
+                .setLeftSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.NORMAL_SWIPE)
+                .setRightSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.RESTRICTED_SWIPE)
+                .build();
+    }
+
+    @Override
+    public void onSwipe(int position, int direction) {
+        if (direction == SWIPE_LEFT) {
+
+            historyArrayList.remove(position);
+            //mOriginalValues = historyArrayList;
+
+            try{
+                mOriginalValues.remove(position);
+            }catch (Exception e){
+                Toast toast = Toast.makeText(mContext, "error " + position, Toast.LENGTH_SHORT);
+                Log.e("Error al eliminar",e.getMessage());
+            }
+            notifyItemRemoved(position);
+            Toast toast = Toast.makeText(mContext, "Deleted item at position " + position, Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(mContext, "Marked item as read at position " + position, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
     @Override
     public Filter getFilter() {
