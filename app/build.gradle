@@ -38,5 +38,6 @@ dependencies {
     compile 'com.ncapdevi:frag-nav:2.0.2'
     compile 'com.roughike:bottom-bar:2.3.1'
     compile 'com.github.TR4Android:Swipeable-RecyclerView:0.2.0'
+    compile 'com.google.android.gms:play-services:11.0.2'
     testCompile 'junit:junit:4.12'
 }
