@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.dev4u.hv.my_diagnostic.MyPlaces.*;
+
 
 public class MapFragment extends Fragment implements  OnMapReadyCallback {
 
