@@ -71,8 +71,8 @@ public class Database {
     }
     public Cursor getMedicalHistory(String username) {
         return dbHelper.getReadableDatabase().rawQuery("select md.id_medicalhistory , md.title , " +
-                        "md.description , ds.name_disease , md.date_time "+
-                        "from medicalhistory md, diseases ds where md.id_diseases=ds.id_diseases and " +
+                        "md.description , md.id_diseases, md.username ,md.date_time , ds.name_disease "+
+                        "from medicalhistory md LEFT JOIN diseases ds ON md.id_diseases=ds.id_diseases and " +
                         "md.username=?"
                 ,new String[]{username});
     }
@@ -122,21 +122,48 @@ public class Database {
         dbHelper.getWritableDatabase().execSQL(String.format("insert into symptoms values('%s','%s')", id, symptom));
     }
 
-    public void saveMedicalHistory(MedicalHistory md) {
+    public String saveMedicalHistory(MedicalHistory md) {
+
+        String id=null;
         if(md.getId_medicalhistory()==null){
             dbHelper.getWritableDatabase().execSQL(String.format(
-                    "insert into medicalhistory(title,date_time,description,id_diseases,username) values('%s','%s','%s','%s')"
+                    "insert into medicalhistory (id_medicalhistory,title,date_time,description,id_diseases,username) values(null,'%s','%s','%s','%s','%s')"
                     , md.getTitle(), md.getDate_time(),md.getDescription(),md.getId_diseases(),md.getUsername())
             );
+
+            Log.d("Username ","Despues de guardar [" + md.getUsername()+ "]");
+
+            Cursor c = getMedicalHistory(md.getUsername());
+            if(c.moveToLast())
+                Log.d("Entro en ","id nulo ultimo insertado "+c.getString(0)+" "+c.getString(1));
+            else
+                Log.d("Entro en ","id nulo");
+
+            id = c.getString(0);
         }else{
             dbHelper.getWritableDatabase().execSQL(String.format(
                     "update medicalhistory set title='%s',description='%s' where id_medicalhistory='%s'",md.getTitle(),md.getDescription(),md.getId_medicalhistory())
             );
+            Log.d("Entro en ","id no nulo");
+            id = md.getId_medicalhistory();
         }
+
+        Cursor mdc = getMedicalHistory(md.getUsername());
+
+        Log.d("Guardados en cursor ",""+mdc.getCount());
+        mdc.moveToFirst();
+        do{
+            Log.d("Medical History : ",
+                    mdc.getString(0)+" "+mdc.getString(1)+" "+mdc.getString(2)+
+                    " "+mdc.getString(3)+" "+mdc.getString(4)+" "+mdc.getString(5)
+            );
+        }while (mdc.moveToNext());
+        return id;
     }
     public void deleteMedicalHistory(String id){
         dbHelper.getWritableDatabase().execSQL(String.format("delete from medicalhistory where id_medicalhistory='%s'",id));
     }
+
 
     void saveDisease(String id, String name,String description,String id_category) {
         dbHelper.getWritableDatabase().execSQL(String.format("insert into diseases values('%s','%s','%s','%s')", id, name,description,id_category));

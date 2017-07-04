@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Handler;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class DiseaseUtilitesSingleton {
     private Context context;
     private Thread fillThread;
     private Handler fillHandler = new Handler();
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editorPreferences;
     private static DiseaseUtilitesSingleton instance = null;
 
     protected DiseaseUtilitesSingleton(){
@@ -53,6 +56,12 @@ public class DiseaseUtilitesSingleton {
     public void init(Context c){
         db = new Database(c);
         context = c;
+        preferences = context.getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editorPreferences = preferences.edit();
+        String status = preferences.getString("USERNAME","null");
+        if(!status.equals("null")){
+            user = getUser(status);
+        }
     }
 
     public Disease searchDisease(String name){
@@ -90,13 +99,18 @@ public class DiseaseUtilitesSingleton {
     public void fillData(){
         Cursor diseaseCursor = db.getDiseases();
         Cursor allSymptomsCursor = db.getSymptoms();
+        Cursor medicalHistoryCursor = db.getMedicalHistory(user.getUsername());
+
         diseaseCursor.moveToFirst();
         allSymptomsCursor.moveToFirst();
+        medicalHistoryCursor.moveToFirst();
 
         diseasesList = new ArrayList<>();
         allSymptomsList = new ArrayList<>();
         symptomsNames = new ArrayList<>();
         diseasesNames = new ArrayList<>();
+        medicalHistoryArrayList = new ArrayList<>();
+
         //llenando todas las enfermedades y sus sintomas
         if(diseaseCursor != null && diseaseCursor.getCount() > 0){
             diseaseCursor.moveToFirst();
@@ -131,9 +145,20 @@ public class DiseaseUtilitesSingleton {
             Collections.sort(symptomsNames);
         }
 
-
-
-
+        if(medicalHistoryCursor != null && medicalHistoryCursor.getCount() > 0){
+            do{
+                MedicalHistory md = new MedicalHistory(
+                        medicalHistoryCursor.getString(0),//id
+                        medicalHistoryCursor.getString(1),//title
+                        medicalHistoryCursor.getString(2),//description
+                        medicalHistoryCursor.getString(3),//id_disease
+                        medicalHistoryCursor.getString(4),//username
+                        medicalHistoryCursor.getString(5)//datetime
+                );
+                md.setName_disease(medicalHistoryCursor.getString(6));
+                medicalHistoryArrayList.add(md);
+            }while (medicalHistoryCursor.moveToNext());
+        }
     }//end fillData
 
     public void fillPrimaryData(){
@@ -206,6 +231,31 @@ public class DiseaseUtilitesSingleton {
         return temporarySymptoms;
     }
 
+    public void deleteHistory(String id){
+        for (MedicalHistory md: medicalHistoryArrayList) {
+            if(md.getId_medicalhistory().equals(id)){
+                medicalHistoryArrayList.remove(md);
+                break;
+            }
+        }
+        db.deleteMedicalHistory(id);
+    }
+
+
+    public void saveOrUpdateHistory(boolean firsttime,MedicalHistory md){
+        String id= db.saveMedicalHistory(md);
+        if(firsttime){
+            if(id!=null){
+                md.setId_medicalhistory(id);
+                medicalHistoryArrayList.add(md);
+            }else{
+                Log.d("Error ","Al asignar id");
+            }
+        }
+        Log.d("MD Guardados : "," "+db.getMedicalHistory(user.getUsername()).getCount());
+    }
+
+
     public void setTemporarySymptoms(ArrayList<Symptom> temporarySymptoms) {
         this.temporarySymptoms = temporarySymptoms;
     }
@@ -213,6 +263,8 @@ public class DiseaseUtilitesSingleton {
     public ArrayList<Disease> getDiseasesList() {
         return diseasesList;
     }
+
+    public ArrayList<MedicalHistory> getMedicalHistoryList(){return medicalHistoryArrayList;}
 
     public void setDiseasesList(ArrayList<Disease> diseasesList) {
         this.diseasesList = diseasesList;
