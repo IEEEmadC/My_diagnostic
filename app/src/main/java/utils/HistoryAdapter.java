@@ -69,9 +69,6 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
     @Override
     public void onBindSwipeViewHolder(RecyclerView.ViewHolder swipeViewHolder, int position) {
 
-
-
-
         HistoryViewHolder holder = (HistoryViewHolder) swipeViewHolder;
         int save_position = holder.getAdapterPosition();
 
@@ -88,7 +85,11 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
         }
         holder.title.setText(sb);
         holder.description.setText(medicalHistory.getDescription());
-        holder.disease.setText(medicalHistory.getName_disease());
+        holder.disease.setVisibility(View.VISIBLE);
+        if(medicalHistory.getName_disease()==null)
+            holder.disease.setVisibility(View.INVISIBLE);
+        else
+            holder.disease.setText(medicalHistory.getName_disease());
         holder.date.setText(medicalHistory.getDate_time());
     }
 
@@ -117,6 +118,7 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
     public void onSwipe(int position, int direction) {
         if (direction == SWIPE_LEFT) {
 
+            MedicalHistory temp = historyArrayList.get(position);
 
             //TODO solucion temporal al eliminar en busqueda el siguiente paso es busca por id de item
 
@@ -126,9 +128,8 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
                     Log.d("mOriginal values "," Longitud "+mOriginalValues.size());
                     Log.d("Dato a eliminar ","Titulo "+historyArrayList.get(position).getTitle());
                     for (MedicalHistory md : mOriginalValues) {
-                        if(md.getTitle().equals(historyArrayList.get(position).getTitle()))
+                        if(md.getTitle().equals(temp.getTitle()))
                         {
-
                             mOriginalValues.remove(md);
                             Log.d("SE elimino ","Con exito");
                             eliminado=true;
@@ -142,6 +143,8 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
 
             }
             historyArrayList.remove(position);
+
+            DiseaseUtilitesSingleton.getInstance().deleteHistory(temp.getId_medicalhistory());
 
             //mOriginalValues = historyArrayList;
 

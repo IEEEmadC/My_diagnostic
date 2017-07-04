@@ -41,7 +41,10 @@ import org.dev4u.hv.my_diagnostic.R;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import db.MedicalHistory;
 import db.Symptom;
@@ -107,7 +110,7 @@ public class HistoryFragment extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         btnAddHistory = (FloatingActionButton) view.findViewById(R.id.btnAddHistory);
 
-        historyAdapter = new HistoryAdapter(getContext(),medicalHistoryArrayList);
+        historyAdapter = new HistoryAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getMedicalHistoryList());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -144,6 +147,7 @@ public class HistoryFragment extends BaseFragment {
 
         String status = preferences.getString("USERNAME","null");
         if(!status.equals("null")){
+            Log.d("User guardado ",status);
             user = DiseaseUtilitesSingleton.getInstance().getUser(status);
             lblUsername.setText(user.getFullname());
 
@@ -161,12 +165,17 @@ public class HistoryFragment extends BaseFragment {
                     mActionMode.finish();
                 }
 
-                MedicalHistory medicalHistory = new MedicalHistory("1","Titulo "+medicalHistoryArrayList.size()+1,
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed augue ut enim elementum efficitur. In in dignissim dolor, sed rutrum tortor. Nunc eget leo varius, maximus lacus sed, faucibus lorem. Vivamus eget facilisis ex, sit amet tristique odio. Vivamus placerat ex nisl, et pharetra mauris porta id. "
-                        ,"1","1","Fecha");
-                medicalHistory.setName_disease("Lupus");
+                DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                String date = df.format(Calendar.getInstance().getTime());
 
-                medicalHistoryArrayList.add(medicalHistory);
+                MedicalHistory medicalHistory = new MedicalHistory(null,"No Title ",
+                        "No description"
+                        ,"NULL"
+                        ,DiseaseUtilitesSingleton.getInstance().getActiveUser().getUsername()
+                        ,date);
+                Log.d("Username ","Antes de guardar ["+DiseaseUtilitesSingleton.getInstance().getActiveUser().getUsername()+"]");
+                medicalHistory.setName_disease(null);
+                DiseaseUtilitesSingleton.getInstance().saveOrUpdateHistory(true,medicalHistory);
                 historyAdapter.notifyDataSetChanged();
             }
         });
