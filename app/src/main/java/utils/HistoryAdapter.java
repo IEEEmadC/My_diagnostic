@@ -34,7 +34,7 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
 
     Context mContext;
     public ArrayList<MedicalHistory> historyArrayList = new ArrayList<>();
-    public ArrayList<MedicalHistory> mOriginalValues = new ArrayList<>();
+    public static ArrayList<MedicalHistory> mOriginalValues = new ArrayList<>();
     String textSearch = "";
 
     public HistoryAdapter(Context mContext, ArrayList<MedicalHistory> historyArrayList) {
@@ -48,11 +48,19 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
         if(position>-1) return Long.parseLong(historyArrayList.get(position).getId_medicalhistory());
         return -1;
     }
+
+    public MedicalHistory getItemById(String id){
+        for (MedicalHistory md:mOriginalValues) {
+            if(md.getId_medicalhistory().equals(id)) return md;
+        }
+        return null;
+    }
     
 
 
     @Override
     public RecyclerView.ViewHolder onCreateSwipeViewHolder(ViewGroup parent, int i) {
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_history, parent, true);
         return new HistoryViewHolder(itemView);
@@ -60,8 +68,15 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
 
     @Override
     public void onBindSwipeViewHolder(RecyclerView.ViewHolder swipeViewHolder, int position) {
-        final MedicalHistory medicalHistory = historyArrayList.get(position);
+
+
+
+
         HistoryViewHolder holder = (HistoryViewHolder) swipeViewHolder;
+        int save_position = holder.getAdapterPosition();
+
+        if(save_position<0) return;
+        final MedicalHistory medicalHistory = historyArrayList.get(save_position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(medicalHistory.getTitle());
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.text_color));
@@ -92,7 +107,6 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
                 .setDrawableResource(R.drawable.ic_delete)
                 .setRightDrawableResource(R.drawable.ic_check_24dp)
                 .setLeftUndoable(true)
-                .setLeftUndoDescription("deshacer")
                 .setDescriptionTextColorResource(android.R.color.white)
                 .setLeftSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.NORMAL_SWIPE)
                 .setRightSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.RESTRICTED_SWIPE)
@@ -103,17 +117,42 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
     public void onSwipe(int position, int direction) {
         if (direction == SWIPE_LEFT) {
 
+
+            //TODO solucion temporal al eliminar en busqueda el siguiente paso es busca por id de item
+
+            if(textSearch.length()>0){
+                boolean eliminado=false;
+                try {
+                    Log.d("mOriginal values "," Longitud "+mOriginalValues.size());
+                    Log.d("Dato a eliminar ","Titulo "+historyArrayList.get(position).getTitle());
+                    for (MedicalHistory md : mOriginalValues) {
+                        if(md.getTitle().equals(historyArrayList.get(position).getTitle()))
+                        {
+
+                            mOriginalValues.remove(md);
+                            Log.d("SE elimino ","Con exito");
+                            eliminado=true;
+                            break;
+                        }
+                    }
+                    if(!eliminado) Log.d("No Se elimino ","No encontro el valor correcto");
+                }catch (Exception e){
+                    Log.d("ERROR ERROR"," Al intentar eliminar "+e.getMessage());
+                }
+
+            }
             historyArrayList.remove(position);
+
             //mOriginalValues = historyArrayList;
 
-            try{
+            /*try{
                 mOriginalValues.remove(position);
             }catch (Exception e){
                 Toast toast = Toast.makeText(mContext, "error " + position, Toast.LENGTH_SHORT);
                 Log.e("Error al eliminar",e.getMessage());
-            }
+            }*/
             notifyItemRemoved(position);
-            Toast toast = Toast.makeText(mContext, "Deleted item at position " + position, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(mContext, "Deleted item at position " + position +" text search "+textSearch, Toast.LENGTH_SHORT);
             toast.show();
         } else {
             Toast toast = Toast.makeText(mContext, "Marked item as read at position " + position, Toast.LENGTH_SHORT);
@@ -128,9 +167,6 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
                 ArrayList<MedicalHistory> FilteredArrList = new ArrayList<MedicalHistory>();
-                if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<MedicalHistory>(historyArrayList); // saves the original data in mOriginalValues
-                }
                 /********
                  *
                  *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
