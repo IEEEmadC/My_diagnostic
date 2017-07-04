@@ -15,7 +15,6 @@ import com.roughike.bottombar.OnTabSelectListener;
 import org.dev4u.hv.my_diagnostic.Fragments.BaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
-import org.dev4u.hv.my_diagnostic.Fragments.MapFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 
 import utils.DiseaseUtilitesSingleton;
