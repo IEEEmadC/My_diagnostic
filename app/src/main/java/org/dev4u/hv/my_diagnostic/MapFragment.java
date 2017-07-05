@@ -112,6 +112,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     @Override
     public void onResume() {
         super.onResume();
+        myMarker=null;
         mGoogleApiClient.connect();
         mMapView.onResume();
         setUpMap();
@@ -121,6 +122,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     @Override
     public void onPause() {
         super.onPause();
+        myMarker=null;
         if (mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
         mMapView.onPause();
