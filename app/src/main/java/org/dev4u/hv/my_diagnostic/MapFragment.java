@@ -51,28 +51,12 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     // The entry point to Google Play services, used by the Places API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
-
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
 
-    // Keys for storing activity state.
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-    private static final String KEY_LOCATION = "location";
-
-    // Used for selecting the current place.
-    private final int mMaxEntries = 5;
-    private String[] mLikelyPlaceNames = new String[mMaxEntries];
-    private String[] mLikelyPlaceAddresses = new String[mMaxEntries];
-    private String[] mLikelyPlaceAttributions = new String[mMaxEntries];
-    private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
-    private LatLng locationMine;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -305,14 +289,6 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
                 .icon((BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Miubicacion, 15));
-
-        // Get the likely places - that is, the businesses and other points of interest that
-        // are the best match for the device's current location
-// Set listeners for marker events.  See the bottom of this class for their behavior.
-        // mMap.setOnMarkerClickListener(this);
-        //mMap.setOnInfoWindowClickListener(this);
-        // Turn on the My Location layer and the related control on the map.
-
         new NearbyPlaces.Builder()
                 .listener(this)
                 .key("KEY")
