@@ -2,6 +2,9 @@ package  org.dev4u.hv.my_diagnostic;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -21,15 +25,18 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.android.gms.internal.zzagz.runOnUiThread;
@@ -56,6 +63,9 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
+    private static Marker myMarker;
+    private static ArrayList<Marker> markerArrayList = new ArrayList<>();
+    private static int radius = 2500;//2500 meters - 2.5km
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -192,17 +202,12 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                markerArrayList.clear();
                 for (Place place : places) {
-
                     LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-
-
-                    mMap.addMarker(new MarkerOptions().position(latLng)
-
+                    markerArrayList.add(mMap.addMarker(new MarkerOptions().position(latLng)
                             .title(place.getName())
-
-                            .snippet(place.getVicinity()));
+                            .snippet(place.getVicinity())));
                 }
             }
         });
@@ -283,20 +288,31 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         getDeviceLocation();
         updateLocationUI();
         // Add a marker in Sydney and move the camera
-        LatLng Miubicacion = new LatLng(location.getLatitude(),location.getLongitude());
+        LatLng MyLatLeng = new LatLng(location.getLatitude(),location.getLongitude());
 
-        mMap.addMarker(new MarkerOptions().position(Miubicacion).title("I am Here")
-                .icon((BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Miubicacion, 15));
+        mMap.clear();
+
+        if(myMarker==null){
+            //TODO icono personalizado
+            Drawable circleDrawable = getResources().getDrawable(R.drawable.circle_shape);
+            BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
+
+            myMarker = mMap.addMarker(new MarkerOptions().position(MyLatLeng).title("I am Here")
+                            .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+        }else{
+            myMarker.setPosition(MyLatLeng);
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MyLatLeng, 15));
         new NearbyPlaces.Builder()
                 .listener(this)
                 .key("KEY")
                 .latlng(location.getLatitude(),location.getLongitude())
-                .radius(1500)
+                .radius(radius)
                 .keyword("clinic")
                 .build()
                 .execute();
+        Toast.makeText(getContext(),"Cambio mi ubicacion ",Toast.LENGTH_SHORT).show();
     }
 
     private boolean hasPermission(String permission) {
@@ -312,5 +328,13 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     @Override
     public void onPlacesFinished() {
 
+    }
+    private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
