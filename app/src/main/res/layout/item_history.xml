@@ -43,6 +43,7 @@
             android:paddingLeft="5dp"
             android:paddingBottom="1dp" />
         <TextView
+            android:layout_marginBottom="5dp"
             android:id="@+id/lblDateItemHistory"
             android:gravity="right"
             android:text="date"

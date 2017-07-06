@@ -80,7 +80,6 @@ public class DiseaseFragment extends BaseFragment {
                 if (mFragmentNavigation != null) {
                     mFragmentNavigation.pushFragment(fragment);
                 }
-                item.setVisible(false);
             }
             @Override
             public void onItemLongClick(View view, int position) {
@@ -89,19 +88,6 @@ public class DiseaseFragment extends BaseFragment {
 
         }));
         return view;
-    }
-
-    public void updateFragment(){
-        if(recyclerView!=null){
-            diseaseAdapter = new DiseaseAdapter(getContext(),
-                    DiseaseUtilitesSingleton.getInstance().getDiseasesList()
-                    ,false);
-            recyclerView.setAdapter(diseaseAdapter);
-            diseaseAdapter.notifyDataSetChanged();
-
-            Toast.makeText(getContext(),"Iniciado con "+DiseaseUtilitesSingleton.getInstance().getDiseasesList().size()
-                    +" count "+diseaseAdapter.getItemCount(),Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -149,7 +135,6 @@ public class DiseaseFragment extends BaseFragment {
     }
 
     private void searchTap(String s){
-        //diseaseAdapter.get
         diseaseAdapter.getFilter().filter(s);
     }
 
