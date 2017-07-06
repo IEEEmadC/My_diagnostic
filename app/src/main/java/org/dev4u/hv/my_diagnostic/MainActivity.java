@@ -1,5 +1,8 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -30,13 +33,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     private static HistoryFragment frm2  = new HistoryFragment();
     private static DiseaseFragment frm3  = new DiseaseFragment();
     private static MapFragment frm4      = new MapFragment();
-
+    private SharedPreferences savedData;
     private Handler handler = new Handler();
 
     private static boolean threadFinish=false;
     private BottomBar mBottomBar;
     private FragNavController mNavController;
-
+    private SharedPreferences.Editor editSavedData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         //animation
         //.defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations
         // (R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
-
+        savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editSavedData = savedData.edit();
+        boolean initial = savedData.getBoolean("Initial",true);
+        if(initial){
+            Intent gotoMain = new Intent(this,LauncherActivity.class);
+            startActivity(gotoMain);
+        }
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.selectTabAtPosition(0);
         mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)

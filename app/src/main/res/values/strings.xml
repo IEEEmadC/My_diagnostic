@@ -25,5 +25,28 @@
 
     <string name="action_settings">Settings</string>
     <string name="label_btn_find">Find</string>
+<string name="title_first_content_fragment">
+        Learn
+    </string>
+
+    <string name="description_first_content_fragment">
+        Learn the basics
+    </string>
+
+    <string name="title_second_content_fragment">
+        Training
+    </string>
+
+    <string name="description_second_content_fragment">
+        Develop the exercise
+    </string>
+
+    <string name="title_third_content_fragment">
+        Quiz
+    </string>
+     <string name="description_third_content_fragment">
+        Select the correct answer
+    </string>
+
 
 </resources>

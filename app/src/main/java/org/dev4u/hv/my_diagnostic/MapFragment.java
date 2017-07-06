@@ -1,12 +1,16 @@
 package  org.dev4u.hv.my_diagnostic;
 import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -39,6 +43,7 @@ import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.id.message;
 import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 
@@ -84,9 +89,32 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
 
         Log.d(TAG, "onCreate");
     }
-    @Override
+
+    private boolean isNetworkAvailable(Context c) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            //we are connected to a network
+            return true;
+        } else
+            return false;
+
+    }
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
+
+        if(isNetworkAvailable(getContext()))
+        {
+
+            Toast.makeText(getContext(), "SI", Toast.LENGTH_SHORT).show();
+        }
+            else
+        {
+
+            Snackbar.make(rootView, "You have not Network connection", Snackbar.LENGTH_LONG)
+                    .show();
+        }
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -314,7 +342,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
                 .keyword("clinic")
                 .build()
                 .execute();
-        Toast.makeText(getContext(),"Cambio mi ubicacion ",Toast.LENGTH_SHORT).show();
+
     }
 
     private boolean hasPermission(String permission) {
