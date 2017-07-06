@@ -107,7 +107,6 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         if(isNetworkAvailable(getContext()))
         {
 
-            Toast.makeText(getContext(), "SI", Toast.LENGTH_SHORT).show();
         }
             else
         {
