@@ -104,16 +104,10 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
 
-        if(isNetworkAvailable(getContext()))
-        {
-
-        }
-            else
-        {
-
+        if(!isNetworkAvailable(getContext()))
             Snackbar.make(rootView, "You have not Network connection", Snackbar.LENGTH_LONG)
                     .show();
-        }
+
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
