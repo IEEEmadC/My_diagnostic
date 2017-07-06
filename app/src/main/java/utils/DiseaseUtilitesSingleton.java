@@ -34,6 +34,7 @@ public class DiseaseUtilitesSingleton {
     private ArrayList<MedicalHistory> medicalHistoryArrayList;
     private static User user=null;
     private double minimunPercentage;
+    public HistoryAdapter historyAdapter;
     private Database db;
     private Context context;
     private Thread fillThread;
@@ -77,6 +78,15 @@ public class DiseaseUtilitesSingleton {
         for (Disease disease : diseasesList) {
             if (disease.getId_disease().equals(id)) {
                 return disease;
+            }
+        }
+        return null;
+    }
+
+    public MedicalHistory getHistory(String id){
+        for (MedicalHistory md : medicalHistoryArrayList) {
+            if (md.getId_medicalhistory().equals(id)) {
+                return md;
             }
         }
         return null;
@@ -159,6 +169,7 @@ public class DiseaseUtilitesSingleton {
                 medicalHistoryArrayList.add(md);
             }while (medicalHistoryCursor.moveToNext());
         }
+
     }//end fillData
 
     public void fillPrimaryData(){

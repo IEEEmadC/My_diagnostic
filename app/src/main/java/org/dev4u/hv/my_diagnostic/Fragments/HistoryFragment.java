@@ -73,9 +73,9 @@ public class HistoryFragment extends BaseFragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editorPreferences;
     private RecyclerView recyclerView;
-    private HistoryAdapter historyAdapter;
+    private Fragment fragment ;
+
     private FloatingActionButton btnAddHistory;
-    private ArrayList<MedicalHistory> medicalHistoryArrayList;
 
     private ActionMode mActionMode;
     private Menu context_menu;
@@ -89,14 +89,6 @@ public class HistoryFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_history, container, false);
-        medicalHistoryArrayList = new ArrayList<>();
-
-        MedicalHistory medicalHistory = new MedicalHistory("1","Titulo "+medicalHistoryArrayList.size()+1,
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed augue ut enim elementum efficitur. In in dignissim dolor, sed rutrum tortor. Nunc eget leo varius, maximus lacus sed, faucibus lorem. Vivamus eget facilisis ex, sit amet tristique odio. Vivamus placerat ex nisl, et pharetra mauris porta id. "
-                ,"1","1","Fecha");
-        medicalHistory.setName_disease("Lupus");
-
-        medicalHistoryArrayList.add(medicalHistory);
         //animation
         hearth = (ImageView)view.findViewById(R.id.pulse);
         hearthAnim = ((AnimatedVectorDrawable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
@@ -110,12 +102,11 @@ public class HistoryFragment extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
         btnAddHistory = (FloatingActionButton) view.findViewById(R.id.btnAddHistory);
 
-        historyAdapter = new HistoryAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getMedicalHistoryList());
+        DiseaseUtilitesSingleton.getInstance().historyAdapter = new HistoryAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getMedicalHistoryList());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(historyAdapter);
-        //historyAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(DiseaseUtilitesSingleton.getInstance().historyAdapter);
 
 
         //setting the profile image
@@ -176,13 +167,26 @@ public class HistoryFragment extends BaseFragment {
                 Log.d("Username ","Antes de guardar ["+DiseaseUtilitesSingleton.getInstance().getActiveUser().getUsername()+"]");
                 medicalHistory.setName_disease(null);
                 DiseaseUtilitesSingleton.getInstance().saveOrUpdateHistory(true,medicalHistory);
-                historyAdapter.notifyDataSetChanged();
+                DiseaseUtilitesSingleton.getInstance().historyAdapter.notifyDataSetChanged();
             }
         });
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
+                Long long_id = DiseaseUtilitesSingleton.getInstance().historyAdapter.getItemId(position);
+                String id_history  = Long.toString(long_id);
+                Toast.makeText(getContext(),"id "+id_history,Toast.LENGTH_SHORT).show();
+
+                if(long_id<0) return;
+                fragment = new HistoryDetailFragment();
+                Bundle args = new Bundle();
+                args.putString("ID_HISTORY",id_history);
+                fragment.setArguments(args);
+                if (mFragmentNavigation != null) {
+                    mFragmentNavigation.pushFragment(fragment);
+                }
                 Toast.makeText(getContext(), "Details Page", Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -197,13 +201,11 @@ public class HistoryFragment extends BaseFragment {
 
 
     private void restartCursiveAnimation() {
-
         Log.d("Estado anim$$$$$$$$$$$","Estado "+hearthAnim.isRunning());
         hearthAnim.stop();
         hearthAnim.start();
         Log.d("Estado anim$$$$$$$$$$$","Estado "+hearthAnim.isRunning());
     }
-
 
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
@@ -225,11 +227,10 @@ public class HistoryFragment extends BaseFragment {
                 System.out.println("search query submit");
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 System.out.println("tap");
-                historyAdapter.getFilter().filter(newText);
+                DiseaseUtilitesSingleton.getInstance().historyAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -249,7 +250,6 @@ public class HistoryFragment extends BaseFragment {
 
         return super.onOptionsItemSelected(item);
     }
-
     private Bitmap loadImageFromStorage(String path,String name)
     {
         try {

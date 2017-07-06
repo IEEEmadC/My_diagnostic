@@ -1,8 +1,10 @@
 package utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -55,8 +57,6 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
         }
         return null;
     }
-    
-
 
     @Override
     public RecyclerView.ViewHolder onCreateSwipeViewHolder(ViewGroup parent, int i) {
@@ -93,7 +93,6 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
         holder.date.setText(medicalHistory.getDate_time());
     }
 
-
     @Override
     public int getItemCount() {
         return historyArrayList.size();
@@ -103,64 +102,58 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
     public SwipeConfiguration onCreateSwipeConfiguration(Context context, int i) {
 
         return new SwipeConfiguration.Builder(context)
-                .setLeftBackgroundColorResource(android.R.color.holo_green_light)
-                .setRightBackgroundColorResource(android.R.color.holo_blue_light)
+                .setLeftBackgroundColorResource(android.R.color.holo_red_light)
                 .setDrawableResource(R.drawable.ic_delete)
-                .setRightDrawableResource(R.drawable.ic_check_24dp)
-                .setLeftUndoable(true)
+                .setLeftDescription("Delete")
+                //.setLeftUndoable(true)
                 .setDescriptionTextColorResource(android.R.color.white)
                 .setLeftSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.NORMAL_SWIPE)
-                .setRightSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.RESTRICTED_SWIPE)
+                .setRightSwipeBehaviour(SwipeConfiguration.SwipeBehaviour.NO_SWIPE)
                 .build();
     }
 
     @Override
     public void onSwipe(int position, int direction) {
         if (direction == SWIPE_LEFT) {
-
-            MedicalHistory temp = historyArrayList.get(position);
-
-            //TODO solucion temporal al eliminar en busqueda el siguiente paso es busca por id de item
-
-            if(textSearch.length()>0){
-                boolean eliminado=false;
-                try {
-                    Log.d("mOriginal values "," Longitud "+mOriginalValues.size());
-                    Log.d("Dato a eliminar ","Titulo "+historyArrayList.get(position).getTitle());
-                    for (MedicalHistory md : mOriginalValues) {
-                        if(md.getTitle().equals(temp.getTitle()))
-                        {
-                            mOriginalValues.remove(md);
-                            Log.d("SE elimino ","Con exito");
-                            eliminado=true;
-                            break;
-                        }
-                    }
-                    if(!eliminado) Log.d("No Se elimino ","No encontro el valor correcto");
-                }catch (Exception e){
-                    Log.d("ERROR ERROR"," Al intentar eliminar "+e.getMessage());
-                }
-
-            }
-            historyArrayList.remove(position);
-
-            DiseaseUtilitesSingleton.getInstance().deleteHistory(temp.getId_medicalhistory());
-
-            //mOriginalValues = historyArrayList;
-
-            /*try{
-                mOriginalValues.remove(position);
-            }catch (Exception e){
-                Toast toast = Toast.makeText(mContext, "error " + position, Toast.LENGTH_SHORT);
-                Log.e("Error al eliminar",e.getMessage());
-            }*/
-            notifyItemRemoved(position);
-            Toast toast = Toast.makeText(mContext, "Deleted item at position " + position +" text search "+textSearch, Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(mContext, "Marked item as read at position " + position, Toast.LENGTH_SHORT);
-            toast.show();
+            showDialogDelete(position);
         }
+    }
+
+    private void showDialogDelete(final int position){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+        dialogBuilder.setTitle("Warning");
+        dialogBuilder.setMessage("Delete this medical history?");
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MedicalHistory temp = historyArrayList.get(position);
+                if(textSearch.length()>0){
+                    try {
+                        for (MedicalHistory md : mOriginalValues) {
+                            if(md.getId_medicalhistory().equals(temp.getId_medicalhistory()))
+                            {
+                                mOriginalValues.remove(md);
+                                break;
+                            }
+                        }
+                    }catch (Exception e){
+                        Log.d("ERROR ERROR"," on delete method "+e.getMessage());
+                    }
+                }
+                historyArrayList.remove(position);
+                DiseaseUtilitesSingleton.getInstance().deleteHistory(temp.getId_medicalhistory());
+                notifyItemRemoved(position);
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                DiseaseUtilitesSingleton.getInstance().historyAdapter.notifyDataSetChanged();
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
