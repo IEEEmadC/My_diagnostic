@@ -149,6 +149,7 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                DiseaseUtilitesSingleton.getInstance().historyAdapter.notifyDataSetChanged();
             }
         });
         AlertDialog alertDialog = dialogBuilder.create();
