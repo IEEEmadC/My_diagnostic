@@ -21,6 +21,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
     }
   private   Context mycontext;
 
+
     @Override
     protected PlacesDetails doInBackground(Object... inputObj) {
 
