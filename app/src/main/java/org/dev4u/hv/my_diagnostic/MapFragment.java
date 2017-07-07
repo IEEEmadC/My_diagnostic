@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.GooglePlacesReadTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
+import org.dev4u.hv.my_diagnostic.MyPlacesUI.Places;
+import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesDisplayTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
 
@@ -55,6 +57,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
 
 
     private GoogleMap googleMap;
+    private String SgoogleMap;
     private static final String GOOGLE_API_KEY = "AIzaSyCPNL19Statnfac_LR6sE9Hf42b77Uk_c0";
     private LocationRequest mLocationRequest;
     private GoogleMap mGoogleMap;
@@ -78,7 +81,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+    SgoogleMap="otro_mapa";
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -337,10 +340,13 @@ public void onPlacesSuccess(final List<Place> places) {
             markerArrayList.clear();
             for (Place place : places) {
                 LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                markerArrayList.add(mMap.addMarker(new MarkerOptions().position(latLng)
+                markerArrayList.add(mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
                         .title(place.getName())
-                        .snippet(place.getPlaceId())
+                        .snippet(place.getVicinity()+"<"+place.getPlaceId())
+
                 ));
+
 
             }
         }
@@ -380,20 +386,20 @@ public void onPlacesSuccess(final List<Place> places) {
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        String[] split = marker.getSnippet().split("<");
 
-/*
-    StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
+    googlePlacesUrl.append("placeid=" + split[1]);
     googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
-
     GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+        googlePlacesReadTask.setMyothercontext(getContext());
     Object[] toPass = new Object[2];
-    toPass[0] = googleMap;
+    toPass[0] = SgoogleMap;
     toPass[1] = googlePlacesUrl.toString();
-    googlePlacesReadTask.execute(toPass);
+        googlePlacesReadTask.execute(toPass);
 
 
-    */
+
 }
 
 
