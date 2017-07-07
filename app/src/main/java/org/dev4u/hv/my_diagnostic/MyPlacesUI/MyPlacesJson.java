@@ -26,17 +26,17 @@ public class MyPlacesJson {
 
 
             //And then read attributes like
-            if(!userDetails.getString("name").isEmpty()){
+            if(!userDetails.isNull("name")){
             details.setPlace_name(userDetails.getString("name"));}
             else
             {details.setPlace_name("N/A");}
-            if(!userDetails.getString("formatted_phone_number").isEmpty()){
+            if(!userDetails.isNull("formatted_phone_number")){
                 details.setPhone_number( userDetails.getString("formatted_phone_number"));}
             else
             {
                 details.setPhone_number("N/A");
             }
-            if(!userDetails.getString("formatted_address").isEmpty()){
+            if(userDetails.isNull("formatted_address")){
                 details.setAddress(userDetails.getString("formatted_address"));}
             else{ details.setAddress("N/A");}
 
