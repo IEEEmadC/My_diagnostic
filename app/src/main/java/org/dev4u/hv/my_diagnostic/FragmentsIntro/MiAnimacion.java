@@ -1,10 +1,12 @@
-package org.dev4u.hv.my_diagnostic;
+package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
 import android.content.Context;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+
+import org.dev4u.hv.my_diagnostic.R;
 
 /**
  * Created by Home on 1/12/2015.

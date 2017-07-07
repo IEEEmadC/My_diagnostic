@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.dev4u.hv.my_diagnostic.MiAnimacion;
+import org.dev4u.hv.my_diagnostic.FragmentsIntro.MiAnimacion;
 import org.dev4u.hv.my_diagnostic.R;
 
 import java.util.ArrayList;
