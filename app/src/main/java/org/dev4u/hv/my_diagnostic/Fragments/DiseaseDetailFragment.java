@@ -4,6 +4,8 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,17 +17,20 @@ import org.dev4u.hv.my_diagnostic.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import db.Disease;
 import db.MedicalHistory;
+import db.Symptom;
 import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
+import utils.SymptomAdapter;
 
 public class DiseaseDetailFragment extends BaseFragment {
     private View view;
     private RecyclerView recyclerView;
-    private DiseaseAdapter diseaseAdapter;
+    private SymptomAdapter symptomAdapter;
     private TextView lblDiseaseName;
     private TextView lblDiseaseCategory;
     private TextView lblDiseaseDescription;
@@ -42,14 +47,24 @@ public class DiseaseDetailFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
-
-
+        ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
+        if(getArguments().getBoolean("SEARCH")){
+            symptomsWrite = new ArrayList<>();
+            for (Symptom s:DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms()) {
+                symptomsWrite.add(s.getSymptom());
+            }
+        }
         lblDiseaseName          = (TextView) view.findViewById(R.id.lblDetailDiseaseName);
         lblDiseaseCategory      = (TextView) view.findViewById(R.id.lblDetailCategory);
         lblDiseaseDescription   = (TextView) view.findViewById(R.id.lblDetailDescription);
         lblAddToHistory         = (TextView) view.findViewById(R.id.lblAddToHistory);
         coordinatorLayout       = (CoordinatorLayout) view.findViewById(R.id.frm_detail_disease);
+        recyclerView            = (RecyclerView)      view.findViewById(R.id.recycler_view_disease_detail);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         Disease disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
         if(disease!=null){
@@ -63,6 +78,12 @@ public class DiseaseDetailFragment extends BaseFragment {
                 }
             });
         }
+        symptomAdapter = new SymptomAdapter(
+                symptomsWrite,
+                disease.getSymptoms(),
+                getContext()
+        );
+        recyclerView.setAdapter(symptomAdapter);
         return view;
     }
 
