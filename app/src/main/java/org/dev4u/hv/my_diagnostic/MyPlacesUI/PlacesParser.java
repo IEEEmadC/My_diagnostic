@@ -116,13 +116,13 @@ public class PlacesParser extends Parser {
                 sBuf.append(line);
             }
         } catch (IOException e) {
-            Log.e("Places Error", e.getMessage());
+            Log.e("MyPlacesJson Error", e.getMessage());
         } finally {
             try {
                 input.close();
                 reader.close();
             } catch (IOException e) {
-                Log.e("Places Error", e.getMessage());
+                Log.e("MyPlacesJson Error", e.getMessage());
             }
         }
         return sBuf.toString();

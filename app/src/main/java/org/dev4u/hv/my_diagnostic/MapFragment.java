@@ -1,6 +1,5 @@
 package  org.dev4u.hv.my_diagnostic;
 import android.Manifest;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,15 +37,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.GooglePlacesReadTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
-import org.dev4u.hv.my_diagnostic.MyPlacesUI.Places;
-import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesDisplayTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.id.message;
 import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 
@@ -66,7 +61,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
 
-    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
+    // The entry point to Google Play services, used by the MyPlacesJson API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
 
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
