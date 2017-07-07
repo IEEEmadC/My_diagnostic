@@ -35,7 +35,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         int estado=m.getTitle().compareTo("I am Here");
         if(estado==0){
-            ((TextView)v.findViewById(R.id.info_window_estado)).setText(" ITSME");
+            ((TextView)v.findViewById(R.id.info_window_estado)).setText("I am Here");
         }
         else {
             String direccion = String.valueOf(m.getSnippet());
