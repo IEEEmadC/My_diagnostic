@@ -21,13 +21,28 @@ public class MyPlacesJson {
         try {
             JSONObject parentObject = new JSONObject(json);
             JSONObject userDetails = parentObject.getJSONObject("result");
+            JSONObject pDetails = parentObject.getJSONObject("result").getJSONObject("opening_hours");
+
+
 
             //And then read attributes like
+            if(!userDetails.getString("name").isEmpty()){
+            details.setPlace_name(userDetails.getString("name"));}
+            else
+            {details.setPlace_name("N/A");}
+            if(!userDetails.getString("formatted_phone_number").isEmpty()){
+                details.setPhone_number( userDetails.getString("formatted_phone_number"));}
+            else
+            {
+                details.setPhone_number("N/A");
+            }
+            if(!userDetails.getString("formatted_address").isEmpty()){
+                details.setAddress(userDetails.getString("formatted_address"));}
+            else{ details.setAddress("N/A");}
 
 
-            details.setPhone_number( userDetails.getString("formatted_phone_number"));
 
-            Log.d("TELEFONO",phone);
+
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block

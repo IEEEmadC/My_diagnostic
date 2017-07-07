@@ -13,6 +13,16 @@ public class PlacesDetails {
     private String place_id;
     private  String icon;
 
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    private String weekday;
+
     public String getPhone_number() {
         return phone_number;
     }

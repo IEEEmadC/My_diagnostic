@@ -1,6 +1,8 @@
 package  org.dev4u.hv.my_diagnostic;
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -381,17 +383,23 @@ public void onPlacesSuccess(final List<Place> places) {
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        String[] split = marker.getSnippet().split("<");
+        try {
 
-        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
-    googlePlacesUrl.append("placeid=" + split[1]);
-    googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
-    GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
-        googlePlacesReadTask.setMyothercontext(getContext());
-    Object[] toPass = new Object[2];
-    toPass[0] = SgoogleMap;
-    toPass[1] = googlePlacesUrl.toString();
-        googlePlacesReadTask.execute(toPass);
+            String[] split = marker.getSnippet().split("<");
+            StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
+            googlePlacesUrl.append("placeid=" + split[1]);
+            googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
+            GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+            googlePlacesReadTask.setMyothercontext(getContext());
+            Object[] toPass = new Object[2];
+            toPass[0] = SgoogleMap;
+            toPass[1] = googlePlacesUrl.toString();
+            googlePlacesReadTask.execute(toPass);
+        }
+        catch (Exception e)
+        {
+            Log.d("EXCP",e.toString());
+        }
 
 
 

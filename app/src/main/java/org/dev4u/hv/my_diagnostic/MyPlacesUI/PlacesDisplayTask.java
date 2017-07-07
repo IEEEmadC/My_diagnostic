@@ -1,9 +1,13 @@
 package org.dev4u.hv.my_diagnostic.MyPlacesUI;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesDetails;
+import org.dev4u.hv.my_diagnostic.R;
 import org.json.JSONObject;
 
 public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails> {
@@ -15,7 +19,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
     public void setMycontext(Context mycontext) {
         this.mycontext = mycontext;
     }
-    Context mycontext;
+  private   Context mycontext;
 
     @Override
     protected PlacesDetails doInBackground(Object... inputObj) {
@@ -34,12 +38,33 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
         }
         return detailsJson;
     }
+    private void showLocationDialog(String datos) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.mycontext);
+        builder.setTitle("Place Details");
+        builder.setMessage(mycontext.getString(R.string.Nombre)+datos);
 
+
+
+        String negativeText = "Close";
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
+    }
     @Override
     protected void onPostExecute(PlacesDetails details) {
-//mostrar aqui el materialD dialog
 
-        Toast.makeText(mycontext,details.getPhone_number() , Toast.LENGTH_SHORT).show();
+        String separador="\n\n";
+        String cadena="Name: "+details.getPlace_name()+separador+"Phone Number: "+details.getPhone_number() +separador
+                +"Address: " + details.getAddress();
+        showLocationDialog(cadena);
 
 
 

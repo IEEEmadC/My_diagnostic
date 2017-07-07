@@ -47,6 +47,14 @@
      <string name="description_third_content_fragment">
         Select the correct answer
     </string>
-
+    <string name="dialog_title">
+        Places Details
+    </string>
+    <string name="dialog_message">
+        contenido:
+    </string>
+<string name="Nombre">
+        <b>Nombre: </b>
+    </string>
 
 </resources>

@@ -72,6 +72,10 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         lstIcons.add(R.drawable.ic_cat_12);
         lstIcons.add(R.drawable.ic_cat_13);
         lstIcons.add(R.drawable.ic_cat_14);
+        lstIcons.add(R.drawable.ic_cat_15);
+        lstIcons.add(R.drawable.ic_cat_16);
+        lstIcons.add(R.drawable.ic_cat_17);
+        lstIcons.add(R.drawable.ic_cat_18);
     }
     @Override
     public long getItemId(int position) {
@@ -118,7 +122,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         Log.d("id guardado : ", "======== " + id_category);
         if (id_category > 0 && id_category < lstIcons.size()) {
             holder.imgDisease.setImageResource(lstIcons.get(id_category - 1));
-            //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1).getWidth());
+            //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1));
             //holder.imgDisease.setImageBitmap(lstIcons.get(id_category-1));
         }
 
