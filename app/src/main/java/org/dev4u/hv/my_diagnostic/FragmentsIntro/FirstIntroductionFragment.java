@@ -1,4 +1,4 @@
-package org.dev4u.hv.my_diagnostic;
+package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
 
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.dev4u.hv.my_diagnostic.R;
 
 
 /**

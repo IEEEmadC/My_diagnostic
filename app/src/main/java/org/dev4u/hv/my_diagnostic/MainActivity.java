@@ -19,6 +19,7 @@ import org.dev4u.hv.my_diagnostic.Fragments.BaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
+import org.dev4u.hv.my_diagnostic.FragmentsIntro.LauncherActivity;
 
 import utils.DiseaseUtilitesSingleton;
 

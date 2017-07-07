@@ -1,23 +1,21 @@
-package org.dev4u.hv.my_diagnostic;
+package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+
+import org.dev4u.hv.my_diagnostic.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FourIntroductionFragment#newInstance} factory method to
+ * Use the {@link ThirdIntroductionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FourIntroductionFragment extends Fragment {
+public class ThirdIntroductionFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,12 +24,12 @@ public class FourIntroductionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    CheckBox check;
-    private SharedPreferences savedData;
-    private SharedPreferences.Editor editSavedData;
 
 
-    public FourIntroductionFragment() {
+
+
+
+    public ThirdIntroductionFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +39,11 @@ public class FourIntroductionFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FourIntroductionFragment.
+     * @return A new instance of fragment ThirdIntroductionFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FourIntroductionFragment newInstance(String param1, String param2) {
-        FourIntroductionFragment fragment = new FourIntroductionFragment();
+    public static ThirdIntroductionFragment newInstance(String param1, String param2) {
+        ThirdIntroductionFragment fragment = new ThirdIntroductionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,26 +64,8 @@ public class FourIntroductionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_four_introduction, container, false);
-        check = (CheckBox) view.findViewById(R.id.checkNotShow);
+        View view = inflater.inflate(R.layout.fragment_third_introduction, container, false);
 
-        savedData = getContext().getSharedPreferences("Data", Context.MODE_PRIVATE);
-        editSavedData = savedData.edit();
-
-        check.setChecked(!savedData.getBoolean("Initial",true));
-
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    editSavedData.putBoolean("Initial",false);
-                    editSavedData.commit();
-                }else {
-                    editSavedData.putBoolean("Initial",true);
-                    editSavedData.commit();
-                }
-            }
-        });
         return view;
     }
 

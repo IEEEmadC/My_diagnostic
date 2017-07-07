@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.dev4u.hv.my_diagnostic.MyPlacesUI.GooglePlacesReadTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
@@ -48,11 +50,12 @@ import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 
 public class MapFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        PlacesListener {
+        PlacesListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowClickListener
+{
 
 
     private GoogleMap googleMap;
-
+    private static final String GOOGLE_API_KEY = "AIzaSyCPNL19Statnfac_LR6sE9Hf42b77Uk_c0";
     private LocationRequest mLocationRequest;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -219,23 +222,6 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
                 }
             });
     }
-    @Override
-    public void onPlacesSuccess(final List<Place> places) {
-        Log.i("PlacesAPI", "onPlacesSuccess()");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                markerArrayList.clear();
-                for (Place place : places) {
-                    LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                    markerArrayList.add(mMap.addMarker(new MarkerOptions().position(latLng)
-                            .title(place.getName())
-                            .snippet(place.getVicinity())));
-                }
-            }
-        });
-
-    }
     private void getDeviceLocation() {
         /*
          * Request location permission, so that we can get the location of the
@@ -305,6 +291,9 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
             mLastKnownLocation = null;
         }
     }
+
+
+
     private void handleNewLocation(Location location) {
         mMap = googleMap;
 
@@ -312,7 +301,8 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         updateLocationUI();
         // Add a marker in Sydney and move the camera
         LatLng MyLatLeng = new LatLng(location.getLatitude(),location.getLongitude());
-
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
         mMap.clear();
 
         if(myMarker==null){
@@ -322,6 +312,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
 
             myMarker = mMap.addMarker(new MarkerOptions().position(MyLatLeng).title("I am Here")
                             .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+
         }else{
             myMarker.setPosition(MyLatLeng);
         }
@@ -337,6 +328,25 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
                 .execute();
 
     }
+    @Override
+public void onPlacesSuccess(final List<Place> places) {
+    Log.i("PlacesAPI", "onPlacesSuccess()");
+    runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+            markerArrayList.clear();
+            for (Place place : places) {
+                LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+                markerArrayList.add(mMap.addMarker(new MarkerOptions().position(latLng)
+                        .title(place.getName())
+                        .snippet(place.getPlaceId())
+                ));
+
+            }
+        }
+    });
+
+}
 
     private boolean hasPermission(String permission) {
         return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
@@ -360,4 +370,33 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+
+        return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+/*
+    StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+
+    googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
+
+    GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+    Object[] toPass = new Object[2];
+    toPass[0] = googleMap;
+    toPass[1] = googlePlacesUrl.toString();
+    googlePlacesReadTask.execute(toPass);
+
+
+    */
+}
+
+
+
+
 }
