@@ -379,7 +379,7 @@ public void onPlacesSuccess(final List<Place> places) {
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(LayoutInflater.from(getActivity())));
 
         return false;
     }
