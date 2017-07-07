@@ -17,10 +17,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appyvet.rangebar.RangeBar;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,13 +38,14 @@ import db.Disease;
 import db.Symptom;
 import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
+import utils.RecyclerItemClickListener;
 
 import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchDiseaseFragment extends Fragment {
+public class SearchDiseaseFragment extends BaseFragment {
 
     private View view;
 
@@ -54,6 +57,7 @@ public class SearchDiseaseFragment extends Fragment {
     private DiseaseAdapter diseaseAdapter;
     private ArrayList<String> inputs;
     private ArrayList<Disease> diseasesFound;
+    private Fragment fragment;
 
     public SearchDiseaseFragment() {
         // Required empty public constructor
@@ -108,6 +112,27 @@ public class SearchDiseaseFragment extends Fragment {
             }
         });
 
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String id_disease  = Long.toString(diseaseAdapter.getItemId(position));
+                Toast.makeText(getContext(),"id "+id_disease,Toast.LENGTH_SHORT).show();
+                if(diseaseAdapter.getItemId(position)<0) return;
+                fragment = new DiseaseDetailFragment();
+                Bundle args = new Bundle();
+                args.putString("ID_DISEASE",id_disease);
+                args.putBoolean("SEARCH",true);
+                fragment.setArguments(args);
+                if (mFragmentNavigation != null) {
+                    mFragmentNavigation.pushFragment(fragment);
+                }
+            }
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+
+        }));
         return view;
     }
 

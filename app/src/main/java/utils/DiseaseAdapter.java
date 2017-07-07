@@ -87,8 +87,6 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
     public DiseaseAdapter.DiseaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_disease, parent, false);
-
-
         return new DiseaseViewHolder(itemView);
     }
 
@@ -187,15 +185,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String data = mOriginalValues.get(i).getName_disease();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
-                            Disease disease = new Disease(
-                                    mOriginalValues.get(i).getId_disease(),
-                                    mOriginalValues.get(i).getName_disease(),
-                                    mOriginalValues.get(i).getDescription(),
-                                    mOriginalValues.get(i).getId_disease_category(),
-                                    mOriginalValues.get(i).getSymptoms()
-                            );
-                            disease.setCategory_name(mOriginalValues.get(i).getCategory_name());
-                            FilteredArrList.add(disease);
+                            FilteredArrList.add(mOriginalValues.get(i));
                         }
                     }
                     // set the Filtered result to return

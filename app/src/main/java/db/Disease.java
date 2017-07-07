@@ -1,12 +1,13 @@
 package db;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by admin on 4/6/17.
  */
 
-public class Disease implements Comparable<Disease>{
+public class Disease{
 
     String id_disease;
     String name_disease;
@@ -101,9 +102,23 @@ public class Disease implements Comparable<Disease>{
         this.category_name = category_name;
     }
 
-    @Override
-    public int compareTo(Disease o) {
-        return this.name_disease.compareTo(o.getName_disease());
+    public static Comparator<Disease> compareByName() {
+        return new Comparator<Disease>() {
+            @Override
+            public int compare(Disease o1, Disease o2) {
+                return o1.name_disease.compareTo(o2.name_disease);
+            }
+        };
     }
+
+    public static Comparator<Disease> compareByPercentage() {
+        return new Comparator<Disease>() {
+            @Override
+            public int compare(Disease o1, Disease o2) {
+                return Double.compare(o1.matchPercentage,o2.matchPercentage);
+            }
+        };
+    }
+
 }
 

@@ -92,19 +92,6 @@ public class DiseaseUtilitesSingleton {
         return null;
     }
 
-    public void fillDataThread(){
-        fillThread = new Thread(new Runnable() {
-            public void run() {
-                fillData();
-                fillHandler.post(new Runnable() {
-                    public void run() {
-                    Toast.makeText(context, "Diseases Insertado en lista " + diseasesList.size(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-        fillThread.start();
-    }
 
     public void fillData(){
         Cursor diseaseCursor = db.getDiseases();
@@ -142,7 +129,7 @@ public class DiseaseUtilitesSingleton {
                     diseasesList.add(d);
                 }
             }while(diseaseCursor.moveToNext());
-            Collections.sort(diseasesList);
+            Collections.sort(diseasesList, Disease.compareByName() );
             Collections.sort(diseasesNames);
         }
         //llenando todos los sintomas
@@ -226,6 +213,7 @@ public class DiseaseUtilitesSingleton {
         ArrayList<Disease> diseasesfound = new ArrayList<>();
         for(int i=0;i<diseasesList.size();i++)
             if(diseasesList.get(i).evaluateSymptoms(inputs)>=minimunPercentage) diseasesfound.add(diseasesList.get(i));
+        Collections.sort(diseasesfound,Disease.compareByPercentage());
         return diseasesfound;
     }
     public ArrayList<Symptom> getAllSymptomsList(){return this.allSymptomsList;}
