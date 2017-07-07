@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails> {
 
     JSONObject googlePlacesJson;
-  String googleMap="soy el mapa";
+  String googleMap="mapa";
     PlacesDetails detailsJson= new PlacesDetails();
    MyPlacesJson myJson = new MyPlacesJson();
     public void setMycontext(Context mycontext) {
