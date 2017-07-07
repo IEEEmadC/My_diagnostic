@@ -113,9 +113,12 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         //holder.percentage.setText("");
         //holder.symptomsMatch.setText("");
         if (isSearch) {
-            holder.percentage.setText(new DecimalFormat("###.##").format(disease.getMatchPercentage()));
+            holder.percentage.setText(new DecimalFormat("###.##").format(disease.getMatchPercentage())+"%");
             holder.symptomsMatch.setText("Matches : " + disease.getSymptoms_match());
             //holder.symptomsMatch.setText(disease.);
+        }else{
+            holder.percentage.setVisibility(View.INVISIBLE);
+            holder.symptomsMatch.setVisibility(View.INVISIBLE);
         }
 
         int id_category = Integer.parseInt(disease.getId_disease_category());

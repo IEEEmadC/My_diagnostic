@@ -41,7 +41,7 @@ public class Disease implements Comparable<Disease>{
             for(int j=0;j<symptoms.size();j++) if(input.get(i).equals(symptoms.get(j).getSymptom())) matches++;
         }
         this.symptoms_match=(int)matches;
-        matchPercentage = (100*matches)/(input.size()*1.0);
+        matchPercentage = (100*matches)/(symptoms.size()*1.0);
         return matchPercentage;
     }
 
