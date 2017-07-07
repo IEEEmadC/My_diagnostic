@@ -274,7 +274,7 @@ public class SearchFragment extends BaseFragment {
 
     private void searchDisease(){
         if (mFragmentNavigation != null) {
-            mFragmentNavigation.pushFragment(new DiseaseFragment());
+            mFragmentNavigation.pushFragment(new SearchDiseaseFragment());
         }
     }
 }

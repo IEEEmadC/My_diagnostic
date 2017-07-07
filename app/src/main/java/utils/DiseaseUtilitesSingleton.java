@@ -33,7 +33,7 @@ public class DiseaseUtilitesSingleton {
     private ArrayList<Bloodtype> bloodtypeArrayList;
     private ArrayList<MedicalHistory> medicalHistoryArrayList;
     private static User user=null;
-    private double minimunPercentage;
+    public static float minimunPercentage = 20.0f;
     public HistoryAdapter historyAdapter;
     private Database db;
     private Context context;

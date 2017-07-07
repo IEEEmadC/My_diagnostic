@@ -36,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.dev4u.hv.my_diagnostic.MyPlacesUI.GooglePlacesReadTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
