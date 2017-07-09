@@ -53,13 +53,13 @@
                     <TextView
                         android:textColor="@android:color/holo_blue_bright"
                         android:id="@+id/lblDetailPercentage"
-                        android:textSize="20dp"
                         android:text="80%"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_marginLeft="238dp"
-                        android:layout_marginTop="140dp" />
+                        android:layout_marginLeft="246dp"
+                        android:layout_marginTop="129dp"
+                        android:textSize="16sp" />
 
                     <org.dev4u.hv.my_diagnostic.Thermometer
                         android:layout_width="wrap_content"
@@ -67,8 +67,11 @@
                         app:therm_color="@android:color/holo_blue_light"
                         android:id="@+id/thermometer2"
                         android:layout_marginLeft="210dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true">
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:scaleY="0.60"
+                        android:layout_alignParentEnd="true"
+                        android:scaleX="0.60">
                     </org.dev4u.hv.my_diagnostic.Thermometer>
                 </RelativeLayout>
                 <LinearLayout
