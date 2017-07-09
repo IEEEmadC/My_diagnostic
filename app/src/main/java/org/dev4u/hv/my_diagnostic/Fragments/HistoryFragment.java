@@ -4,6 +4,7 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dev4u.hv.my_diagnostic.R;
+import org.dev4u.hv.my_diagnostic.UserDataActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,6 +81,12 @@ public class HistoryFragment extends BaseFragment {
 
     private ActionMode mActionMode;
     private Menu context_menu;
+
+    public static HistoryFragment newInstance() {
+        HistoryFragment fragment = new HistoryFragment();
+        return fragment;
+    }
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -110,11 +118,7 @@ public class HistoryFragment extends BaseFragment {
 
 
         //setting the profile image
-        Bitmap b =null;//= loadImageFromStorage("Profile","profile.png");
-        if(b!=null) {
-            activePicture = b;
-            circleImageView.setImageBitmap(Bitmap.createScaledBitmap (b,(int) (b.getWidth() * .4), (int) (b.getHeight() * .4),true));
-        }
+
 
         setHasOptionsMenu(true);
         //restartCursiveAnimation();
@@ -136,17 +140,7 @@ public class HistoryFragment extends BaseFragment {
         preferences = getContext().getSharedPreferences("Data", Context.MODE_PRIVATE);
         editorPreferences = preferences.edit();
 
-        String status = preferences.getString("USERNAME","null");
-        if(!status.equals("null")){
-            Log.d("User guardado ",status);
-            user = DiseaseUtilitesSingleton.getInstance().getUser(status);
-            lblUsername.setText(user.getFullname());
-
-            String parts[] = user.getBirthday().split("-");
-            String bday = parts[2]+"/"+parts[1]+"/"+parts[0];
-            lblBloodtype.setText("BloodType :"+user.getName_bloodtype());
-            lblBirtday.setText("BirthDay :"+bday);
-        }
+        updateUserInfo();
 
         btnAddHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,8 +188,6 @@ public class HistoryFragment extends BaseFragment {
 
             }
         }));
-
-
         return view;
     }
 
@@ -235,6 +227,7 @@ public class HistoryFragment extends BaseFragment {
             }
         });
     }
+    /*
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -249,7 +242,7 @@ public class HistoryFragment extends BaseFragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     private Bitmap loadImageFromStorage(String path,String name)
     {
         try {
@@ -266,5 +259,27 @@ public class HistoryFragment extends BaseFragment {
         }
         return null;
     }
+
+
+    public void updateUserInfo(){
+        Bitmap b = loadImageFromStorage("Profile","preview_profile.png");
+        if(b!=null) {
+            activePicture = b;
+            circleImageView.setImageBitmap(activePicture);
+        }
+
+
+        String status = preferences.getString("USERNAME","null");
+        if(!status.equals("null")){
+            Log.d("User guardado ",status);
+            user = DiseaseUtilitesSingleton.getInstance().getUser(status);
+            lblUsername.setText(user.getFullname());
+            String parts[] = user.getBirthday().split("-");
+            String bday = parts[2]+"/"+parts[1]+"/"+parts[0];
+            lblBloodtype.setText("BloodType :"+user.getName_bloodtype());
+            lblBirtday.setText("BirthDay :"+bday);
+        }
+    }
+
 
 }

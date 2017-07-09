@@ -2,6 +2,7 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import org.dev4u.hv.my_diagnostic.R;
+import org.dev4u.hv.my_diagnostic.UserDataActivity;
 
 import db.Symptom;
 import utils.AutoCompleteAdapter;
@@ -161,6 +163,21 @@ public class SearchFragment extends BaseFragment {
         multiSelectAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                goToSettings();
+                return true;
+            case R.id.action_search:
+                //handleMenuSearch();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         @Override
@@ -275,6 +292,20 @@ public class SearchFragment extends BaseFragment {
     private void searchDisease(){
         if (mFragmentNavigation != null) {
             mFragmentNavigation.pushFragment(new SearchDiseaseFragment());
+        }
+    }
+
+    private void goToSettings(){
+        Intent intent = new Intent(getActivity(), UserDataActivity.class);
+        //getContext().startActivity(intent);
+        startActivityForResult(intent,1);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        //  Handle activity result here
+        if(requestCode==1){
+            Toast.makeText(getContext(),"Llame al activity",Toast.LENGTH_SHORT).show();
+            this.updateFragment();
         }
     }
 }

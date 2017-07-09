@@ -54,6 +54,7 @@ import utils.SaveImage;
 
 public class UserDataActivity extends AppCompatActivity {
 
+    private final int RESULT_FROM_MAIN=2;
     private Animatable cursiveAvd;
     private ImageView hearth;
     private CircleImageView circleImageView;
@@ -169,7 +170,7 @@ public class UserDataActivity extends AppCompatActivity {
             circleImageView.setImageBitmap(Bitmap.createScaledBitmap (b,(int) (b.getWidth() * .4), (int) (b.getHeight() * .4),true));
         }
 
-        new InitData().execute();
+        DiseaseUtilitesSingleton.getInstance().fillPrimaryData();
 
         if(user!=null){
             txtName.setText(user.getFullname());
@@ -196,16 +197,16 @@ public class UserDataActivity extends AppCompatActivity {
     }
 
 
-    private class InitData extends AsyncTask<Void,Void,Void> {
+    private class saveImage extends AsyncTask<Bitmap,Void,Void> {
         @Override
         protected void onPreExecute(){
             showProgressDialog();
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Void doInBackground(Bitmap... arg0) {
             //my stuff is here
-            DiseaseUtilitesSingleton.getInstance().fillPrimaryData();
+
             return null;
         }
 
@@ -280,6 +281,7 @@ public class UserDataActivity extends AppCompatActivity {
                 }
                 btnCountry.setText(name);
                 picker.dismiss();
+
             }
         });
         picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
@@ -339,7 +341,7 @@ public class UserDataActivity extends AppCompatActivity {
             if(bmp!=null){
                 activePicture = bmp;
                 circleImageView.setImageBitmap(Bitmap.createScaledBitmap (bmp,(int) (bmp.getWidth() * .4), (int) (bmp.getHeight() * .4),true));
-                new SaveImage(this,"Profile","profile.png").execute(bmp);
+                new SaveImage(this,"Profile","profile.png",btnSave).execute(bmp);
             }
 
         }
@@ -397,8 +399,11 @@ public class UserDataActivity extends AppCompatActivity {
         );
 
         DiseaseUtilitesSingleton.getInstance().updateUser(user);
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        //hideProgressDialog();
+        setResult(RESULT_FROM_MAIN);
+        this.finish();
+        //Intent intent = new Intent(this,MainActivity.class);
+        //startActivity(intent);
     }
 
     private boolean saveValid(){
