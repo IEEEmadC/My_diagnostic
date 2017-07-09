@@ -23,71 +23,60 @@
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="171dp"
-                        android:weightSum="1">
 
-                        <ImageView
-                            android:layout_marginRight="5dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_width="77dp"
-                            android:layout_height="101dp"
-                            app:srcCompat="@drawable/disease_icon"
-                            android:id="@+id/img_disease" />
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="77dp"
+                        android:layout_height="101dp"
+                        app:srcCompat="@drawable/disease_icon"
+                        android:id="@+id/img_disease" />
 
+                    <TextView
+                        android:textColor="@color/title_disease"
+                        android:id="@+id/lblDetailDiseaseName"
+                        android:text="Carpal Tunnel Syndrome"
+                        android:typeface="serif"
+                        android:textAlignment="center"
+                        android:textSize="24dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="55dp"
+                        android:layout_height="100dp"
+                        android:layout_width="200dp" />
 
-                        <TextView
-                            android:textColor="@color/title_disease"
-                            android:id="@+id/lblDetailDiseaseName"
-                            android:gravity="left"
-                            android:text="Carpal Tunnel Syndrome"
-                            android:layout_width="146dp"
-                            android:layout_height="106dp"
-                            android:typeface="serif"
-                            android:textAlignment="center"
-                            android:textSize="24dp"
-                            android:layout_weight="0.24" />
+                    <TextView
+                        android:textColor="@android:color/holo_blue_bright"
+                        android:id="@+id/lblDetailPercentage"
+                        android:textSize="20dp"
+                        android:text="80%"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                        android:layout_marginLeft="238dp"
+                        android:layout_marginTop="140dp" />
 
-
-                            <org.dev4u.hv.my_diagnostic.Thermometer
-                                android:layout_width="73dp"
-                                android:layout_height="match_parent"
-                                app:therm_color="@android:color/holo_blue_light"
-                                android:id="@+id/thermometer2"
-                                android:layout_marginLeft="0dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginEnd="25dp"
-                                >
-                            </org.dev4u.hv.my_diagnostic.Thermometer>
-
-                            <TextView
-                                android:textColor="@android:color/holo_blue_bright"
-                                android:id="@+id/lblDetailPercentage"
-                                android:gravity="right"
-                                android:textSize="20dp"
-                                android:text="80%"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-
-                                />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    <org.dev4u.hv.my_diagnostic.Thermometer
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:therm_color="@android:color/holo_blue_light"
+                        android:id="@+id/thermometer2"
+                        android:layout_marginLeft="210dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true">
+                    </org.dev4u.hv.my_diagnostic.Thermometer>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="100dp"
+                    >
 
                     <TextView
                         android:textSize="16sp"
@@ -105,32 +94,22 @@
                         android:paddingRight="5dp"
                         android:paddingLeft="5dp"
                         android:paddingBottom="1dp"
-                        android:layout_marginTop="-30dp" />
+                        />
 
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/lblDetailCategory"
+                        android:text="Category: Liver Diseases"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:weightSum="1">
-
-
-                        <TextView
-                            android:textColor="@color/colorAccent"
-                            android:id="@+id/lblDetailCategory"
-                            android:text="Category: Liver Diseases"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16dp"
-                            android:textAlignment="center"
-                            android:gravity="left|center_vertical" />
-
-
-                    </LinearLayout>
-
-
+                        android:textSize="16dp"
+                        android:textAlignment="center"
+                        android:gravity="left|center_vertical" />
 
                 </LinearLayout>
+
+
+
 
             </android.support.v7.widget.CardView>
 
@@ -141,9 +120,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -153,6 +130,7 @@
                         android:textSize="22dp"
 
                         />
+
                     <views.JustifyTextView
                         android:id="@+id/lblDetailDescription"
                         android:layout_marginLeft="5dp"
@@ -162,6 +140,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="serif"
                         android:typeface="monospace" />
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 

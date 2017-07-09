@@ -1,5 +1,6 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private static final String TAG = "CustomInfoWindowAdapter";
     private LayoutInflater inflater;
-    private ImageView imagen;
+Context mycontext;
     public CustomInfoWindowAdapter(LayoutInflater inflater){
         this.inflater = inflater;
     }
@@ -33,9 +34,10 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         View v = inflater.inflate(R.layout.info_windows_layout, null);
 
-        int estado=m.getTitle().compareTo("I am Here");
-        if(estado==0){
+
+        if(m.getTitle().compareTo("I am Here")==0){
             ((TextView)v.findViewById(R.id.info_window_estado)).setText("I am Here");
+            ((ImageView)v.findViewById(R.id.info_window_imagen)).setImageResource(R.drawable.ic_user);
         }
         else {
             String direccion = String.valueOf(m.getSnippet());

@@ -14,16 +14,11 @@ import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesDetails;
 public class MyPlacesJson {
     PlacesDetails details = new PlacesDetails();
     public PlacesDetails GetPlaceDetails(JSONObject jsonObject) {
-        String phone ="N/A";
-        JSONArray jsonArray = null;
 
         String json=jsonObject.toString();
         try {
             JSONObject parentObject = new JSONObject(json);
             JSONObject userDetails = parentObject.getJSONObject("result");
-            JSONObject pDetails = parentObject.getJSONObject("result").getJSONObject("opening_hours");
-
-
 
             //And then read attributes like
             if(!userDetails.isNull("name")){
@@ -40,20 +35,11 @@ public class MyPlacesJson {
                 details.setAddress(userDetails.getString("formatted_address"));}
             else{ details.setAddress("N/A");}
 
-
-
-
-
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return details;
     }
-
- public  PlacesDetails getObjectDetails(){
-
-     return details;
- }
     
 }

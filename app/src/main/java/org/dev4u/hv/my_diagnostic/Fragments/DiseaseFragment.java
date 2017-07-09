@@ -6,34 +6,24 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import org.dev4u.hv.my_diagnostic.DummyThermometer;
 import org.dev4u.hv.my_diagnostic.R;
 
-import java.util.ArrayList;
-
-import db.Disease;
-import db.Symptom;
 import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
-import utils.MultiSelectAdapter;
 import utils.RecyclerItemClickListener;
 
 

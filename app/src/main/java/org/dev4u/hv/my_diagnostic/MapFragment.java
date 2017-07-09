@@ -350,7 +350,6 @@ public void onPlacesSuccess(final List<Place> places) {
     });
 
 }
-
     private boolean hasPermission(String permission) {
         return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
     }
