@@ -74,7 +74,7 @@ public class DiseaseDetailFragment extends BaseFragment {
         Disease disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
         if(disease!=null){
             lblDiseaseName.setText(disease.getName_disease());
-            lblDiseaseCategory.setText(disease.getCategory_name());
+            lblDiseaseCategory.setText("Category : "+disease.getCategory_name());
             lblDiseaseDescription.setText(disease.getDescription());
             lblAddToHistory.setOnClickListener(new View.OnClickListener() {
                 @Override
