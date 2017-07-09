@@ -168,13 +168,13 @@ public class SearchFragment extends BaseFragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
-                goToSettings();
                 return true;
             case R.id.action_search:
-                //handleMenuSearch();
+                return true;
+            case R.id.action_delete_symptoms:
+                deleteAllSymptoms();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -215,6 +215,12 @@ public class SearchFragment extends BaseFragment {
     };
 
     // AlertDialog Callback Functions
+
+
+    private void deleteAllSymptoms(){
+        DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms().clear();
+        multiSelectAdapter.notifyDataSetChanged();
+    }
 
 
     private void addSymptom(){
@@ -295,17 +301,4 @@ public class SearchFragment extends BaseFragment {
         }
     }
 
-    private void goToSettings(){
-        Intent intent = new Intent(getActivity(), UserDataActivity.class);
-        //getContext().startActivity(intent);
-        startActivityForResult(intent,1);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        //  Handle activity result here
-        if(requestCode==1){
-            Toast.makeText(getContext(),"Llame al activity",Toast.LENGTH_SHORT).show();
-            this.updateFragment();
-        }
-    }
 }

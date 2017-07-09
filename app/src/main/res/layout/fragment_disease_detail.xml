@@ -23,32 +23,53 @@
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="5dp"
+                    >
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <ImageView
                         android:layout_marginRight="5dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:layout_width="77dp"
                         android:layout_height="101dp"
                         app:srcCompat="@drawable/disease_icon"
-                        android:id="@+id/img_disease" />
+                        android:id="@+id/img_disease"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true" />
+
+                    <org.dev4u.hv.my_diagnostic.Thermometer
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:therm_color="@android:color/holo_blue_light"
+                        android:id="@+id/thermometer2"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:scaleY="1"
+                        android:scaleX="1"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true">
+                    </org.dev4u.hv.my_diagnostic.Thermometer>
 
                     <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/title_disease"
                         android:id="@+id/lblDetailDiseaseName"
                         android:text="Carpal Tunnel Syndrome"
                         android:typeface="serif"
-                        android:textAlignment="center"
                         android:textSize="24dp"
                         android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="55dp"
-                        android:layout_height="100dp"
-                        android:layout_width="200dp" />
+                        android:layout_toEndOf="@+id/img_disease"
+                        android:layout_toStartOf="@+id/thermometer2"
+                        android:layout_above="@+id/lblAddToHistory" />
 
                     <TextView
                         android:textColor="@android:color/holo_blue_bright"
@@ -56,35 +77,15 @@
                         android:text="80%"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="246dp"
-                        android:layout_marginTop="129dp"
-                        android:textSize="16sp" />
-
-                    <org.dev4u.hv.my_diagnostic.Thermometer
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:therm_color="@android:color/holo_blue_light"
-                        android:id="@+id/thermometer2"
-                        android:layout_marginLeft="210dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:scaleY="0.60"
-                        android:layout_alignParentEnd="true"
-                        android:scaleX="0.60">
-                    </org.dev4u.hv.my_diagnostic.Thermometer>
-                </RelativeLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="100dp"
-                    >
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="13dp"
+                        android:textSize="16sp"
+                        android:layout_below="@+id/img_disease"
+                        android:layout_alignParentEnd="true" />
 
                     <TextView
                         android:textSize="16sp"
                         android:layout_marginLeft="2dp"
-                        android:layout_marginBottom="4dp"
                         android:background="@drawable/personalized_tag"
                         android:textColor="@color/white"
                         android:id="@+id/lblAddToHistory"
@@ -97,9 +98,14 @@
                         android:paddingRight="5dp"
                         android:paddingLeft="5dp"
                         android:paddingBottom="1dp"
-                        />
+                        android:layout_below="@+id/img_disease"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
+
 
                     <TextView
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="4dp"
                         android:textColor="@color/colorAccent"
                         android:id="@+id/lblDetailCategory"
                         android:text="Category: Liver Diseases"
@@ -128,15 +134,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_margin="3dp"
+                        android:layout_margin="5dp"
                         android:text="Description"
                         android:textSize="22dp"
-
                         />
 
                     <views.JustifyTextView
+                        android:layout_marginBottom="3dp"
                         android:id="@+id/lblDetailDescription"
                         android:layout_marginLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textSize="15sp"
                         android:text="Description: Typical lupus features include a butterfly-shaped rash on the cheeks, a rash that appears on areas exposed to the sun, mouth and nose sores, arthritis affecting one or more joints, kidney inflammation, neurological disorders Such as headaches, personality changes, organic brain syndrome, peripheral neuropathies, sensory neuropathy, psychological problems such as paranoia, mania and schizophrenia, seizures, transverse myelitis, paralysis, and stroke. Other symptoms that can cause lupus are fever, weight loss, hair loss, poor circulation in the fingers and toes, chest pain when breathing deeply, and abdominal pain. The symptoms of lupus vary from person to person. While some people have only a few symptoms, others may show many more. These signals may appear and disappear. . You may notice that your symptoms intensify after being exposed to the sun or after a hard day's work."
                         android:layout_width="wrap_content"
