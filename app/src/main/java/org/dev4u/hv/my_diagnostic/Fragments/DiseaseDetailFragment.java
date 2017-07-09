@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.dev4u.hv.my_diagnostic.R;
+import org.dev4u.hv.my_diagnostic.Thermometer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,11 @@ public class DiseaseDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
+        Thermometer t = new Thermometer(this.getContext());
+        t.setPercent(80);
         ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
         if(getArguments().getBoolean("SEARCH")){

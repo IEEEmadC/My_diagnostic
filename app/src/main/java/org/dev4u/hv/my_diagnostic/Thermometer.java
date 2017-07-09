@@ -229,7 +229,7 @@ public class Thermometer extends View {
 
         height += paddingY;
 
-        setMeasuredDimension(200,300);
+        setMeasuredDimension(125,225);
     }
 
 
