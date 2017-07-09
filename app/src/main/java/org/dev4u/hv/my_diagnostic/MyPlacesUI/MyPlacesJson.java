@@ -31,7 +31,7 @@ public class MyPlacesJson {
             {
                 details.setPhone_number("N/A");
             }
-            if(userDetails.isNull("formatted_address")){
+            if(!userDetails.isNull("formatted_address")){
                 details.setAddress(userDetails.getString("formatted_address"));}
             else{ details.setAddress("N/A");}
 

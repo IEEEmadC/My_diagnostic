@@ -42,7 +42,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
     private void showLocationDialog(String datos) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.mycontext);
         builder.setTitle("Place Details");
-        builder.setMessage(mycontext.getString(R.string.Nombre)+datos);
+        builder.setMessage(datos);
 
 
 

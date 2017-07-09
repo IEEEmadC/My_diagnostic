@@ -310,10 +310,6 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
             Drawable circleDrawable = getResources().getDrawable(R.drawable.circle_shape);
             BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
-
-
-
-
             myMarker = mMap.addMarker(new MarkerOptions()
                             .position(MyLatLeng).title("I am Here")
                             .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
@@ -348,8 +344,6 @@ public void onPlacesSuccess(final List<Place> places) {
                         .snippet(place.getVicinity()+"<"+place.getPlaceId())
 
                 ));
-
-
             }
         }
     });
@@ -404,12 +398,5 @@ public void onPlacesSuccess(final List<Place> places) {
         {
             Log.d("EXCP",e.toString());
         }
-
-
-
 }
-
-
-
-
 }
