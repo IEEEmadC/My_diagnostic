@@ -38,7 +38,7 @@ public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         if(imageProfile!=null) {
-            new SaveImage(imageProfile.getContext(),"Profile","profile.png").execute(result);
+            //new SaveImage(imageProfile.getContext(),"Profile","profile.png").execute(result);
             imageProfile.setImageBitmap(result);
         }
     }

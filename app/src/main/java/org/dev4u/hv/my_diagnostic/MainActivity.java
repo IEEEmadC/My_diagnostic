@@ -9,6 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.roughike.bottombar.BottomBar;
@@ -26,6 +30,7 @@ import utils.DiseaseUtilitesSingleton;
 public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener{
 
 
+    private final int RESULT_FROM_MAIN=2;
     private final int INDEX_SEARCH  = FragNavController.TAB1;
     private final int INDEX_HISTORY = FragNavController.TAB2;
     private final int INDEX_DISEASE = FragNavController.TAB3;
@@ -106,6 +111,23 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_commom, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                goToSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void Init(){
         DiseaseUtilitesSingleton.getInstance().init(this);
         new Thread(new Runnable() {
@@ -164,5 +186,22 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         if (mNavController != null) {
             mNavController.pushFragment(fragment);
         }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==RESULT_FROM_MAIN){
+            Log.d("Pestaña","Activa "+mNavController.getCurrentStackIndex());
+            Log.d("TAB 2",""+FragNavController.TAB2);
+            if(mNavController.getCurrentStackIndex()==FragNavController.TAB2){
+                if(mNavController.getCurrentStack().size()==1){
+                    frm2.updateUserInfo();
+                }
+            }
+        }
+    }
+    private void goToSettings(){
+        Intent intent = new Intent(this, UserDataActivity.class);
+        startActivityForResult(intent,RESULT_FROM_MAIN);
     }
 }

@@ -114,8 +114,8 @@ public class Disease{
     public static Comparator<Disease> compareByPercentage() {
         return new Comparator<Disease>() {
             @Override
-            public int compare(Disease o1, Disease o2) {
-                return Double.compare(o1.matchPercentage,o2.matchPercentage);
+            public int compare(Disease o1, Disease o2) {//descendant method
+                return Double.compare(o2.matchPercentage,o1.matchPercentage);
             }
         };
     }
