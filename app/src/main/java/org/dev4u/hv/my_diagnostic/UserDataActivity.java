@@ -74,6 +74,7 @@ public class UserDataActivity extends AppCompatActivity {
     private SharedPreferences.Editor editorPreferences;
     private RadioButton rbnMale;
     private RadioButton rbnFemale;
+    private int status;
     //private int Flag;
 
     @Override
@@ -81,57 +82,38 @@ public class UserDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Profile");
         setContentView(R.layout.activity_user_data);
-        preferences = getSharedPreferences("Data", Context.MODE_PRIVATE);
-        editorPreferences = preferences.edit();
+        preferences         = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editorPreferences   = preferences.edit();
+
+        status              = preferences.getInt("STATUS",0);
 
         DiseaseUtilitesSingleton.getInstance().init(this);
 
-        String status = preferences.getString("USERNAME","null");
-        if(!status.equals("null")){
-            user = DiseaseUtilitesSingleton.getInstance().getUser(status);
+        String userStatus   = preferences.getString("USERNAME","null");
+        if(!userStatus.equals("null")){
+            user = DiseaseUtilitesSingleton.getInstance().getUser(userStatus);
         }
 
-        activePicture = ((BitmapDrawable) getBaseContext().getDrawable(R.drawable.ic_profile)).getBitmap();
-        circleImageView = (CircleImageView)findViewById(R.id.profile_image);
+        activePicture       = ((BitmapDrawable) getBaseContext().getDrawable(R.drawable.ic_profile)).getBitmap();
+        circleImageView     = (CircleImageView)findViewById(R.id.profile_image);
         //buttons
-        btnDate = (Button)findViewById(R.id.btnDate);
-        btnCountry = (Button)findViewById(R.id.btnCountry);
-        btnBlood = (Button) findViewById(R.id.btnBlood);
-        btnSave = (FloatingActionButton) findViewById(R.id.btnSave);
+        btnDate             = (Button)findViewById(R.id.btnDate);
+        btnCountry          = (Button)findViewById(R.id.btnCountry);
+        btnBlood            = (Button) findViewById(R.id.btnBlood);
+        btnSave             = (FloatingActionButton) findViewById(R.id.btnSave);
         //edit text
-        txtName = (EditText) findViewById(R.id.input_name);
+        txtName             = (EditText) findViewById(R.id.input_name);
         //radio buttons
-        rbnMale = (RadioButton) findViewById(R.id.rbnMale);
-        rbnFemale = (RadioButton) findViewById(R.id.rbnFemale);
+        rbnMale             = (RadioButton) findViewById(R.id.rbnMale);
+        rbnFemale           = (RadioButton) findViewById(R.id.rbnFemale);
 
-        Country country = Country.getCountryByLocale(getResources().getConfiguration().locale);
+        Country country     = Country.getCountryByLocale(getResources().getConfiguration().locale);
         btnCountry.setCompoundDrawables(getDrawable(country.getFlag()),null,null,null);
 
-        //traer la fecha
-
-        date[0] = 1;//dia
-        date[1] = 8;//mes
-        date[2] = 1994;//anio
+        //day - month - year
+        date[0] = 1;date[1] = 8;date[2] = 1994;
 
 
-
-        //btnCountry.setCompoundDrawables();
-        //background
-
-        //container = (LinearLayout) findViewById(R.id.rootview);
-
-        //anim = (AnimationDrawable) container.getBackground();
-        //anim.setEnterFadeDuration(14000);
-        //anim.setExitFadeDuration(14000);
-
-        /*restartCursiveAnimation();
-        ((ImageView)findViewById(R.id.pulse)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartCursiveAnimation();
-            }
-        });
-        */
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +146,7 @@ public class UserDataActivity extends AppCompatActivity {
                 saveButton();
             }
         });
+
         Bitmap b = loadImageFromStorage("Profile","profile.png");
         if(b!=null) {
             activePicture = b;
@@ -175,7 +158,7 @@ public class UserDataActivity extends AppCompatActivity {
         if(user!=null){
             txtName.setText(user.getFullname());
             String bday = user.getBirthday();
-            //YYYY-MM-DD date formar
+            //YYYY-MM-DD date format
             String parts[] = bday.split("-");
             date[2] = Integer.parseInt(parts[0]);//year
             date[1] = Integer.parseInt(parts[1]);//month
@@ -189,33 +172,9 @@ public class UserDataActivity extends AppCompatActivity {
             btnBlood.setText(user.getName_bloodtype());
         }
         btnDate.setText(new StringBuilder()
-                // Month is 0 based so add 1
                 .append(date[0]).append("/").append(date[1]).append("/")
                 .append(date[2]).append(" "));
-
-        //DiseaseUtilitesSingleton.getInstance().fillPrimaryData();
     }
-
-
-    private class saveImage extends AsyncTask<Bitmap,Void,Void> {
-        @Override
-        protected void onPreExecute(){
-            showProgressDialog();
-        }
-
-        @Override
-        protected Void doInBackground(Bitmap... arg0) {
-            //my stuff is here
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            hideProgressDialog();
-        }
-    }
-
 
     private void showDialogPicture(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -301,14 +260,12 @@ public class UserDataActivity extends AppCompatActivity {
         arrayAdapter.add("B-");
         arrayAdapter.add("AB+");
         arrayAdapter.add("AB-");
-
         builderSingle.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -317,12 +274,9 @@ public class UserDataActivity extends AppCompatActivity {
             }
         });
         AlertDialog alertDialog = builderSingle.create();
-
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.CustomDialogAnimation_Window;
         alertDialog.show();
         alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-
-
     }
 
 
@@ -400,10 +354,16 @@ public class UserDataActivity extends AppCompatActivity {
 
         DiseaseUtilitesSingleton.getInstance().updateUser(user);
         //hideProgressDialog();
-        setResult(RESULT_FROM_MAIN);
-        this.finish();
-        //Intent intent = new Intent(this,MainActivity.class);
-        //startActivity(intent);
+        Log.d("STATUS","=======================  "+status);
+        if(status==0){
+            editorPreferences.putInt("STATUS",1);//status saved
+            editorPreferences.commit();
+            this.finish();
+        }else{
+            setResult(RESULT_FROM_MAIN);
+            this.finish();
+        }
+
     }
 
     private boolean saveValid(){
