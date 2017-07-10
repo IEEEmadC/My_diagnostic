@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dev4u.hv.my_diagnostic.R;
@@ -39,7 +40,8 @@ import utils.SymptomAdapter;
 
 public class DiseaseDetailFragment extends BaseFragment {
     private View view;
-    private SymptomAdapter symptomAdapter;
+
+    private ImageView imgIconDisease;
     private TextView lblDiseaseName;
     private TextView lblDiseaseCategory;
     private TextView lblDiseaseDescription;
@@ -69,7 +71,8 @@ public class DiseaseDetailFragment extends BaseFragment {
         t.setPercent(80);
         ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
-        cardViewStats                = (CardView) view.findViewById(R.id.cardView_stats);
+        cardViewStats           = (CardView) view.findViewById(R.id.cardView_stats);
+        imgIconDisease          = (ImageView)view.findViewById(R.id.img_disease);
         lblSymptomsList         = (TextView) view.findViewById(R.id.lblSymptomsList);
         lblDiseaseName          = (TextView) view.findViewById(R.id.lblDetailDiseaseName);
         lblDiseaseCategory      = (TextView) view.findViewById(R.id.lblDetailCategory);
@@ -87,6 +90,12 @@ public class DiseaseDetailFragment extends BaseFragment {
 
 
         if(disease!=null){
+
+            int id_category = Integer.parseInt(disease.getId_disease_category())-1;
+
+            if (id_category > 0 && id_category < DiseaseAdapter.getIcons().size()) {
+                imgIconDisease.setImageResource(DiseaseAdapter.getIcons().get(id_category));
+            }
             lblDiseaseName.setText(disease.getName_disease());
             lblDiseaseCategory.setText(disease.getCategory_name());
             lblDiseaseDescription.setText(disease.getDescription());
@@ -134,11 +143,6 @@ public class DiseaseDetailFragment extends BaseFragment {
             }
             lblSymptomsList.setText(sb);
         }
-        symptomAdapter = new SymptomAdapter(
-                symptomsWrite,
-                disease.getSymptoms(),
-                getContext()
-        );
         return view;
     }
 

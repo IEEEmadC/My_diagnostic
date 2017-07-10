@@ -54,5 +54,7 @@
         contenido:
     </string>
 
+    <string name="download_message">All the diseases are stored in a cloud database, we compromise to work adding more data for you.</string>
+
 
 </resources>

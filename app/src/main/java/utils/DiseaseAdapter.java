@@ -50,14 +50,11 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
     private ArrayList<Disease> mOriginalValues = new ArrayList<>();
     boolean isSearch = false;
     String textSearch = "";
-    ArrayList<Integer> lstIcons = new ArrayList<>();
+    static ArrayList<Integer> lstIcons;
 
 
-    public DiseaseAdapter(Context mContext, ArrayList<Disease> diseaseArrayList, boolean isSearch) {
-        this.mContext = mContext;
-        this.diseaseArrayList = diseaseArrayList;
-        this.mOriginalValues = diseaseArrayList;
-        this.isSearch = isSearch;
+    public static ArrayList<Integer> getIcons(){
+        lstIcons = new ArrayList<>();
         lstIcons.add(R.drawable.ic_cat_1);
         lstIcons.add(R.drawable.ic_cat_2);
         lstIcons.add(R.drawable.ic_cat_3);
@@ -76,6 +73,15 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         lstIcons.add(R.drawable.ic_cat_16);
         lstIcons.add(R.drawable.ic_cat_17);
         lstIcons.add(R.drawable.ic_cat_18);
+        return lstIcons;
+    }
+
+    public DiseaseAdapter(Context mContext, ArrayList<Disease> diseaseArrayList, boolean isSearch) {
+        this.mContext = mContext;
+        this.diseaseArrayList = diseaseArrayList;
+        this.mOriginalValues = diseaseArrayList;
+        this.isSearch = isSearch;
+        getIcons();
     }
     @Override
     public long getItemId(int position) {
@@ -108,46 +114,20 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         holder.description.setText(descriptionBuild);
         holder.symptomsCount.setText("Symptoms : " + disease.getSymptoms().size());
         holder.category.setText("Category : " + disease.getCategory_name());
-        //holder.percentage.setText("");
-        //holder.symptomsMatch.setText("");
         if (isSearch) {
             holder.percentage.setText(new DecimalFormat("###.##").format(disease.getMatchPercentage())+"%");
             holder.symptomsMatch.setText("Matches : " + disease.getSymptoms_match());
-            //holder.symptomsMatch.setText(disease.);
         }else{
             holder.percentage.setVisibility(View.INVISIBLE);
             holder.symptomsMatch.setVisibility(View.INVISIBLE);
         }
 
-        int id_category = Integer.parseInt(disease.getId_disease_category());
+        int id_category = Integer.parseInt(disease.getId_disease_category())-1;
         Log.d("id guardado : ", "======== " + id_category);
         if (id_category > 0 && id_category < lstIcons.size()) {
-            holder.imgDisease.setImageResource(lstIcons.get(id_category - 1));
-            //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1));
-            //holder.imgDisease.setImageBitmap(lstIcons.get(id_category-1));
+            holder.imgDisease.setImageResource(lstIcons.get(id_category));
+            Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category));
         }
-
-        /*
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext,"Id disease "+disease.getId_disease(),Toast.LENGTH_SHORT).show();
-
-                Fragment fragment ;
-                fragment = new DiseaseDetailFragment();
-                Bundle args = new Bundle();
-                args.putString("posicion",disease.getId_disease_category());
-                fragment.setArguments(args);
-
-                FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frm_disease, fragment)
-                        .addToBackStack("null")
-                        .commit();
-            }
-        });
-        */
-
     }
 
     @Override
@@ -166,7 +146,6 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
                 if (mOriginalValues == null) {
                     mOriginalValues = new ArrayList<Disease>(diseaseArrayList); // saves the original data in mOriginalValues
                 }
-
                 /********
                  *
                  *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values

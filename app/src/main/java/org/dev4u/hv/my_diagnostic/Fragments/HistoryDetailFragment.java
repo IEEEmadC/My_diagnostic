@@ -39,8 +39,6 @@ public class HistoryDetailFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_history_detail, container, false);
-
-
         setHasOptionsMenu(true);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
