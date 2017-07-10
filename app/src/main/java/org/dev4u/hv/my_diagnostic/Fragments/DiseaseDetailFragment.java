@@ -176,7 +176,6 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
     pieChart.setData(data);
     pieChart.setDescriptionPosition(335,14);
     pieChart.setDescriptionTextSize(11);
-    pieChart.setDescription("Percentage  Of Symptoms Found");
 
     pieChart.setDrawHoleEnabled(true);
     pieChart.setTransparentCircleRadius(35f);
@@ -202,7 +201,6 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
         pieChart.setDescriptionPosition(335,14);
-        pieChart.setDescription("Percentage  Of Symptoms Match");
         pieChart.setDescriptionTextSize(11);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(35f);

@@ -1,5 +1,6 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class DownloadActivity extends AppCompatActivity {
     private LocalDatabase localDatabase;
     private ImageView hearth;
     private AnimatedVectorDrawable hearthAnim;
+    private Button btnDownload;
     private Database db;
     Handler handler = new Handler();
     @Override
@@ -24,6 +26,8 @@ public class DownloadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
         findViewById(R.id.activity_test);
+
+        btnDownload = (Button) findViewById(R.id.btnDownload);
 
         //animation
         hearth = (ImageView)findViewById(R.id.pulse);
@@ -34,15 +38,20 @@ public class DownloadActivity extends AppCompatActivity {
 
 
         localDatabase = new LocalDatabase(this);
-        ((Button)findViewById(R.id.btnTest)).setOnClickListener(new View.OnClickListener() {
+
+        btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 test();
             }
         });
+
     }
 
     public void test(){
+
+        Intent i = new Intent(this,MainActivity.class);
+        startActivity(i);
         //localDatabase.deleteData();
         //localDatabase.getSymptoms();
         //localDatabase.getDisease();
