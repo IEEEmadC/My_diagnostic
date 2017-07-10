@@ -74,39 +74,9 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
         Thermometer t = new Thermometer(this.getContext());
         t.setPercent(80);
-//PIECHART GRAPHICS
-        PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
-        pieChart.setUsePercentValues(true);
-
-        // IMPORTANT: In a PieChart, no values (Entry) should have the same
-        // xIndex (even if from different DataSets), since no values can be
-        // drawn above each other.
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
 
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "Percents");
 
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        xVals.add("PORCENTAJE X");
-        xVals.add("PORCENTAJE Y");
-
-
-        PieData data = new PieData(xVals, dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        pieChart.setData(data);
-        pieChart.setDescription("This is Percent ");
-
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setTransparentCircleRadius(10f);
-        pieChart.setHoleRadius(10f);
-
-        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
-        data.setValueTextSize(8f);
-        data.setValueTextColor(Color.WHITE);
-        pieChart.setOnChartValueSelectedListener(this);
-
-        pieChart.animateXY(1400, 1400);
 
 
 
@@ -169,8 +139,41 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
                 lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
                 lblStats.setText(stats);
                 thermometer.setPercent((float)disease.getMatchPercentage());
-                yvalues.add(new Entry( (float) disease.getMatchPercentage(), 0));
-                yvalues.add(new Entry((float) disease.getMatchPercentage(), 1));
+
+                PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
+                pieChart.setUsePercentValues(true);
+
+                // IMPORTANT: In a PieChart, no values (Entry) should have the same
+                // xIndex (even if from different DataSets), since no values can be
+                // drawn above each other.
+                ArrayList<Entry> yvalues = new ArrayList<Entry>();
+                float value=(100f-(float)disease.getMatchPercentage());
+                yvalues.add(new Entry( value, 0));
+                yvalues.add(new Entry((float)disease.getMatchPercentage(),1));
+
+                PieDataSet dataSet = new PieDataSet(yvalues, " ");
+
+                ArrayList<String> xVals = new ArrayList<String>();
+
+                xVals.add("Symptoms Found");
+                xVals.add("Symptoms Not Found");
+
+
+                PieData data = new PieData(xVals, dataSet);
+                data.setValueFormatter(new PercentFormatter());
+                pieChart.setData(data);
+                pieChart.setDescription("Percentage of Symptoms Found ");
+
+                pieChart.setDrawHoleEnabled(true);
+                pieChart.setTransparentCircleRadius(15f);
+                pieChart.setHoleRadius(15f);
+
+                dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                data.setValueTextSize(7f);
+                data.setValueTextColor(Color.WHITE);
+                pieChart.setOnChartValueSelectedListener(this);
+
+                pieChart.animateXY(1400, 1400);
             }else{
                 lblDiseasePercentage.setVisibility(View.INVISIBLE);
                 cardViewStats.setVisibility(View.GONE);
