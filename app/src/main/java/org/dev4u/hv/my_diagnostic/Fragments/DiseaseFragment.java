@@ -47,6 +47,9 @@ public class DiseaseFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_disease, container, false);
         setHasOptionsMenu(true);
+
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_disease);
 
         diseaseAdapter = new DiseaseAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getDiseasesList(),false);

@@ -97,6 +97,11 @@ public class HistoryFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_history, container, false);
+
+        //remove home button
+        setHasOptionsMenu(true);
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //animation
         hearth = (ImageView)view.findViewById(R.id.pulse);
         hearthAnim = ((AnimatedVectorDrawable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
@@ -120,7 +125,6 @@ public class HistoryFragment extends BaseFragment {
         //setting the profile image
 
 
-        setHasOptionsMenu(true);
         //restartCursiveAnimation();
 
         AnimatedVectorDrawable d = (AnimatedVectorDrawable) getContext().getDrawable(R.drawable.hearth_pulse_animation); // Insert your AnimatedVectorDrawable resource identifier

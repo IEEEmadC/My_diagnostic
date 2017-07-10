@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +73,9 @@ public class SearchFragment extends BaseFragment {
         this.container = container;
         //adding option menu
         setHasOptionsMenu(true);
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         view = inflater.inflate(R.layout.fragment_search, container, false);
         //init widgets
         coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.frm_search);
