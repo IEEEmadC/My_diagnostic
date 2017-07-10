@@ -47,23 +47,26 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     private BottomBar mBottomBar;
     private FragNavController mNavController;
     private SharedPreferences.Editor editSavedData;
+    private int initial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editSavedData = savedData.edit();
+        initial = savedData.getInt("STATUS",0);
+        if(initial==0){
+            Intent gotoBeginning = new Intent(this,DownloadActivity.class);
+            startActivity(gotoBeginning);
+            this.finish();
+        }
+
         Init();
         //animation
         //.defaultTransactionOptions(FragNavTransactionOptions.newBuilder().customAnimations
         // (R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
-        savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
-        editSavedData = savedData.edit();
-        int initial = savedData.getInt("STATUS",0);
-        if(initial==0){
-            Intent gotoBeginning = new Intent(this,DownloadActivity.class);
-            startActivity(gotoBeginning);
-        }else{
 
-        }
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.selectTabAtPosition(0);
         mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)
@@ -104,6 +107,22 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
 
     }//end onCreate
 
+
+    private void initFragments(){
+        frm1   = new SearchFragment();
+        frm2  = new HistoryFragment();
+        frm3  = new DiseaseFragment();
+        frm4      = new MapFragment();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        Log.d("ON RESUMEN","<=================================================== previous : "+initial +" after : "+savedData.getInt("STATUS",0));
+    }
+
     @Override
     public void onBackPressed() {
         if (!mNavController.isRootFragment()) {
@@ -142,16 +161,10 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
                 handler.post(new Runnable() {
                     public void run() {
                         threadFinish=true;
-                        updateFragments();
                     }
                 });
             }
         }).start();
-    }
-
-    private void updateFragments(){
-        //frm1.updateFragment();
-        //frm3.updateFragment();
     }
     @Override
     public Fragment getRootFragment(int index) {

@@ -108,6 +108,8 @@ public class LocalDatabase {
     }
 
     public void initDatabase(){
+        //TODO esta es la funcion que llama las peticiones
+
         Snackbar.make(coordinatorLayout,"Download started",Snackbar.LENGTH_SHORT).show();
         button.setText("Downloading...");
         checkQueue();
