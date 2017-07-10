@@ -125,7 +125,7 @@ public class DiseaseDetailFragment extends BaseFragment {
                 thermometer.setPercent((float)disease.getMatchPercentage());
             }else{
                 lblDiseasePercentage.setVisibility(View.INVISIBLE);
-                cardViewStats.setVisibility(View.INVISIBLE);
+                cardViewStats.setVisibility(View.GONE);
                 thermometer.setVisibility(View.INVISIBLE);
                 //((ViewGroup)view.getParent()).removeView(cardViewStats);
             }
