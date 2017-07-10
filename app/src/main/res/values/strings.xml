@@ -53,8 +53,11 @@
     <string name="dialog_message">
         contenido:
     </string>
+    <string name="pie_chart">Pie Chart con mpAndroidChartLibrery</string>
+
 
     <string name="download_message">All the diseases are stored in a cloud database, we compromise to work adding more data for you.</string>
+
 
 
 </resources>
