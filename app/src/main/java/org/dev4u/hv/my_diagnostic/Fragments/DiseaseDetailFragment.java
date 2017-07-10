@@ -73,16 +73,9 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
         setHasOptionsMenu(true);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
         Thermometer t = new Thermometer(this.getContext());
         t.setPercent(80);
-
-
-
-
-
-
         ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
         cardViewStats                = (CardView) view.findViewById(R.id.cardView_stats);
@@ -142,41 +135,13 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
                 lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
                 lblStats.setText(stats);
                 thermometer.setPercent((float)disease.getMatchPercentage());
-
+                //Chart Symptoms Found
                 PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
+                ChartSymptomFound((float)disease.getGlobalMatchPercentage() ,pieChart);
+                PieChart pieChart2 = (PieChart) view.findViewById(R.id.piechart2);
+                ChartSymptomMatch((float)disease.getMatchPercentage() ,pieChart2);
                 pieChart.setUsePercentValues(true);
 
-                // IMPORTANT: In a PieChart, no values (Entry) should have the same
-                // xIndex (even if from different DataSets), since no values can be
-                // drawn above each other.
-                ArrayList<Entry> yvalues = new ArrayList<Entry>();
-                float value=(100f-(float)disease.getMatchPercentage());
-                yvalues.add(new Entry( value, 0));
-                yvalues.add(new Entry((float)disease.getMatchPercentage(),1));
-
-                PieDataSet dataSet = new PieDataSet(yvalues, " ");
-
-                ArrayList<String> xVals = new ArrayList<String>();
-
-                xVals.add("Symptoms Found");
-                xVals.add("Symptoms Not Found");
-
-
-                PieData data = new PieData(xVals, dataSet);
-                data.setValueFormatter(new PercentFormatter());
-                pieChart.setData(data);
-                pieChart.setDescription("Percentage of Symptoms Found ");
-
-                pieChart.setDrawHoleEnabled(true);
-                pieChart.setTransparentCircleRadius(15f);
-                pieChart.setHoleRadius(15f);
-
-                dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                data.setValueTextSize(7f);
-                data.setValueTextColor(Color.WHITE);
-                pieChart.setOnChartValueSelectedListener(this);
-
-                pieChart.animateXY(1400, 1400);
             }else{
                 lblDiseasePercentage.setVisibility(View.INVISIBLE);
                 cardViewStats.setVisibility(View.GONE);
@@ -192,7 +157,59 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
         );
         return view;
     }
+public void ChartSymptomFound(float p1,PieChart pieChart){
 
+    ArrayList<Entry> yvalues = new ArrayList<Entry>();
+     float value=(100f-p1);
+    yvalues.add(new Entry( value, 0));
+    yvalues.add(new Entry(p1,1));
+    PieDataSet dataSet = new PieDataSet(yvalues, " ");
+    ArrayList<String> xVals = new ArrayList<String>();
+    xVals.add("Symptoms Found");
+    xVals.add("Symptoms Not Found");
+    PieData data = new PieData(xVals, dataSet);
+    data.setValueFormatter(new PercentFormatter());
+    pieChart.setData(data);
+    pieChart.setDescriptionPosition(335,14);
+    pieChart.setDescriptionTextSize(11);
+    pieChart.setDescription("Percentage  Of Symptoms Found");
+
+    pieChart.setDrawHoleEnabled(true);
+    pieChart.setTransparentCircleRadius(35f);
+    pieChart.setHoleRadius(15f);
+    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+    data.setValueTextSize(9f);
+    data.setValueTextColor(Color.DKGRAY);
+    pieChart.setOnChartValueSelectedListener(this);
+    pieChart.animateXY(1400, 1400);
+
+}
+    public void ChartSymptomMatch(float p1,PieChart pieChart){
+
+        ArrayList<Entry> yvalues = new ArrayList<Entry>();
+        float value=(100f-p1);
+        yvalues.add(new Entry( value, 0));
+        yvalues.add(new Entry(p1,1));
+        PieDataSet dataSet = new PieDataSet(yvalues, " ");
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("Symptoms Match ");
+        xVals.add("Symptoms Not Match");
+        PieData data = new PieData(xVals, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        pieChart.setData(data);
+        pieChart.setDescriptionPosition(335,14);
+        pieChart.setDescription("Percentage  Of Symptoms Match");
+        pieChart.setDescriptionTextSize(11);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(35f);
+        pieChart.setHoleRadius(15f);
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        data.setValueTextSize(9f);
+        data.setValueTextColor(Color.DKGRAY);
+        pieChart.setOnChartValueSelectedListener(this);
+        pieChart.animateXY(1400, 1400);
+
+    }
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 
