@@ -3,7 +3,9 @@ package org.dev4u.hv.my_diagnostic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -64,6 +66,8 @@ public class DownloadActivity extends AppCompatActivity {
     public void next(){
         //just one call
         if(!functionCalled){
+            //TODO aqui llamo a las peticiones
+            //new Download().execute();
             localDatabase.initDatabase();
             functionCalled=true;
         }
@@ -75,6 +79,16 @@ public class DownloadActivity extends AppCompatActivity {
             }else{
                 this.finish();
             }
+        }
+    }
+
+    //TODO no funco
+    public class Download extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            localDatabase.initDatabase();
+            return null;
         }
     }
 }
