@@ -20,6 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import org.dev4u.hv.my_diagnostic.R;
 import org.dev4u.hv.my_diagnostic.Thermometer;
 
@@ -36,7 +46,7 @@ import utils.DiseaseAdapter;
 import utils.DiseaseUtilitesSingleton;
 import utils.SymptomAdapter;
 
-public class DiseaseDetailFragment extends BaseFragment {
+public class DiseaseDetailFragment extends BaseFragment implements OnChartValueSelectedListener {
     private View view;
     private SymptomAdapter symptomAdapter;
     private TextView lblDiseaseName;
@@ -64,6 +74,42 @@ public class DiseaseDetailFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_disease_detail, container, false);
         Thermometer t = new Thermometer(this.getContext());
         t.setPercent(80);
+//PIECHART GRAPHICS
+        PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
+        pieChart.setUsePercentValues(true);
+
+        // IMPORTANT: In a PieChart, no values (Entry) should have the same
+        // xIndex (even if from different DataSets), since no values can be
+        // drawn above each other.
+        ArrayList<Entry> yvalues = new ArrayList<Entry>();
+
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "Percents");
+
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        xVals.add("PORCENTAJE X");
+        xVals.add("PORCENTAJE Y");
+
+
+        PieData data = new PieData(xVals, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        pieChart.setData(data);
+        pieChart.setDescription("This is Percent ");
+
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(10f);
+        pieChart.setHoleRadius(10f);
+
+        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+        data.setValueTextSize(8f);
+        data.setValueTextColor(Color.WHITE);
+        pieChart.setOnChartValueSelectedListener(this);
+
+        pieChart.animateXY(1400, 1400);
+
+
+
         ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
         cardViewStats                = (CardView) view.findViewById(R.id.cardView_stats);
@@ -123,6 +169,8 @@ public class DiseaseDetailFragment extends BaseFragment {
                 lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
                 lblStats.setText(stats);
                 thermometer.setPercent((float)disease.getMatchPercentage());
+                yvalues.add(new Entry( (float) disease.getMatchPercentage(), 0));
+                yvalues.add(new Entry((float) disease.getMatchPercentage(), 1));
             }else{
                 lblDiseasePercentage.setVisibility(View.INVISIBLE);
                 cardViewStats.setVisibility(View.GONE);
@@ -139,7 +187,20 @@ public class DiseaseDetailFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
 
+        if (e == null)
+            return;
+        Log.i("VAL SELECTED",
+                "Value: " + e.getVal() + ", xIndex: " + e.getXIndex()
+                        + ", DataSet index: " + dataSetIndex);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i("PieChart", "nothing selected");
+    }
     private void addToHistory(){
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
         String date = df.format(Calendar.getInstance().getTime());

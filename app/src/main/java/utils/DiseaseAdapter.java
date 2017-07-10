@@ -123,7 +123,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         Log.d("id guardado : ", "======== " + id_category);
         if (id_category > 0 && id_category < lstIcons.size()) {
             holder.imgDisease.setImageResource(lstIcons.get(id_category - 1));
-            //Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1));
+           Log.d("id guardado : ","mostrado ======== "+id_category+" w "+lstIcons.get(id_category-1));
             //holder.imgDisease.setImageBitmap(lstIcons.get(id_category-1));
         }
 

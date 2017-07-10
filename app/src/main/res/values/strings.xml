@@ -53,6 +53,6 @@
     <string name="dialog_message">
         contenido:
     </string>
-
+    <string name="pie_chart">Pie Chart con mpAndroidChartLibrery</string>
 
 </resources>
