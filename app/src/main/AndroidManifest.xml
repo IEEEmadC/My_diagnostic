@@ -24,7 +24,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DownloadActivity">
+        <activity android:name=".DownloadActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".MainActivity"
@@ -38,7 +39,8 @@
         <activity android:name=".FragmentsIntro.LauncherActivity">
 
         </activity>
-        <activity android:name=".UserDataActivity">
+        <activity android:name=".UserDataActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <meta-data
