@@ -142,8 +142,8 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
                 String stats="Local match percentage : "+decimal.format(disease.getMatchPercentage())+"%\n";
                 stats+="Global match percentage : "+decimal.format(disease.getGlobalMatchPercentage())+"%";
                 lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
-                lblStats.setText(stats);
-                thermometer.setPercent((float)disease.getMatchPercentage());
+                //lblStats.setText(stats);
+                //thermometer.setPercent((float)disease.getMatchPercentage());
                 //Chart Symptoms Found
                 PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
                 ChartSymptomFound((float)disease.getGlobalMatchPercentage() ,pieChart);
@@ -165,18 +165,16 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
 
     ArrayList<Entry> yvalues = new ArrayList<Entry>();
      float value=(100f-p1);
-    yvalues.add(new Entry( value, 0));
-    yvalues.add(new Entry(p1,1));
+    yvalues.add(new Entry( p1, 0));
+    yvalues.add(new Entry(value,1));
     PieDataSet dataSet = new PieDataSet(yvalues, " ");
     ArrayList<String> xVals = new ArrayList<String>();
-    xVals.add("Symptoms Found");
-    xVals.add("Symptoms Not Found");
+    xVals.add("Match");
+    xVals.add("Not Match");
     PieData data = new PieData(xVals, dataSet);
     data.setValueFormatter(new PercentFormatter());
     pieChart.setData(data);
-    pieChart.setDescriptionPosition(335,14);
-    pieChart.setDescriptionTextSize(11);
-
+    pieChart.setDescription(" ");
     pieChart.setDrawHoleEnabled(true);
     pieChart.setTransparentCircleRadius(35f);
     pieChart.setHoleRadius(15f);
@@ -191,17 +189,16 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
 
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         float value=(100f-p1);
-        yvalues.add(new Entry( value, 0));
-        yvalues.add(new Entry(p1,1));
+        yvalues.add(new Entry( p1, 0));
+        yvalues.add(new Entry(value,1));
         PieDataSet dataSet = new PieDataSet(yvalues, " ");
         ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("Symptoms Match ");
-        xVals.add("Symptoms Not Match");
+        xVals.add("Match ");
+        xVals.add("Not Match");
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
         pieChart.setData(data);
-        pieChart.setDescriptionPosition(335,14);
-        pieChart.setDescriptionTextSize(11);
+        pieChart.setDescription(" ");
         pieChart.setDrawHoleEnabled(true);
         pieChart.setTransparentCircleRadius(35f);
         pieChart.setHoleRadius(15f);

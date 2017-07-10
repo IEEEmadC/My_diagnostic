@@ -182,8 +182,8 @@
                 <LinearLayout
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:layout_marginBottom="2dp"
@@ -200,9 +200,24 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:textAlignment="center"
-                        android:text="Title Chart1"
+                        android:text="Percentage of match with disease"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:id="@+id/piechart2"
+                        android:layout_width="260dp"
+                        android:layout_height="260dp"/>
+                    <TextView
+                        android:textAlignment="center"
+                        android:text="Percentage of match of all added symptoms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold"
+                        />
 
                     <com.github.mikephil.charting.charts.PieChart
                         android:layout_gravity="bottom|center_horizontal"
@@ -210,16 +225,7 @@
                         android:id="@+id/piechart"
                         android:layout_width="240dp"
                         android:layout_height="240dp"/>
-                    <TextView
-                        android:textAlignment="center"
-                        android:text="Title Chart2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:id="@+id/piechart2"
-                        android:layout_width="260dp"
-                        android:layout_height="260dp"/>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
