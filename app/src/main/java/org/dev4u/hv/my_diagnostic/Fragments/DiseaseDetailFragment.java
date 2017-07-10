@@ -93,7 +93,7 @@ public class DiseaseDetailFragment extends BaseFragment {
 
             String content = "My diagnostic suggested this condition on the basis of the following ";
             if(getArguments().getBoolean("SEARCH",false)) {
-                content+="symptoms (match "+DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms().size()+") :\n";
+                content+="symptoms (match "+disease.getSymptoms_match()+") :\n";
             }else{
                 content+="symptoms :\n";
             }
@@ -103,11 +103,10 @@ public class DiseaseDetailFragment extends BaseFragment {
                 int start  = content.indexOf("(")+1;
                 int end    = content.indexOf(")");
                 sb.setSpan(new ForegroundColorSpan(Color.BLUE), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
                 for(Symptom s:DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms()){
                     start   = content.indexOf(s.getSymptom());
                     end     = start+s.getSymptom().length();
-                    sb.setSpan(new ForegroundColorSpan(Color.BLUE), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    if(start>1) sb.setSpan(new ForegroundColorSpan(Color.BLUE), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
             }
