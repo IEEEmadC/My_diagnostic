@@ -178,7 +178,7 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
     pieChart.setDrawHoleEnabled(true);
     pieChart.setTransparentCircleRadius(35f);
     pieChart.setHoleRadius(15f);
-    dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+    dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
     data.setValueTextSize(9f);
     data.setValueTextColor(Color.DKGRAY);
     pieChart.setOnChartValueSelectedListener(this);
