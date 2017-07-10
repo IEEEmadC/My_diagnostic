@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,47 +37,42 @@ public class LocalDatabase {
     private Context context;
     private Gson gson;
     private Database db;
-    private TextView textView;
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editorPreferences;
     Handler handler = new Handler();
-    int mRequestCount = 6;//se llenan 6 tablas
+    int mRequestCount = 6;//six tables to fill the database
     CountDownLatch requestCountDown = new CountDownLatch(mRequestCount);
     private Thread checkQueueThread;
     private AlertDialog alertDialog;
+    private Button button;
+    private CoordinatorLayout coordinatorLayout;
+    private boolean downloadFinished;
 
-    public LocalDatabase(Context context){
-        this.context = context;
-        gson = new Gson();
-        db = new Database(this.context);
-        preferences = context.getSharedPreferences("Data", Context.MODE_PRIVATE);
-        editorPreferences = preferences.edit();
+    public LocalDatabase(Context context,Button button,CoordinatorLayout coordinatorLayout){
+        this.context    = context;
+        gson            = new Gson();
+        db              = new Database(this.context);
+        this.button     = button;
+        this.coordinatorLayout = coordinatorLayout;
         initDialog();
     }
 
-
-
     private void checkQueue(){
-
         checkQueueThread = new Thread(new Runnable() {
             boolean interrupted=false;
             public void run() {
                 try {
                     requestCountDown.await();
+                    downloadFinished=false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     interrupted=true;
+                    downloadFinished=false;
                 }
                 handler.post(new Runnable() {
                     public void run() {
                         if(!interrupted) {
-                            Toast.makeText(context, "Symptom insertados " + db.getSymptoms().getCount(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "Disease insertados " + db.getDiseases().getCount(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "SymptomDisease insertados " + db.getDiseasesSymptoms().getCount(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "Paises insertados " + db.getCountry().getCount(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "Bloodtypes insertados " + db.getBloodType().getCount(), Toast.LENGTH_SHORT).show();
-
-                            textView.setText("Finalizado");
+                            downloadFinished=true;
+                            button.setText("Continue");
+                            Snackbar.make(coordinatorLayout,"Download finished",Snackbar.LENGTH_SHORT).show();
                             if (alertDialog.isShowing()) alertDialog.dismiss();
                         }
                     }
@@ -110,23 +108,17 @@ public class LocalDatabase {
     }
 
     public void initDatabase(){
-        int status = preferences.getInt("STATUS",0);
-        //if status equals zero is the first time
-        if(status==0){
-            textView.setText("Iniciando descarga");
-            checkQueue();
-            deleteData();
+        Snackbar.make(coordinatorLayout,"Download started",Snackbar.LENGTH_SHORT).show();
+        button.setText("Downloading...");
+        checkQueue();
+        deleteData();
 
-            getCountry();
-            getBloodType();
-            getDiseaseCategory();
-            getSymptoms();
-            getDisease();
-            getSymptomsDisease();
-            //aqui seguiria actualizar a status 1 que significa que ya esta guardada la bd
-        }else{
-            textView.setText("Ya esta actualizado");
-        }
+        getCountry();
+        getBloodType();
+        getDiseaseCategory();
+        getSymptoms();
+        getDisease();
+        getSymptomsDisease();
     }
 
     private void hasError(){
@@ -145,7 +137,6 @@ public class LocalDatabase {
 
 
     public void getCountry() {
-        // Petición GET
         VolleySingleton.
                 getInstance(context).
                 addToRequestQueue(
@@ -162,7 +153,7 @@ public class LocalDatabase {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        hasError();;
+                                        hasError();
                                     }
                                 }
 
@@ -173,32 +164,18 @@ public class LocalDatabase {
     private void saveCountry(JSONObject response) {
         try {
             String estado = response.getString("estado");
-
             switch (estado) {
-                case "1": // EXITO
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("multitable");
                     Country[] countries = gson.fromJson(mensaje.toString(), Country[].class);
                     for (Country s:countries) {
                         String n = s.getName_country().replaceAll("'","''");
                         db.saveCountry(s.getId_country(),n,s.getShort_name());
-                        Log.d("Insercion","id_country : "+s.getId_country()+" nombre :"+s.getName_country());
-                    }
-                    Cursor c = db.getCountry();
-                    c.moveToFirst();
-                    String contenido="";
-                    if(c != null && c.getCount() > 0){
-                        c.moveToFirst();
-                        do{
-                            //do logic with cursor.
-                            Log.d("Cursor : "+c.getPosition(),"id country : "+c.getString(0)+" nombre : "+c.getString(1));
-                        }while(c.moveToNext());
-                    }else{
-                        Log.d("Cursor: ","vacio");
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
-                    hasError();;
+                case "2": // FAIL
+                    hasError();
                     break;
             }
         } catch (JSONException e) {
@@ -208,7 +185,6 @@ public class LocalDatabase {
     }
     //bloodtype
     public void getBloodType() {
-        // Petición GET
         VolleySingleton.
                 getInstance(context).
                 addToRequestQueue(
@@ -225,7 +201,7 @@ public class LocalDatabase {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        hasError();;
+                                        hasError();
                                     }
                                 }
 
@@ -235,32 +211,17 @@ public class LocalDatabase {
 
     private void saveBloodType(JSONObject response) {
         try {
-            String estado = response.getString("estado");
-
-            switch (estado) {
-                case "1": // EXITO
+            switch (response.getString("estado")) {
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("multitable");
                     Bloodtype[] bloodtypes = gson.fromJson(mensaje.toString(), Bloodtype[].class);
                     for (Bloodtype s:bloodtypes) {
                         db.saveBloodType(s.getId_bloodtype(),s.getBloodtype());
-                        Log.d("Insercion","id_bloodtype: "+s.getId_bloodtype()+" nombre :"+s.getBloodtype());
-                    }
-                    Cursor c = db.getBloodType();
-                    c.moveToFirst();
-                    String contenido="";
-                    if(c != null && c.getCount() > 0){
-                        c.moveToFirst();
-                        do{
-                            //do logic with cursor.
-                            Log.d("Cursor : "+c.getPosition(),"id bloodtype : "+c.getString(0)+" nombre : "+c.getString(1));
-                        }while(c.moveToNext());
-                    }else{
-                        Log.d("Cursor: ","vacio");
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
-                    hasError();;
+                case "2": // FAIL
+                    hasError();
                     break;
             }
         } catch (JSONException e) {
@@ -270,7 +231,6 @@ public class LocalDatabase {
     }
 
     public void getDiseaseCategory() {
-        // Petición GET
         VolleySingleton.
                 getInstance(context).
                 addToRequestQueue(
@@ -287,7 +247,7 @@ public class LocalDatabase {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        hasError();;
+                                        hasError();
                                     }
                                 }
 
@@ -297,34 +257,19 @@ public class LocalDatabase {
 
     private void saveDiseasesCategory(JSONObject response) {
         try {
-            String estado = response.getString("estado");
-
-            switch (estado) {
-                case "1": // EXITO
+            switch (response.getString("estado")) {
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("diseases_category");
                     Diseases_category[] diseases_categories = gson.fromJson(mensaje.toString(), Diseases_category[].class);
                     for (Diseases_category s:diseases_categories) {
                         String n = s.getCategory_name().replaceAll("'","''");
                         String d = s.getCategory_description().replaceAll("'","''");
                         db.saveDiseaseCategory(s.getId_disease_category(),n,d);
-                        Log.d("Insercion","id_disease_category : "+s.getId_disease_category()+" nombre :"+s.getCategory_name());
-                    }
-                    Cursor c = db.getDiseases_category();
-                    c.moveToFirst();
-                    String contenido="";
-                    if(c != null && c.getCount() > 0){
-                        c.moveToFirst();
-                        do{
-                            //do logic with cursor.
-                            Log.d("Cursor : "+c.getPosition(),"id_disease_category : "+c.getString(0)+" nombre : "+c.getString(1));
-                        }while(c.moveToNext());
-                    }else{
-                        Log.d("Cursor: ","vacio");
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
-                    hasError();;
+                case "2": // FAIL
+                    hasError();
                     break;
             }
         } catch (JSONException e) {
@@ -334,7 +279,6 @@ public class LocalDatabase {
     }
 
     public void getSymptoms() {
-        // Petición GET
         VolleySingleton.
                 getInstance(context).
                 addToRequestQueue(
@@ -345,7 +289,6 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        // Procesar la respuesta Json
                                         saveSymptoms(response);
                                     }
                                 },
@@ -362,21 +305,17 @@ public class LocalDatabase {
 
     private void saveSymptoms(JSONObject response) {
         try {
-            // Obtener atributo "estado"
-            String estado = response.getString("estado");
-
-            switch (estado) {
-                case "1": // EXITO
+            switch (response.getString("estado")) {
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("symptoms");
-                    Symptom[] symptom = gson.fromJson(mensaje.toString(), Symptom[].class); //solo tabla sintomas
+                    Symptom[] symptom = gson.fromJson(mensaje.toString(), Symptom[].class);
                     for (Symptom s:symptom) {
                         db.saveSymptom(s.getid_symptom(),s.getSymptom());
-                        Log.d("Insercion","id_simptom : "+s.getid_symptom()+" sintoma :"+s.getSymptom());
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
-                    hasError();;
+                case "2": // FAIL
+                    hasError();
                     break;
             }
         } catch (JSONException e) {
@@ -386,7 +325,6 @@ public class LocalDatabase {
     }
 
     public void getDisease() {
-        // Petición GET
         VolleySingleton.
                 getInstance(context).
                 addToRequestQueue(
@@ -403,44 +341,28 @@ public class LocalDatabase {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        hasError();;
+                                        hasError();
                                     }
                                 }
-
                         )
                 );
     }
 
     private void saveDiseases(JSONObject response) {
         try {
-            String estado = response.getString("estado");
-
-            switch (estado) {
-                case "1": // EXITO
+            switch (response.getString("estado")) {
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("diseases");
                     Disease[] diseases = gson.fromJson(mensaje.toString(), Disease[].class);
                     for (Disease s:diseases) {
                         String n = s.getName_disease().replaceAll("'","''");
                         String d = s.getDescription().replaceAll("'","''");
                         db.saveDisease(s.getId_disease(),n,d,s.getId_disease_category());
-                        Log.d("Insercion","id_disease : "+s.getId_disease()+" nombre :"+s.getName_disease()+" cat "+s.getId_disease_category());
-                    }
-                    Cursor c = db.getDiseases();
-                    c.moveToFirst();
-                    String contenido="";
-                    if(c != null && c.getCount() > 0){
-                        c.moveToFirst();
-                        do{
-                            //do logic with cursor.
-                            Log.d("Cursor : "+c.getPosition(),"id_disease : "+c.getString(0)+" nombre : "+c.getString(1));
-                        }while(c.moveToNext());
-                    }else{
-                        Log.d("Cursor: ","vacio");
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
-                    hasError();;
+                case "2": // FAIL
+                    hasError();
                     break;
             }
         } catch (JSONException e) {
@@ -466,39 +388,25 @@ public class LocalDatabase {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        hasError();;
+                                        hasError();
                                     }
                                 }
-
                         )
                 );
     }
 
     private void saveSymptomsDisease(JSONObject response) {
         try {
-            String estado = response.getString("estado");
-            switch (estado) {
-                case "1": // EXITO
+            switch (response.getString("estado")) {
+                case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("multitable");
                     SymptomDisease[] symptomdiseases = gson.fromJson(mensaje.toString(), SymptomDisease[].class);
                     for (SymptomDisease s:symptomdiseases) {
                         db.saveSymptomDisease(s.getId_sympdiseases(),s.getId_diseases(),s.getId_symptom());
-                        Log.d("Insercion","id_disease : "+s.getId_diseases()+" id_symptom :"+s.getId_symptom());
-                    }
-                    Cursor c = db.getDiseasesSymptoms();
-                    c.moveToFirst();
-                    String contenido="";
-                    if(c != null && c.getCount() > 0){
-                        c.moveToFirst();
-                        do{
-                            Log.d("Cursor : "+c.getPosition(),"id_disease : "+c.getString(0)+" id_symptom : "+c.getString(1));
-                        }while(c.moveToNext());
-                    }else{
-                        Log.d("Cursor: ","vacio");
                     }
                     requestCountDown.countDown();
                     break;
-                case "2": // FALLIDO
+                case "2": // FAIL
                     hasError();
                     break;
             }
@@ -507,16 +415,7 @@ public class LocalDatabase {
         }
 
     }
-
-
-
-
-
-    public TextView getTextView() {
-        return textView;
-    }
-
-    public void setTextView(TextView lblEstado) {
-        this.textView = lblEstado;
+    public boolean isDownloadFinished() {
+        return downloadFinished;
     }
 }

@@ -96,7 +96,12 @@ public class DiseaseUtilitesSingleton {
     public void fillData(){
         Cursor diseaseCursor = db.getDiseases();
         Cursor allSymptomsCursor = db.getSymptoms();
-        Cursor medicalHistoryCursor = db.getMedicalHistory(user.getUsername());
+        Cursor medicalHistoryCursor;
+        //ERROR
+        if(user!=null)
+            medicalHistoryCursor = db.getMedicalHistory(user.getUsername());
+        else
+            medicalHistoryCursor = db.getMedicalHistory("");
 
         diseaseCursor.moveToFirst();
         allSymptomsCursor.moveToFirst();

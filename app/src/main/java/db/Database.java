@@ -184,21 +184,17 @@ public class Database {
 
     void deleteData(){
         dbHelper.getWritableDatabase().execSQL("delete from symptoms");
-        dbHelper.getWritableDatabase().execSQL("delete from User_system");
-        dbHelper.getWritableDatabase().execSQL("delete from medicalhistory");
+        //dbHelper.getWritableDatabase().execSQL("delete from User_system");
+        //dbHelper.getWritableDatabase().execSQL("delete from medicalhistory");
         dbHelper.getWritableDatabase().execSQL("delete from symptoms_diseases");
         dbHelper.getWritableDatabase().execSQL("delete from diseases");
         dbHelper.getWritableDatabase().execSQL("delete from diseases_category");
         dbHelper.getWritableDatabase().execSQL("delete from country");
         dbHelper.getWritableDatabase().execSQL("delete from allergies");
         dbHelper.getWritableDatabase().execSQL("delete from bloodtype");
-        dbHelper.getWritableDatabase().execSQL("delete from database_version");
+        //dbHelper.getWritableDatabase().execSQL("delete from database_version");
     }
-    /*public void saveUser(SingleUser user){
-        //dbHelper.getWritableDatabase().insertWithOnConflict();
-    }*/
     public DBHelper getDbHelper() {
         return dbHelper;
     }
-
 }

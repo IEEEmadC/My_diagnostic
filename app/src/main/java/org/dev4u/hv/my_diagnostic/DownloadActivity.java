@@ -1,8 +1,11 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,45 +22,59 @@ public class DownloadActivity extends AppCompatActivity {
     private ImageView hearth;
     private AnimatedVectorDrawable hearthAnim;
     private Button btnDownload;
-    private Database db;
-    Handler handler = new Handler();
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editorPreferences;
+    private AnimatedVectorDrawable animDrawable;
+    private CoordinatorLayout coordinatorLayout;
+    private int status;
+    private boolean functionCalled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
-        findViewById(R.id.activity_test);
+        findViewById(R.id.activity_download);
 
-        btnDownload = (Button) findViewById(R.id.btnDownload);
+        //is first time
+        preferences         = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editorPreferences   = preferences.edit();
+        status              = preferences.getInt("STATUS",0);
+        //views
+        btnDownload         = (Button) findViewById(R.id.btnDownload);
+        coordinatorLayout   = (CoordinatorLayout) findViewById(R.id.activity_download);
+        //prepare for download
+        localDatabase = new LocalDatabase(this,btnDownload,coordinatorLayout);
+        functionCalled=false;
 
         //animation
-        hearth = (ImageView)findViewById(R.id.pulse);
-        hearthAnim = ((AnimatedVectorDrawable) ((ImageView)findViewById(R.id.pulse)).getDrawable());
-        AnimatedVectorDrawable d = (AnimatedVectorDrawable) getDrawable(R.drawable.hearth_pulse_animation);
-        hearth.setImageDrawable(d);
-        d.start();
-
-
-        localDatabase = new LocalDatabase(this);
-
+        hearth              = (ImageView)findViewById(R.id.pulse);
+        hearthAnim          = ((AnimatedVectorDrawable) ((ImageView)findViewById(R.id.pulse)).getDrawable());
+        animDrawable        = (AnimatedVectorDrawable) getDrawable(R.drawable.hearth_pulse_animation);
+        hearth.setImageDrawable(animDrawable);
+        animDrawable.start();
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                test();
+                next();
             }
         });
 
     }
 
-    public void test(){
-
-        Intent i = new Intent(this,MainActivity.class);
-        startActivity(i);
-        //localDatabase.deleteData();
-        //localDatabase.getSymptoms();
-        //localDatabase.getDisease();
-        //localDatabase.getSymptomsDisease();
-        //localDatabase.setTextView( (TextView)findViewById(R.id.lblPrueba) );
-        //localDatabase.initDatabase();
-        //como se ejecuta en un hilo hay que esperar a que haya terminado
+    public void next(){
+        //just one call
+        if(!functionCalled){
+            localDatabase.initDatabase();
+            functionCalled=true;
+        }
+        if(localDatabase.isDownloadFinished()){
+            if(status==0){
+                Intent i = new Intent(this,UserDataActivity.class);
+                startActivity(i);
+                this.finish();
+            }else{
+                this.finish();
+            }
+        }
     }
 }

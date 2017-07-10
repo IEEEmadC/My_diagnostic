@@ -57,10 +57,12 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         // (R.anim.slide_int_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build())
         savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
         editSavedData = savedData.edit();
-        boolean initial = savedData.getBoolean("Initial",true);
-        if(initial){
-            Intent gotoMain = new Intent(this,LauncherActivity.class);
-            startActivity(gotoMain);
+        int initial = savedData.getInt("STATUS",0);
+        if(initial==0){
+            Intent gotoBeginning = new Intent(this,DownloadActivity.class);
+            startActivity(gotoBeginning);
+        }else{
+
         }
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.selectTabAtPosition(0);
