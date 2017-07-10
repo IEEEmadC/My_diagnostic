@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import org.dev4u.hv.my_diagnostic.R;
 import org.dev4u.hv.my_diagnostic.Thermometer;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,8 +46,11 @@ public class DiseaseDetailFragment extends BaseFragment {
     private TextView lblAddToHistory;
     private TextView lblSymptomsList;
     private TextView lblDetailSymptomsCount;
+    private TextView lblStats;
     private String id_disease;
     private CoordinatorLayout coordinatorLayout;
+    private CardView cardViewStats;
+    private Thermometer thermometer;
 
     public DiseaseDetailFragment() {
         // Required empty public constructor
@@ -61,17 +66,20 @@ public class DiseaseDetailFragment extends BaseFragment {
         t.setPercent(80);
         ArrayList<String> symptomsWrite = null;
         if(getArguments()!=null) id_disease = getArguments().getString("ID_DISEASE");
+        cardViewStats                = (CardView) view.findViewById(R.id.cardView_stats);
         lblSymptomsList         = (TextView) view.findViewById(R.id.lblSymptomsList);
         lblDiseaseName          = (TextView) view.findViewById(R.id.lblDetailDiseaseName);
         lblDiseaseCategory      = (TextView) view.findViewById(R.id.lblDetailCategory);
         lblDiseaseDescription   = (TextView) view.findViewById(R.id.lblDetailDescription);
         lblAddToHistory         = (TextView) view.findViewById(R.id.lblAddToHistory);
         lblDetailSymptomsCount  = (TextView) view.findViewById(R.id.lblDetailSymptomsCount);
+        lblDiseasePercentage    = (TextView) view.findViewById(R.id.lblDetailPercentage);
+        lblStats                = (TextView) view.findViewById(R.id.lblStats);
+        thermometer             = (Thermometer) view.findViewById(R.id.thermometerDisease);
         coordinatorLayout       = (CoordinatorLayout) view.findViewById(R.id.frm_detail_disease);
 
 
         Disease disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
-
 
 
 
@@ -100,6 +108,7 @@ public class DiseaseDetailFragment extends BaseFragment {
             content+=list;
             Spannable sb = new SpannableString(content);
             if(getArguments().getBoolean("SEARCH",false)){
+                cardViewStats.setVisibility(View.VISIBLE);
                 int start  = content.indexOf("(")+1;
                 int end    = content.indexOf(")");
                 sb.setSpan(new ForegroundColorSpan(Color.BLUE), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -108,7 +117,17 @@ public class DiseaseDetailFragment extends BaseFragment {
                     end     = start+s.getSymptom().length();
                     if(start>1) sb.setSpan(new ForegroundColorSpan(Color.BLUE), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
-
+                DecimalFormat decimal = new DecimalFormat("###.##");
+                String stats="Local match percentage : "+decimal.format(disease.getMatchPercentage())+"%\n";
+                stats+="Global match percentage : "+decimal.format(disease.getGlobalMatchPercentage())+"%";
+                lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
+                lblStats.setText(stats);
+                thermometer.setPercent((float)disease.getMatchPercentage());
+            }else{
+                lblDiseasePercentage.setVisibility(View.INVISIBLE);
+                cardViewStats.setVisibility(View.INVISIBLE);
+                thermometer.setVisibility(View.INVISIBLE);
+                //((ViewGroup)view.getParent()).removeView(cardViewStats);
             }
             lblSymptomsList.setText(sb);
         }
@@ -119,6 +138,7 @@ public class DiseaseDetailFragment extends BaseFragment {
         );
         return view;
     }
+
 
     private void addToHistory(){
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");

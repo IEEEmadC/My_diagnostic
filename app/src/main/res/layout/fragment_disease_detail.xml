@@ -62,7 +62,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:therm_color="@android:color/holo_blue_light"
-                            android:id="@+id/thermometer2"
+                            android:id="@+id/thermometerDisease"
                             android:adjustViewBounds="true"
                             android:scaleType="fitCenter"
                             android:scaleY="1"
@@ -138,7 +138,7 @@
                         android:layout_marginBottom="5dp"
                         android:id="@+id/lblDetailDescription"
                         android:textSize="15sp"
-                        android:text="Description: Typical lupus features include a butterfly-shaped rash on the cheeks, a rash that appears on areas exposed to the sun, mouth and nose sores, arthritis affecting one or more joints, kidney inflammation, neurological disorders Such as headaches, personality changes, organic brain syndrome, peripheral neuropathies, sensory neuropathy, psychological problems such as paranoia, mania and schizophrenia, seizures, transverse myelitis, paralysis, and stroke. Other symptoms that can cause lupus are fever, weight loss, hair loss, poor circulation in the fingers and toes, chest pain when breathing deeply, and abdominal pain. The symptoms of lupus vary from person to person. While some people have only a few symptoms, others may show many more. These signals may appear and disappear. . You may notice that your symptoms intensify after being exposed to the sun or after a hard day's work."
+                        android:text="Description: Typical lupus features include a butterfly-shaped rash on the cheeks, a rash that appears on areas exposed to the sun, me per and disappear. fy after being exposed to the sun or after a hard day's work."
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="serif"
@@ -169,6 +169,32 @@
                         android:layout_marginBottom="5dp"
                         android:textSize="15sp"
                         android:id="@+id/lblSymptomsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_stats"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stats"
+                        android:textAlignment="center"
+                        android:textSize="22sp"/>
+                    <TextView
+                        android:layout_marginBottom="5dp"
+                        android:textSize="15sp"
+                        android:id="@+id/lblStats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

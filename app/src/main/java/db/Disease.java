@@ -13,10 +13,11 @@ public class Disease{
     String name_disease;
     String description;
     ArrayList<Symptom> symptoms;
-    double matchPercentage;
+    double matchPercentage=0;
     int symptoms_match;
     String id_disease_category;
     String category_name;
+    double globalMatchPercentage=0;
     public Disease(String id, String name, String description,String id_disease_category, ArrayList<Symptom> symptoms) {
         this.id_disease = id;
         this.name_disease = name;
@@ -42,8 +43,18 @@ public class Disease{
             for(int j=0;j<symptoms.size();j++) if(input.get(i).equals(symptoms.get(j).getSymptom())) matches++;
         }
         this.symptoms_match=(int)matches;
-        matchPercentage = (100*matches)/(symptoms.size()*1.0);
+        matchPercentage = (100.0*matches)/(symptoms.size()*1.0);
+        globalMatchPercentage = (100.0*matches)/(input.size()*1.0);
         return matchPercentage;
+    }
+
+
+    public double getGlobalMatchPercentage() {
+        return globalMatchPercentage;
+    }
+
+    public void setGlobalMatchPercentage(double globalMatchPercentage) {
+        this.globalMatchPercentage = globalMatchPercentage;
     }
 
     public double getMatchPercentage() {
