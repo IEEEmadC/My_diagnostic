@@ -356,8 +356,11 @@ public class UserDataActivity extends AppCompatActivity {
         //hideProgressDialog();
         Log.d("STATUS","=======================  "+status);
         if(status==0){
+
             editorPreferences.putInt("STATUS",1);//status saved
             editorPreferences.commit();
+            Intent gotoBeginning = new Intent(this,MainActivity.class);
+            startActivity(gotoBeginning);
             this.finish();
         }else{
             setResult(RESULT_FROM_MAIN);
