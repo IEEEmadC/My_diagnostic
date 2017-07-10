@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_margin="5dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -41,7 +40,7 @@
                         android:id="@+id/lblDetailDiseaseName"
                         android:text="Carpal Tunel Symdrome"
                         android:typeface="serif"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -101,10 +100,10 @@
                         android:layout_marginLeft="4dp"
                         android:textColor="@color/colorAccent"
                         android:id="@+id/lblDetailCategory"
-                        android:text="Category: Liver Diseases"
+                        android:text="Liver Diseases"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:textAlignment="center"
                         android:layout_below="@+id/lblAddToHistory"
                         android:layout_alignParentStart="true" />
@@ -116,26 +115,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_width="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:text="Description"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
                         />
 
-                    <views.JustifyTextView
-                        android:layout_marginBottom="3dp"
+                    <TextView
+                        android:layout_marginBottom="5dp"
                         android:id="@+id/lblDetailDescription"
-                        android:layout_marginLeft="5dp"
-                        android:paddingRight="5dp"
                         android:textSize="15sp"
                         android:text="Description: Typical lupus features include a butterfly-shaped rash on the cheeks, a rash that appears on areas exposed to the sun, mouth and nose sores, arthritis affecting one or more joints, kidney inflammation, neurological disorders Such as headaches, personality changes, organic brain syndrome, peripheral neuropathies, sensory neuropathy, psychological problems such as paranoia, mania and schizophrenia, seizures, transverse myelitis, paralysis, and stroke. Other symptoms that can cause lupus are fever, weight loss, hair loss, poor circulation in the fingers and toes, chest pain when breathing deeply, and abdominal pain. The symptoms of lupus vary from person to person. While some people have only a few symptoms, others may show many more. These signals may appear and disappear. . You may notice that your symptoms intensify after being exposed to the sun or after a hard day's work."
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="serif"
                         android:typeface="monospace" />
@@ -148,22 +150,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/lblDetailSymptomsCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
                         android:text="Symptoms"
                         android:textAlignment="center"
-                        android:textSize="22dp"/>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_disease_detail"
+                        android:textSize="22sp"/>
+                    <TextView
+                        android:layout_marginBottom="5dp"
+                        android:textSize="15sp"
+                        android:id="@+id/lblSymptomsList"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
