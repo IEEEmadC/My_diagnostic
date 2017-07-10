@@ -1,8 +1,6 @@
-package  org.dev4u.hv.my_diagnostic;
+package org.dev4u.hv.my_diagnostic.Fragments;
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,11 +35,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.dev4u.hv.my_diagnostic.CustomInfoWindowAdapter;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.GooglePlacesReadTask;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.NearbyPlaces;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.Place;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
+import org.dev4u.hv.my_diagnostic.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.List;
 import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 
-public class MapFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
+public class MapFragment extends BaseFragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
         PlacesListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowClickListener
 {
 
@@ -78,7 +79,9 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    SgoogleMap="otro_mapa";
+        //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+        SgoogleMap="otro_mapa";
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -107,6 +110,9 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
 
+        setHasOptionsMenu(true);
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if(!isNetworkAvailable(getContext()))
             Snackbar.make(rootView, "You have not Network connection", Snackbar.LENGTH_LONG)
                     .show();
@@ -229,12 +235,12 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
          * onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(this.getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this.getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
         /*
@@ -273,12 +279,12 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
          * onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(this.getActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this.getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 

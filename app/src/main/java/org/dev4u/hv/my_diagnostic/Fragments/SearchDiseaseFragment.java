@@ -71,6 +71,9 @@ public class SearchDiseaseFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_search_disease, container, false);
         setHasOptionsMenu(true);
 
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         rngMatch        = (RangeBar) view.findViewById(R.id.searchRangeBar);
         lblMinMatching  = (TextView) view.findViewById(R.id.lblMinMatchingSearch);
         btnRefresh      = (Button)   view.findViewById(R.id.btnRefreshSearch);

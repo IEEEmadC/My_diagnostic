@@ -22,6 +22,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import org.dev4u.hv.my_diagnostic.Fragments.BaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.DiseaseFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.HistoryFragment;
+import org.dev4u.hv.my_diagnostic.Fragments.MapFragment;
 import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 import org.dev4u.hv.my_diagnostic.FragmentsIntro.LauncherActivity;
 
@@ -122,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         switch (item.getItemId()) {
             case R.id.action_settings:
                 goToSettings();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

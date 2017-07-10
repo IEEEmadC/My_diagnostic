@@ -4,6 +4,7 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,12 @@ public class HistoryDetailFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_history_detail, container, false);
+
+
+        setHasOptionsMenu(true);
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         id              = getArguments().getString("ID_HISTORY");
         lblDate         = (TextView)view.findViewById(R.id.lblDateHistory);
         txtTitle        = (EditText)view.findViewById(R.id.txtTitleHistory);
