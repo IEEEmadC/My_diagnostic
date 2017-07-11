@@ -65,12 +65,13 @@ public class HistoryFragment extends BaseFragment {
     private ImageView hearth;
     private AnimatedVectorDrawable hearthAnim;
     private Bitmap activePicture;
-    private ImageView imageViewDialog;
+    private ImageView imageFlag;
     private CircleImageView circleImageView;
     private User user;
     private TextView lblUsername;
     private TextView lblBirtday;
     private TextView lblBloodtype;
+    private TextView lblRecordCount;
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editorPreferences;
@@ -96,24 +97,27 @@ public class HistoryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_history, container, false);
+        view            = inflater.inflate(R.layout.fragment_history, container, false);
 
         //remove home button
         setHasOptionsMenu(true);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //animation
-        hearth = (ImageView)view.findViewById(R.id.pulse);
-        hearthAnim = ((AnimatedVectorDrawable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
+        hearth          = (ImageView)view.findViewById(R.id.pulse);
+        hearthAnim      = ((AnimatedVectorDrawable) ((ImageView) view.findViewById(R.id.pulse)).getDrawable());
         //controls
 
-        activePicture = ((BitmapDrawable) getActivity().getBaseContext().getDrawable(R.drawable.ic_profile)).getBitmap();
+        activePicture   = ((BitmapDrawable) getActivity().getBaseContext().getDrawable(R.drawable.ic_profile)).getBitmap();
         circleImageView = (CircleImageView)view.findViewById(R.id.profile_image);
-        lblUsername = (TextView) view.findViewById(R.id.lblFullname);
-        lblBirtday = (TextView) view.findViewById(R.id.lblBirthday);
-        lblBloodtype = (TextView) view.findViewById(R.id.lblBloodtype);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_history);
-        btnAddHistory = (FloatingActionButton) view.findViewById(R.id.btnAddHistory);
+        imageFlag       = (ImageView) view.findViewById(R.id.imgFlag);
+        lblUsername     = (TextView) view.findViewById(R.id.lblFullname);
+        lblBirtday      = (TextView) view.findViewById(R.id.lblBirthday);
+        lblBloodtype    = (TextView) view.findViewById(R.id.lblBloodtype);
+        lblRecordCount  = (TextView) view.findViewById(R.id.lblMedicalHistoryCount);
+        recyclerView    = (RecyclerView) view.findViewById(R.id.recycler_view_history);
+        btnAddHistory   = (FloatingActionButton) view.findViewById(R.id.btnAddHistory);
+
 
         DiseaseUtilitesSingleton.getInstance().historyAdapter = new HistoryAdapter(getContext(),DiseaseUtilitesSingleton.getInstance().getMedicalHistoryList());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -121,11 +125,15 @@ public class HistoryFragment extends BaseFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(DiseaseUtilitesSingleton.getInstance().historyAdapter);
 
+        lblRecordCount.setText(""+DiseaseUtilitesSingleton.getInstance().historyAdapter.getItemCount());
 
-        //setting the profile image
-
-
-        //restartCursiveAnimation();
+        DiseaseUtilitesSingleton.getInstance().historyAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                lblRecordCount.setText(""+DiseaseUtilitesSingleton.getInstance().historyAdapter.getItemCount());
+            }
+        });
 
         AnimatedVectorDrawable d = (AnimatedVectorDrawable) getContext().getDrawable(R.drawable.hearth_pulse_animation); // Insert your AnimatedVectorDrawable resource identifier
         hearth.setImageDrawable(d);
@@ -272,7 +280,6 @@ public class HistoryFragment extends BaseFragment {
             circleImageView.setImageBitmap(activePicture);
         }
 
-
         String status = preferences.getString("USERNAME","null");
         if(!status.equals("null")){
             Log.d("User guardado ",status);
@@ -282,8 +289,8 @@ public class HistoryFragment extends BaseFragment {
             String bday = parts[2]+"/"+parts[1]+"/"+parts[0];
             lblBloodtype.setText("BloodType :"+user.getName_bloodtype());
             lblBirtday.setText("BirthDay :"+bday);
+            imageFlag.setImageResource(preferences.getInt("FLAG",R.drawable.flag_sv));
         }
     }
-
 
 }

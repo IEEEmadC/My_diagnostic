@@ -75,6 +75,7 @@ public class UserDataActivity extends AppCompatActivity {
     private RadioButton rbnMale;
     private RadioButton rbnFemale;
     private int status;
+    private int flag_id;
     //private int Flag;
 
     @Override
@@ -86,6 +87,8 @@ public class UserDataActivity extends AppCompatActivity {
         editorPreferences   = preferences.edit();
 
         status              = preferences.getInt("STATUS",0);
+
+        flag_id             = preferences.getInt("FLAG",R.drawable.flag_sv);
 
         DiseaseUtilitesSingleton.getInstance().init(this);
 
@@ -238,6 +241,7 @@ public class UserDataActivity extends AppCompatActivity {
                 if(name.contains(",")){
                     name = name.split(",")[0];
                 }
+                flag_id = flagDrawableResID;
                 btnCountry.setText(name);
                 picker.dismiss();
 
@@ -351,6 +355,10 @@ public class UserDataActivity extends AppCompatActivity {
                 btnCountry.getText().toString(),
                 btnBlood.getText().toString()
         );
+
+        //saving the flag
+        editorPreferences.putInt("FLAG",flag_id);
+        editorPreferences.commit();
 
         DiseaseUtilitesSingleton.getInstance().updateUser(user);
         //hideProgressDialog();
