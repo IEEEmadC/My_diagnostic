@@ -72,7 +72,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "id_medicalhistory INTEGER PRIMARY KEY AUTOINCREMENT,"+
             "title VARCHAR(250),"+
             "date_time TEXT,"+
-            "description VARCHAR(250) DEFAULT NULL,"+
+            "description TEXT DEFAULT NULL,"+
             "id_diseases INTEGER DEFAULT NULL,"+
             "username VARCHAR(250),"+
             "foreign key (id_diseases) references diseases (id_diseases)," +
