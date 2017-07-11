@@ -57,9 +57,9 @@
                     app:selectorSize="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tickEnd="50"
-                    app:tickInterval="1"
-                    app:tickStart="1"
+                    app:tickEnd="10000"
+                    app:tickInterval="500"
+                    app:tickStart="100"
                     app:rangeBar="false"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true" />
@@ -102,8 +102,8 @@
             <com.appyvet.rangebar.RangeBar
                 android:id="@+id/searchRangeBarMin"
                 app:pinMaxFont="15sp"
-                app:pinRadius="20dp"
-                app:selectorSize="12dp"
+                app:pinRadius="10dp"
+                app:selectorSize="9dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tickEnd="100"
