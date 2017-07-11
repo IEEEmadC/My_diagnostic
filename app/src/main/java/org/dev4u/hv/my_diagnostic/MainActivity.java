@@ -223,10 +223,12 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         }
     }
     private void goToSettings(){
-        //llenado
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent,RESULT_FROM_MAIN);
     }
     private void gotoProfile(){
         Intent intent = new Intent(this, UserDataActivity.class);
         startActivityForResult(intent,RESULT_FROM_MAIN);
     }
+
 }
