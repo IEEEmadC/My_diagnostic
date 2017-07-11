@@ -258,7 +258,7 @@ public class NearbyPlaces extends AbstractPlaces {
             }
         }
 
-        Log.e("MyPlacesUI", builder.toString());
+
         return builder.toString();
     }
 

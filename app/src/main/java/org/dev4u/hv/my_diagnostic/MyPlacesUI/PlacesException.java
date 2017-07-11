@@ -23,7 +23,7 @@ public class PlacesException extends Exception {
             statusCode = json.getString(KEY_STATUS);
             message = json.getString(KEY_STATUS);
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException while parsing PlacesException argument. Msg: " + e.getMessage());
+
         }
     }
 

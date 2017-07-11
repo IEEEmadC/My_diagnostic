@@ -21,15 +21,8 @@ public abstract class AbstractPlaces extends AsyncTask<Void, Void, List<Place>> 
     protected final String PARAM_TYPE = "type=";
     protected final String PARAM_PAGETOKEN = "pagetoken=";
     protected String PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-    /**
-     * Exception to return in callback
-     */
+
     private PlacesException exception;
-
-    /**
-     * listener callback for sending back response
-     */
-
     private List<PlacesListener> listeners;
 
     protected AbstractPlaces(PlacesListener listener) {
@@ -84,7 +77,6 @@ public abstract class AbstractPlaces extends AsyncTask<Void, Void, List<Place>> 
         }
 
     }
-
 
     public void registerListener(PlacesListener mListener) {
         if (mListener != null) {

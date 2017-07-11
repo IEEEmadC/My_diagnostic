@@ -204,7 +204,7 @@
                         />
                     <TextView
                         android:textAlignment="center"
-                        android:text="Percentage of match with disease"
+                        android:text="Matching percentage of the symptoms with the disease"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -217,7 +217,7 @@
                         />
                     <TextView
                         android:textAlignment="center"
-                        android:text="Percentage of match of all added symptoms"
+                        android:text="Matching percentage of all the added symptoms"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"

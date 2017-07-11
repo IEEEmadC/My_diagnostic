@@ -9,6 +9,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,6 +53,8 @@ import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
         PlacesListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowClickListener
+
+
 {
 
 
@@ -63,7 +67,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     private static final String TAG = android.support.v4.app.Fragment.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
-
     // The entry point to Google Play services, used by the MyPlacesJson API and Fused Location Provider.
     private GoogleApiClient mGoogleApiClient;
 
@@ -80,21 +83,28 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
-        SgoogleMap="otro_mapa";
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this.getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        SgoogleMap="other_map";
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval( 1000)
                 .setFastestInterval( 1000);
 
-        Log.d(TAG, "onCreate");
     }
+
 
     private boolean isNetworkAvailable(Context c) {
         ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -106,17 +116,32 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             return false;
 
     }
-        @Override
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                    getDeviceLocation();
+                    updateLocationUI();
+                }
+            }
+        }
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
-
         setHasOptionsMenu(true);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if(!isNetworkAvailable(getContext()))
             Snackbar.make(rootView, "You have not Network connection", Snackbar.LENGTH_LONG)
                     .show();
-
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -126,15 +151,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         MapsInitializer.initialize(this.getContext());
         mMapView.getMapAsync(this);
-        Log.d(TAG, "onCreateView");
         return rootView;
     }
     @Override
     public void onPlacesFailure(PlacesException e) {
     }
+
     @Override
     public void onPlacesStart() {
 
@@ -147,7 +171,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
         mMapView.onResume();
         setUpMap();
 
-        Log.d(TAG, "onResume");
     }
     @Override
     public void onPause() {
@@ -157,23 +180,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             mGoogleApiClient.disconnect();
         mMapView.onPause();
 
-        Log.d(TAG, "onPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
-
-        Log.d(TAG, "onDestroy");
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
-
-        Log.d(TAG, "onLowMemory");
     }
 
     @Override
@@ -198,24 +216,21 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
         else
             handleNewLocation(location);
 
-        Log.d(TAG, "onConnected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended");
+
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed");
+
     }
 
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
-
-        Log.d(TAG, "onLocationChanged");
     }
 
     private void setUpMap() {
@@ -251,7 +266,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
 
-
         }
 
         // Set the map's camera position to the current location of the device.
@@ -267,7 +281,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
-
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -287,7 +300,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-
         if (mLocationPermissionGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -298,11 +310,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
         }
     }
 
-
-
     private void handleNewLocation(Location location) {
         mMap = googleMap;
-
         getDeviceLocation();
         updateLocationUI();
         // Add a marker in Sydney and move the camera
@@ -317,8 +326,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
             myMarker = mMap.addMarker(new MarkerOptions()
-                            .position(MyLatLeng).title("I am Here")
-                            .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+                    .position(MyLatLeng).title("I am Here")
+                    .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
 
         }else{
             myMarker.setPosition(MyLatLeng);
@@ -333,28 +342,26 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
                 .keyword("clinic")
                 .build()
                 .execute();
-
     }
     @Override
-public void onPlacesSuccess(final List<Place> places) {
-    Log.i("PlacesAPI", "onPlacesSuccess()");
-    runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-            markerArrayList.clear();
-            for (Place place : places) {
-                LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                markerArrayList.add(mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(place.getName())
-                        .snippet(place.getVicinity()+"<"+place.getPlaceId())
+    public void onPlacesSuccess(final List<Place> places) {
+        Log.i("PlacesAPI", "onPlacesSuccess()");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                markerArrayList.clear();
+                for (Place place : places) {
+                    LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+                    markerArrayList.add(mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(place.getName())
+                            .snippet(place.getVicinity()+"<"+place.getPlaceId())
 
-                ));
+                    ));
+                }
             }
-        }
-    });
-
-}
+        });
+    }
     private boolean hasPermission(String permission) {
         return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
     }
@@ -362,9 +369,7 @@ public void onPlacesSuccess(final List<Place> places) {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-
     }
-
     @Override
     public void onPlacesFinished() {
 
@@ -377,7 +382,6 @@ public void onPlacesSuccess(final List<Place> places) {
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
     @Override
     public boolean onMarkerClick(Marker marker) {
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(LayoutInflater.from(getActivity())));
@@ -388,7 +392,6 @@ public void onPlacesSuccess(final List<Place> places) {
     @Override
     public void onInfoWindowClick(Marker marker) {
         try {
-
             String[] split = marker.getSnippet().split("<");
             StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
             googlePlacesUrl.append("placeid=" + split[1]);
@@ -402,7 +405,6 @@ public void onPlacesSuccess(final List<Place> places) {
         }
         catch (Exception e)
         {
-            Log.d("EXCP",e.toString());
         }
-}
+    }
 }
