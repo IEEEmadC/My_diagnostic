@@ -54,6 +54,7 @@
     <string name="dialog_message">
         contenido:
     </string>
+    <string name="share">Share with...</string>
     <string name="pie_chart">Pie Chart con mpAndroidChartLibrery</string>
 
 

@@ -1,11 +1,15 @@
 package org.dev4u.hv.my_diagnostic.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -80,5 +84,32 @@ public class HistoryDetailFragment extends BaseFragment {
         DiseaseUtilitesSingleton.getInstance().saveOrUpdateHistory(false,md);
         getActivity().onBackPressed();
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_share,menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_share:
+                share();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void share(){
+        String shareBody = txtTitle.getText()+"\n\n"+txtDescription.getText()+"\n"+lblDate.getText()+"\nusing My Diagnostic.";
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "A subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share with ... "));
+    }
+
+
 
 }
