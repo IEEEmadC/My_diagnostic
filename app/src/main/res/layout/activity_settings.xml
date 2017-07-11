@@ -38,28 +38,26 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="25dp"
-                >
+            android:layout_marginTop="25dp">
 
                 <TextView
-                    android:text="Radius Distance for Places(Km):"
+                    android:text="Radius Distance for Places (Km):"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtRadiu"
                     android:textSize="18dp"
-                    android:layout_marginTop="10dp"
-                     />
+                    android:layout_marginTop="10dp" />
 
                 <com.appyvet.rangebar.RangeBar
                     android:id="@+id/radiusRangeBar"
                     app:pinMaxFont="15sp"
-                    app:pinRadius="20dp"
-                    app:selectorSize="12dp"
+                    app:pinRadius="10dp"
+                    app:selectorSize="9dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tickEnd="10000"
-                    app:tickInterval="500"
-                    app:tickStart="100"
+                    app:tickEnd="10"
+                    app:tickInterval="0.5"
+                    app:tickStart="0.5"
                     app:rangeBar="false"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true" />
