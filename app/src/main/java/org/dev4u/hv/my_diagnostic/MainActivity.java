@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
             case R.id.action_settings:
                 goToSettings();
                 return true;
+            case R.id.action_profile:
+                gotoProfile();
+                return true;
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -220,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         }
     }
     private void goToSettings(){
+        //llenado
+    }
+    private void gotoProfile(){
         Intent intent = new Intent(this, UserDataActivity.class);
         startActivityForResult(intent,RESULT_FROM_MAIN);
     }
