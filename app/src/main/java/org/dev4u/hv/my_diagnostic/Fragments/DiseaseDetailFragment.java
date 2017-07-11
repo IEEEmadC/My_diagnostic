@@ -64,6 +64,8 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
     private CoordinatorLayout coordinatorLayout;
     private CardView cardViewStats;
     private Thermometer thermometer;
+    private boolean isDiagnostic;
+    private Disease disease;
 
     public DiseaseDetailFragment() {
         // Required empty public constructor
@@ -94,9 +96,7 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
         coordinatorLayout       = (CoordinatorLayout) view.findViewById(R.id.frm_detail_disease);
 
 
-        Disease disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
-
-
+        disease = DiseaseUtilitesSingleton.getInstance().getDisease(id_disease);
 
         if(disease!=null){
 
@@ -129,6 +129,7 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
             content+=list;
             Spannable sb = new SpannableString(content);
             if(getArguments().getBoolean("SEARCH",false)){
+                isDiagnostic=true;
                 cardViewStats.setVisibility(View.VISIBLE);
                 int start  = content.indexOf("(")+1;
                 int end    = content.indexOf(")");
@@ -143,7 +144,7 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
                 stats+="Global match percentage : "+decimal.format(disease.getGlobalMatchPercentage())+"%";
                 lblDiseasePercentage.setText(decimal.format(disease.getMatchPercentage())+"%");
                 //lblStats.setText(stats);
-                //thermometer.setPercent((float)disease.getMatchPercentage());
+                thermometer.setPercent((float)disease.getMatchPercentage());
                 //Chart Symptoms Found
                 PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
                 ChartSymptomFound((float)disease.getGlobalMatchPercentage() ,pieChart);
@@ -155,6 +156,7 @@ public class DiseaseDetailFragment extends BaseFragment implements OnChartValueS
                 lblDiseasePercentage.setVisibility(View.INVISIBLE);
                 cardViewStats.setVisibility(View.GONE);
                 thermometer.setVisibility(View.INVISIBLE);
+                isDiagnostic=false;
                 //((ViewGroup)view.getParent()).removeView(cardViewStats);
             }
             lblSymptomsList.setText(sb);
@@ -227,8 +229,28 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
         String date = df.format(Calendar.getInstance().getTime());
 
-        MedicalHistory medicalHistory = new MedicalHistory(null,"No Title ",
-                "No description"
+        String title="No title";
+        String description="No description";
+        if(disease!=null){
+            if(isDiagnostic){
+                title="My diagnostic : "+disease.getName_disease();
+                description="When I looked for these symptoms: ";
+                int position=1;
+                for(Symptom s:DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms()){
+                    description+="\n"+position+" - "+s.getSymptom();
+                    position++;
+                }
+                description+="\nat matching percentage of "+lblDiseasePercentage.getText();
+            }else{
+                title="I searched : "+disease.getName_disease();
+                description="from the disease list";
+            }
+        }
+
+
+
+        MedicalHistory medicalHistory = new MedicalHistory(null,title,
+                 description
                 ,id_disease
                 ,DiseaseUtilitesSingleton.getInstance().getActiveUser().getUsername()
                 ,date);

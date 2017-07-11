@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <EditText
-                    android:maxLength="50"
+                    android:maxLength="100"
                     android:layout_marginLeft="4dp"
                     android:id="@+id/txtTitleHistory"
                     android:layout_width="match_parent"
@@ -66,7 +66,6 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:inputType="textCapSentences|textMultiLine"
-                    android:maxLength="250"
                     android:gravity="top"
                     android:minLines="4"
                     android:layout_marginLeft="4dp"
