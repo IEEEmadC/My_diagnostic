@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import utils.ConnectionSettings;
@@ -45,6 +49,7 @@ public class LocalDatabase {
     private Button button;
     private CoordinatorLayout coordinatorLayout;
     private boolean downloadFinished;
+    private static Map stringJSONObjectMap;
 
     public LocalDatabase(Context context,Button button,CoordinatorLayout coordinatorLayout){
         this.context    = context;
@@ -70,10 +75,7 @@ public class LocalDatabase {
                 handler.post(new Runnable() {
                     public void run() {
                         if(!interrupted) {
-                            downloadFinished=true;
-                            button.setText("Continue");
-                            Snackbar.make(coordinatorLayout,"Download finished",Snackbar.LENGTH_SHORT).show();
-                            if (alertDialog.isShowing()) alertDialog.dismiss();
+                            new saveInLocal().execute(stringJSONObjectMap);
                         }
                     }
                 });
@@ -109,7 +111,7 @@ public class LocalDatabase {
 
     public void initDatabase(){
         //TODO esta es la funcion que llama las peticiones
-
+        stringJSONObjectMap = new HashMap();
         Snackbar.make(coordinatorLayout,"Download started",Snackbar.LENGTH_SHORT).show();
         button.setText("Downloading...");
         checkQueue();
@@ -149,7 +151,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveCountry(response);
+                                        stringJSONObjectMap.put("COUNTRY",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -163,10 +166,9 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveCountry(JSONObject response) {
+    private boolean saveCountry(JSONObject response) {
         try {
-            String estado = response.getString("estado");
-            switch (estado) {
+            switch (response.getString("estado")) {
                 case "1": // SUCCESS
                     JSONArray mensaje = response.getJSONArray("multitable");
                     Country[] countries = gson.fromJson(mensaje.toString(), Country[].class);
@@ -174,16 +176,15 @@ public class LocalDatabase {
                         String n = s.getName_country().replaceAll("'","''");
                         db.saveCountry(s.getId_country(),n,s.getShort_name());
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
     //bloodtype
     public void getBloodType() {
@@ -197,7 +198,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveBloodType(response);
+                                        stringJSONObjectMap.put("BLOODTYPE",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -211,7 +213,7 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveBloodType(JSONObject response) {
+    private boolean saveBloodType(JSONObject response) {
         try {
             switch (response.getString("estado")) {
                 case "1": // SUCCESS
@@ -220,16 +222,15 @@ public class LocalDatabase {
                     for (Bloodtype s:bloodtypes) {
                         db.saveBloodType(s.getId_bloodtype(),s.getBloodtype());
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
 
     public void getDiseaseCategory() {
@@ -243,7 +244,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveDiseasesCategory(response);
+                                        stringJSONObjectMap.put("CATEGORY",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -257,7 +259,7 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveDiseasesCategory(JSONObject response) {
+    private boolean saveDiseasesCategory(JSONObject response) {
         try {
             switch (response.getString("estado")) {
                 case "1": // SUCCESS
@@ -268,16 +270,15 @@ public class LocalDatabase {
                         String d = s.getCategory_description().replaceAll("'","''");
                         db.saveDiseaseCategory(s.getId_disease_category(),n,d);
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
 
     public void getSymptoms() {
@@ -291,7 +292,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveSymptoms(response);
+                                        stringJSONObjectMap.put("SYMPTOMS",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -305,7 +307,7 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveSymptoms(JSONObject response) {
+    private boolean saveSymptoms(JSONObject response) {
         try {
             switch (response.getString("estado")) {
                 case "1": // SUCCESS
@@ -314,16 +316,15 @@ public class LocalDatabase {
                     for (Symptom s:symptom) {
                         db.saveSymptom(s.getid_symptom(),s.getSymptom());
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
 
     public void getDisease() {
@@ -337,7 +338,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveDiseases(response);
+                                        stringJSONObjectMap.put("DISEASES",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -350,7 +352,7 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveDiseases(JSONObject response) {
+    private boolean saveDiseases(JSONObject response) {
         try {
             switch (response.getString("estado")) {
                 case "1": // SUCCESS
@@ -361,16 +363,15 @@ public class LocalDatabase {
                         String d = s.getDescription().replaceAll("'","''");
                         db.saveDisease(s.getId_disease(),n,d,s.getId_disease_category());
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
-
     }
 
     public void getSymptomsDisease() {
@@ -384,7 +385,8 @@ public class LocalDatabase {
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        saveSymptomsDisease(response);
+                                        stringJSONObjectMap.put("SYMPTOM_DISEASE",response);
+                                        requestCountDown.countDown();
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -397,7 +399,7 @@ public class LocalDatabase {
                 );
     }
 
-    private void saveSymptomsDisease(JSONObject response) {
+    private boolean saveSymptomsDisease(JSONObject response) {
         try {
             switch (response.getString("estado")) {
                 case "1": // SUCCESS
@@ -406,17 +408,57 @@ public class LocalDatabase {
                     for (SymptomDisease s:symptomdiseases) {
                         db.saveSymptomDisease(s.getId_sympdiseases(),s.getId_diseases(),s.getId_symptom());
                     }
-                    requestCountDown.countDown();
-                    break;
-                case "2": // FAIL
+                    return true;
+                default: // FAIL
                     hasError();
-                    break;
+                    return false;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public class saveInLocal extends AsyncTask<Map, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Map... params) {
+            boolean state = fillDB(params[0]);
+            if(isCancelled()) return false;
+            return state;
+        }
+        private boolean fillDB(Map map){
+            try{
+                boolean state=true;
+                if(map.containsKey("COUNTRY"))      state = saveCountry((JSONObject) map.get("COUNTRY"));
+                if(map.containsKey("BLOODTYPE"))    state = saveBloodType((JSONObject) map.get("BLOODTYPE"));
+                if(map.containsKey("CATEGORY"))     state = saveDiseasesCategory((JSONObject) map.get("CATEGORY"));
+                if(map.containsKey("SYMPTOMS"))     state = saveSymptoms((JSONObject) map.get("SYMPTOMS"));
+                if(map.containsKey("DISEASES"))     state = saveDiseases((JSONObject) map.get("DISEASES"));
+                if(map.containsKey("SYMPTOM_DISEASE"))  state = saveSymptomsDisease((JSONObject) map.get("SYMPTOM_DISEASE"));
+                return state;
+            }catch (Exception e){
+                hasError();
+                return false;
+            }
+
         }
 
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean==true){
+                downloadFinished=true;
+                button.setText("Continue");
+                Snackbar.make(coordinatorLayout,"Download finished",Snackbar.LENGTH_SHORT).show();
+                if (alertDialog.isShowing()) alertDialog.dismiss();
+            }else{
+                hasError();
+            }
+        }
     }
+
+
+
     public boolean isDownloadFinished() {
         return downloadFinished;
     }
