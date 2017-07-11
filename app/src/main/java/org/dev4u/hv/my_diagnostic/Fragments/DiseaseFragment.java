@@ -63,7 +63,7 @@ public class DiseaseFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 String id_disease  = Long.toString(diseaseAdapter.getItemId(position));
-                Toast.makeText(getContext(),"id "+id_disease,Toast.LENGTH_SHORT).show();
+
 
                 if(diseaseAdapter.getItemId(position)<0) return;
                 fragment = new DiseaseDetailFragment();

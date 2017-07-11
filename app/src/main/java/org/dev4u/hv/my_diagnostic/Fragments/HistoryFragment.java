@@ -175,7 +175,7 @@ public class HistoryFragment extends BaseFragment {
 
                 Long long_id = DiseaseUtilitesSingleton.getInstance().historyAdapter.getItemId(position);
                 String id_history  = Long.toString(long_id);
-                Toast.makeText(getContext(),"id "+id_history,Toast.LENGTH_SHORT).show();
+
 
                 if(long_id<0) return;
                 fragment = new HistoryDetailFragment();
@@ -185,7 +185,7 @@ public class HistoryFragment extends BaseFragment {
                 if (mFragmentNavigation != null) {
                     mFragmentNavigation.pushFragment(fragment);
                 }
-                Toast.makeText(getContext(), "Details Page", Toast.LENGTH_SHORT).show();
+
             }
             @Override
             public void onItemLongClick(View view, int position) {
