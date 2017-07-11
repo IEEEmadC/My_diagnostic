@@ -1,8 +1,10 @@
 package org.dev4u.hv.my_diagnostic.Fragments;
 import android.Manifest;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -45,6 +47,9 @@ import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesException;
 import org.dev4u.hv.my_diagnostic.MyPlacesUI.PlacesListener;
 import org.dev4u.hv.my_diagnostic.R;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +61,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
 
 
 {
-
 
     private GoogleMap googleMap;
     private String SgoogleMap;
