@@ -57,10 +57,12 @@
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <ImageView
-                                android:background="@color/colorAccent"
                                 android:layout_width="20dp"
-                                android:layout_height="20dp" />
+                                android:layout_height="20dp"
+                                android:id="@+id/imgFlag" />
+
                             <TextView
                                 android:id="@+id/lblFullname"
                                 android:layout_marginLeft="2dp"
@@ -93,7 +95,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
@@ -111,7 +112,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView

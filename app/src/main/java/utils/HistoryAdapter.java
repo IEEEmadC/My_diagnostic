@@ -142,7 +142,8 @@ public class HistoryAdapter extends SwipeAdapter implements Filterable {
                 }
                 historyArrayList.remove(position);
                 DiseaseUtilitesSingleton.getInstance().deleteHistory(temp.getId_medicalhistory());
-                notifyItemRemoved(position);
+                //notifyItemRemoved(position);
+                notifyDataSetChanged();
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

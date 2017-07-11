@@ -190,7 +190,7 @@
             android:layout_height="20dp" />
         <TextView
             android:gravity="left"
-            android:text="Blood"
+            android:text="Blood Type"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
