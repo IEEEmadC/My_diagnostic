@@ -35,7 +35,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
            detailsJson=(myJson.GetPlaceDetails(googlePlacesJson));
             return detailsJson;
         } catch (Exception e) {
-            Log.d("Exception", e.toString());
+
         }
         return detailsJson;
     }

@@ -179,7 +179,7 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
     pieChart.setTransparentCircleRadius(35f);
     pieChart.setHoleRadius(15f);
     dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-    data.setValueTextSize(9f);
+    data.setValueTextSize(10f);
     data.setValueTextColor(Color.WHITE);
     pieChart.setOnChartValueSelectedListener(this);
     pieChart.animateXY(1400, 1400);
@@ -203,7 +203,7 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
         pieChart.setTransparentCircleRadius(35f);
         pieChart.setHoleRadius(15f);
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
-        data.setValueTextSize(9f);
+        data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
         pieChart.setOnChartValueSelectedListener(this);
         pieChart.animateXY(1400, 1400);

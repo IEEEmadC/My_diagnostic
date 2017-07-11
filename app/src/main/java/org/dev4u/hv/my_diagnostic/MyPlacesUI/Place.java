@@ -4,29 +4,17 @@ import android.location.Location;
 
 
 public class Place {
-    /**
-     * coordinates of place
-     */
+
     private Location location;
-    /**
-     * icon of place, not all places have icon.
-     */
+
     private String icon;
-    /**
-     * name of place
-     */
+
     private String name;
-    /**
-     * place_id, can get place details using this id
-     */
+
     private String placeId;
-    /**
-     * types of place
-     */
+
     private String[] types;
-    /**
-     * near area of place
-     */
+
     private String vicinity;
 
     public Place() {
@@ -52,112 +40,57 @@ public class Place {
                 '}';
     }
 
-    /**
-     * Get lat,lat - location of the place
-     *
-     * @return Location
-     */
     public Location getLocation() {
         return location;
     }
 
-    /**
-     * set location of place
-     *
-     * @param location
-     */
     public void setLocation(Location location) {
         this.location = location;
     }
 
-    /**
-     * Get icon of the place
-     * Note : Not all places have icons.
-     *
-     * @return url of icon e.g. https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png
-     */
+
     public String getIcon() {
         return icon;
     }
 
-    /**
-     * set icon of location
-     *
-     * @param icon
-     */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
-    /**
-     * returns name of location
-     *
-     * @return name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * set name of location
-     *
-     * @param name
-     */
+
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * get placeid of location.
-     * placeid is string id and can be used to get details of a place
-     *
-     * @return
-     */
+
     public String getPlaceId() {
         return placeId;
     }
 
-    /**
-     * set place id
-     *
-     * @param placeId
-     */
+
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
-    /**
-     * returns types of location e.g. types ["cafe","food","point_of_interest","establishment"]
-     *
-     * @return String array types
-     */
     public String[] getTypes() {
         return types;
     }
 
-    /**
-     * set location types
-     *
-     * @param types
-     */
+
     public void setTypes(String[] types) {
         this.types = types;
     }
 
-    /**
-     * returns address/surrounding of place
-     *
-     * @return vicinity of place
-     */
+
     public String getVicinity() {
         return vicinity;
     }
 
-    /**
-     * set vicinity
-     *
-     * @param vicinity
-     */
+
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
     }
