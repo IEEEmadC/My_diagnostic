@@ -9,6 +9,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,6 +53,8 @@ import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
         PlacesListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowClickListener
+
+
 {
 
 
@@ -80,7 +84,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+            Toast.makeText(this.getContext(), "PERMISO ACEPTADO", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this.getContext(), "PERMISO DENEGADO", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this.getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
         SgoogleMap="otro_mapa";
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -94,7 +108,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
                 .setFastestInterval( 1000);
 
         Log.d(TAG, "onCreate");
+
     }
+
 
     private boolean isNetworkAvailable(Context c) {
         ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -106,9 +122,29 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             return false;
 
     }
-        @Override
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                    getDeviceLocation();
+                    updateLocationUI();
+                }
+            }
+        }
+
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
+
+
 
         setHasOptionsMenu(true);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
@@ -135,6 +171,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     @Override
     public void onPlacesFailure(PlacesException e) {
     }
+
+
     @Override
     public void onPlacesStart() {
 
@@ -301,6 +339,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
 
 
     private void handleNewLocation(Location location) {
+
+
         mMap = googleMap;
 
         getDeviceLocation();
@@ -317,8 +357,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
             BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
 
             myMarker = mMap.addMarker(new MarkerOptions()
-                            .position(MyLatLeng).title("I am Here")
-                            .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+                    .position(MyLatLeng).title("I am Here")
+                    .icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
 
         }else{
             myMarker.setPosition(MyLatLeng);
@@ -336,25 +376,25 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
 
     }
     @Override
-public void onPlacesSuccess(final List<Place> places) {
-    Log.i("PlacesAPI", "onPlacesSuccess()");
-    runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-            markerArrayList.clear();
-            for (Place place : places) {
-                LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
-                markerArrayList.add(mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(place.getName())
-                        .snippet(place.getVicinity()+"<"+place.getPlaceId())
+    public void onPlacesSuccess(final List<Place> places) {
+        Log.i("PlacesAPI", "onPlacesSuccess()");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                markerArrayList.clear();
+                for (Place place : places) {
+                    LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+                    markerArrayList.add(mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(place.getName())
+                            .snippet(place.getVicinity()+"<"+place.getPlaceId())
 
-                ));
+                    ));
+                }
             }
-        }
-    });
+        });
 
-}
+    }
     private boolean hasPermission(String permission) {
         return ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED;
     }
@@ -404,5 +444,5 @@ public void onPlacesSuccess(final List<Place> places) {
         {
             Log.d("EXCP",e.toString());
         }
-}
+    }
 }
