@@ -101,7 +101,7 @@ public class DiseaseAdapter extends RecyclerView.Adapter<DiseaseAdapter.DiseaseV
         final Disease disease = diseaseArrayList.get(position);
 
         final SpannableStringBuilder sb = new SpannableStringBuilder(disease.getName_disease());
-        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription().substring(0, 82) + "...");
+        final SpannableStringBuilder descriptionBuild = new SpannableStringBuilder(disease.getDescription());
         final ForegroundColorSpan fcs = new ForegroundColorSpan(mContext.getResources().getColor(R.color.title_disease));
         sb.setSpan(fcs, 0, disease.getName_disease().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
