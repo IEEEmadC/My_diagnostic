@@ -2,6 +2,7 @@ package org.dev4u.hv.my_diagnostic.Fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,10 +84,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     private static ArrayList<Marker> markerArrayList = new ArrayList<>();
     private static int radius = 2500;//2500 meters - 2.5km
 
+    private SharedPreferences savedData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+
+
+
         if (ContextCompat.checkSelfPermission(this.getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -141,6 +148,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container, false);
         setHasOptionsMenu(true);
+
+
+        savedData       = getContext().getSharedPreferences("Data", Context.MODE_PRIVATE);
+
+        radius          = (int) (savedData.getFloat("DISTANCE",3)*1000);
+
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if(!isNetworkAvailable(getContext()))
@@ -170,6 +183,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     @Override
     public void onResume() {
         super.onResume();
+        radius          = (int) (savedData.getFloat("DISTANCE",3)*1000);
         myMarker=null;
         mGoogleApiClient.connect();
         mMapView.onResume();
