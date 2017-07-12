@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Error de conexion!", Toast.LENGTH_SHORT).show();
-        Log.e("GoogleSignIn", "OnConnectionFailed: " + connectionResult);
+     //   Log.e("GoogleSignIn", "OnConnectionFailed: " + connectionResult);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -43,9 +43,6 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, PlacesDetails>
         AlertDialog.Builder builder = new AlertDialog.Builder(this.mycontext);
         builder.setTitle("Place Details");
         builder.setMessage(datos);
-
-
-
         String negativeText = "Close";
         builder.setNegativeButton(negativeText,
                 new DialogInterface.OnClickListener() {
