@@ -1,6 +1,8 @@
 package org.dev4u.hv.my_diagnostic.Fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -58,6 +60,9 @@ public class SearchDiseaseFragment extends BaseFragment {
     private ArrayList<String> inputs;
     private ArrayList<Disease> diseasesFound;
     private Fragment fragment;
+    private int percentage;
+
+    private SharedPreferences savedData;
 
     public SearchDiseaseFragment() {
         // Required empty public constructor
@@ -74,14 +79,20 @@ public class SearchDiseaseFragment extends BaseFragment {
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
+        savedData       = getContext().getSharedPreferences("Data", Context.MODE_PRIVATE);
+
+        percentage      = savedData.getInt("PERCENTAGE",20);
+
         rngMatch        = (RangeBar) view.findViewById(R.id.searchRangeBar);
         lblMinMatching  = (TextView) view.findViewById(R.id.lblMinMatchingSearch);
         btnRefresh      = (Button)   view.findViewById(R.id.btnRefreshSearch);
         recyclerView    = (RecyclerView) view.findViewById(R.id.recycler_view_disease_search);
 
         //set default value
-        rngMatch.setRangePinsByValue(1,DiseaseUtilitesSingleton.getInstance().minimunPercentage);
-        lblMinMatching.setText("Min matching : "+DiseaseUtilitesSingleton.getInstance().minimunPercentage+"%");
+        rngMatch.setRangePinsByValue(1,percentage);
+        lblMinMatching.setText("Min matching : "+percentage+"%");
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
