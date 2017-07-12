@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         toggleSettings = (ToggleButton) findViewById(R.id.toggleUpdates);
+
         //StateListDrawable stateListDrawable = (StateListDrawable) toggleSettings.getBackground();
         //AnimationDrawable animationDrawable = (AnimationDrawable) stateListDrawable.getCurrent();
         //animationDrawable.selectDrawable(animationDrawable.getNumberOfFrames() - 1);
