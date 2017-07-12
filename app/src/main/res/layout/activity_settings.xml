@@ -13,112 +13,188 @@
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-        <android.support.v7.widget.CardView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-            <TextView
-            android:text="Settings Map"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtTittles"
-            android:textStyle="normal|bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-                android:layout_marginTop="2dp"
-            android:textSize="22sp" />
-
-            <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp">
-
-                <TextView
-                    android:text="Radius Distance for Places (Km):"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtRadiu"
-                    android:textSize="18dp"
-                    android:layout_marginTop="10dp" />
-
-                <com.appyvet.rangebar.RangeBar
-                    android:id="@+id/radiusRangeBar"
-                    app:pinMaxFont="15sp"
-                    app:pinRadius="10dp"
-                    app:selectorSize="9dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tickEnd="10"
-                    app:tickInterval="0.5"
-                    app:tickStart="0.5"
-                    app:rangeBar="false"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <TextView
-            android:text="Settings Search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtTittle"
-            android:textStyle="normal|bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="1dp"
-            android:textSize="22sp" />
-
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp"
+            android:orientation="vertical"
             >
-
-        <TextView
-            android:text="Minimum search percentage:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtSearch"
-            android:textSize="18dp"
-            android:layout_marginTop="35dp"
-            />
-
-            <com.appyvet.rangebar.RangeBar
-                android:id="@+id/searchRangeBarMin"
-                app:pinMaxFont="15sp"
-                app:pinRadius="10dp"
-                app:selectorSize="9dp"
+            <android.support.v7.widget.CardView
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tickEnd="100"
-                app:tickInterval="1"
-                app:tickStart="1"
-                app:rangeBar="false"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="22dp" />
+                >
+                <TextView
+                    android:text="Settings Map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtTittles"
+                    android:textStyle="normal|bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="2dp"
+                    android:textSize="22sp" />
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:text="Radius Distance for Places (Km):"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtRadiu"
+                        android:textSize="18dp"
+                        android:layout_marginTop="10dp" />
+
+                    <com.appyvet.rangebar.RangeBar
+                        android:id="@+id/radiusRangeBar"
+                        app:pinMaxFont="15sp"
+                        app:pinRadius="10dp"
+                        app:selectorSize="9dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tickEnd="10"
+                        app:tickInterval="0.5"
+                        app:tickStart="0.5"
+                        app:rangeBar="false"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:text="Settings Search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtTittle"
+                    android:textStyle="normal|bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="1dp"
+                    android:textSize="22sp" />
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp"
+                    >
+
+                    <TextView
+                        android:text="Minimum search percentage:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtSearch"
+                        android:textSize="18dp"
+                        android:layout_marginTop="35dp"
+                        />
+
+                    <com.appyvet.rangebar.RangeBar
+                        android:id="@+id/searchRangeBarMin"
+                        app:pinMaxFont="15sp"
+                        app:pinRadius="10dp"
+                        app:selectorSize="9dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tickEnd="100"
+                        app:tickInterval="1"
+                        app:tickStart="1"
+                        app:rangeBar="false"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="22dp" />
 
 
-        </RelativeLayout>
+                </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:text="Updates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtUpdateTitle"
+                    android:textStyle="normal|bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="1dp"
+                    android:textSize="22sp" />
 
-</LinearLayout>
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp"
+                    >
+                    <TextView
+                        android:text="Search when app start: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtapp"
+                        android:textSize="18dp"
+                        android:layout_marginTop="15dp"
+                        />
+
+
+                    <Button
+
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnSearchUpdateNow"
+                        android:layout_marginTop="45dp"
+                        android:background="@drawable/personalized_button"
+                        android:text="Search Updates Now"
+                        android:textColor="@color/text_color"
+                        style="@style/TextBigShadowStyle"
+                        android:layout_width="180dp" />
+
+                    <ToggleButton
+                        android:text="ToggleButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/toggleButton"
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@drawable/toogle_selector"
+                        android:layout_alignBaseline="@+id/txtapp"
+                        android:layout_alignBottom="@+id/txtapp"
+                        android:layout_toEndOf="@+id/txtapp"
+                        android:layout_marginStart="21dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:scaleX="0.60"
+                        android:scaleY="0.60" />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+        </LinearLayout>
 
 
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnSearchDisease"
+        android:src="@drawable/ic_search"
+        android:tint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp" />
 </android.support.design.widget.CoordinatorLayout>
