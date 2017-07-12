@@ -111,7 +111,9 @@ public class SearchFragment extends BaseFragment {
                 if (isMultiSelect)
                     multi_select(position);
                 else
-                    Toast.makeText(getContext(), "Details Page", Toast.LENGTH_SHORT).show();
+                {
+
+                }
             }
             @Override
             public void onItemLongClick(View view, int position) {
@@ -285,7 +287,7 @@ public class SearchFragment extends BaseFragment {
                     if (mActionMode != null) {
                         mActionMode.finish();
                     }
-                    Toast.makeText(getContext(), "Delete Click", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
