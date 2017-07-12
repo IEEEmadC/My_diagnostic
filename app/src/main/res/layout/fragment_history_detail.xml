@@ -34,7 +34,7 @@
                     android:layout_height="20dp" />
                 <TextView
                     android:textSize="20sp"
-                    android:text="Medical History"
+                    android:text="Medical Records"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
