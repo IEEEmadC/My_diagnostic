@@ -116,6 +116,7 @@
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
@@ -135,29 +136,22 @@
                 <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="183dp"
                     android:layout_marginTop="25dp"
                     >
-                    <TextView
-                        android:text="Search when app start: "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtapp"
-                        android:textSize="18dp"
-                        android:layout_marginTop="15dp"
-                        />
 
 
                     <Button
 
                         android:layout_height="wrap_content"
                         android:id="@+id/btnSearchUpdateNow"
-                        android:layout_marginTop="45dp"
                         android:background="@drawable/personalized_button"
                         android:text="Search Updates Now"
                         android:textColor="@color/text_color"
                         style="@style/TextBigShadowStyle"
-                        android:layout_width="180dp" />
+                        android:layout_width="180dp"
+                        android:layout_below="@+id/toggleButton"
+                        android:layout_alignParentStart="true" />
 
                     <ToggleButton
                         android:text="ToggleButton"
@@ -167,21 +161,27 @@
                         android:textOff=""
                         android:textOn=""
                         android:background="@drawable/toogle_selector"
-                        android:layout_alignBaseline="@+id/txtapp"
-                        android:layout_alignBottom="@+id/txtapp"
-                        android:layout_toEndOf="@+id/txtapp"
-                        android:layout_marginStart="21dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:scaleX="0.60"
-                        android:scaleY="0.60" />
+                        android:scaleX="0.30"
+                        android:scaleY="0.30"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <TextView
+                        android:text="Search when app start: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtapp"
+                        android:textSize="18dp"
+                        android:layout_alignBaseline="@+id/toggleButton"
+                        android:layout_alignBottom="@+id/toggleButton"
+                        android:layout_alignParentStart="true" />
 
                 </RelativeLayout>
 
 
             </android.support.v7.widget.CardView>
-
-
 
 
         </LinearLayout>
