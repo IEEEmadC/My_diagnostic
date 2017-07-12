@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 import com.appyvet.rangebar.RangeBar;
 
 import utils.DiseaseUtilitesSingleton;
+import utils.SearchUpdates;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
     private int percentage;
     private float distance;
 
+    SearchUpdates searchUpdates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         distance        = savedData.getFloat("DISTANCE",3);
         percentage      = savedData.getInt("PERCENTAGE",20);
+
+        searchUpdates   = new SearchUpdates(this);
 
 
         toggleSettings  = (ToggleButton) findViewById(R.id.toggleUpdates);
@@ -79,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchUpdates();
+                Updates();
             }
         });
         btnSaveSettings.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
         this.finish();
     }
 
-    private void searchUpdates(){
-
+    private void Updates(){
+        searchUpdates.getVersion();
     }
 }
