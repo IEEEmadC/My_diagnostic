@@ -26,7 +26,7 @@ public class ConnectionSettings {
     /**
      * URLs del Web Service
      */
-
+    public static final String GETData = "http://" + IP + PUERTO_HOST + "/obtener_dataversion.php"; //id:dataversion
     public static final String GETCountry = "http://" + IP + PUERTO_HOST + "/obtener_paises.php";
     public static final String GETBlood_type = "http://" + IP + PUERTO_HOST + "/obtener_tipoSangre.php";
     public static final String GETDiseases_category = "http://" + IP + PUERTO_HOST + "/obtener_categorias.php";
