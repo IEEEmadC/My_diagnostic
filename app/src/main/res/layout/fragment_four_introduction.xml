@@ -43,7 +43,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Improve the accuracy of your diagnosis by consulting a close professional"
             android:id="@+id/textView8"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="1"

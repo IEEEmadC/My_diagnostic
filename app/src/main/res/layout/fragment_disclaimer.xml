@@ -21,24 +21,48 @@
 <ScrollView
     android:layout_width="400dp"
     android:layout_height="350dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <TextView
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:text="TERMS OF SERVICE
-
-        "
-
+        android:text="TERMS AND CONDITIONS"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:textSize="24dp"
+        android:layout_marginTop="50dp"
        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView32"
+            android:text="
+
+Please note that the evaluation My Diagnostic provides is solely for informational and educatives purposes based on the information available in our database and is not a qualified medical opinion."
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:text="fasdf"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
 </ScrollView>
 
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Acept Terms and Conditions"
-            android:id="@+id/checkNotShow"
+            android:text="I Agree"
+            android:id="@+id/checkTerms"
             android:textSize="20dp"
             android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
@@ -46,20 +70,11 @@
             android:shadowDy="1"
             android:shadowRadius="1"
             android:checked="false"
-
-            android:layout_marginBottom="700dp"
+            android:gravity="center"
+            android:layout_marginLeft="150dp"
             android:layout_marginTop="350dp"
-            />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Accept"
-    android:layout_alignParentBottom="false"
-    android:layout_marginTop="380dp"
-    android:layout_marginBottom="400dp"
-    android:layout_marginRight="350dp"
-    android:layout_marginLeft="125dp" />
+            />
 
 
 </RelativeLayout>
