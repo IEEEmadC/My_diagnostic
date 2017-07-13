@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ public class LauncherActivity extends AppCompatActivity {
     RelativeLayout fondoApp;
     MiAnimacion manejadorAnim;
     TextView lblSkip;
-
+    Button term;
     int pages=0;
 
     @Override
@@ -46,7 +47,40 @@ public class LauncherActivity extends AppCompatActivity {
         indicator.setViewPager(viewPager);
         manejadorAnim = new MiAnimacion(getBaseContext(),fondoApp);
         manejadorAnim.start();
-        /*
+        term=(Button)findViewById(R.id.btnTerm);
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(viewPager.getCurrentItem()!=(pages-1)){
+                    viewPager.setCurrentItem( viewPager.getCurrentItem()+1 );
+                }else{
+                    LauncherActivity.this.finish();
+                }
+            }
+        });
+        term.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Dialog();
+
+            }
+        });
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return false;
+        }
+    }
+
+    private void Dialog()
+    {
+
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Terms and conditions");
         WebView wv = new WebView(this);
@@ -69,26 +103,7 @@ public class LauncherActivity extends AppCompatActivity {
             }
         });
         alert.show();
-*/
-        lblSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(viewPager.getCurrentItem()!=(pages-1)){
-                    viewPager.setCurrentItem( viewPager.getCurrentItem()+1 );
-                }else{
-                    LauncherActivity.this.finish();
-                }
-            }
-        });
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return false;
-        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
