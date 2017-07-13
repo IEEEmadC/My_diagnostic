@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import utils.ConnectionSettings;
+import utils.SearchUpdates;
 import utils.VolleySingleton;
 
 /**
@@ -435,6 +436,8 @@ public class LocalDatabase {
                 if(map.containsKey("SYMPTOMS"))     state = saveSymptoms((JSONObject) map.get("SYMPTOMS"));
                 if(map.containsKey("DISEASES"))     state = saveDiseases((JSONObject) map.get("DISEASES"));
                 if(map.containsKey("SYMPTOM_DISEASE"))  state = saveSymptomsDisease((JSONObject) map.get("SYMPTOM_DISEASE"));
+                SearchUpdates s = new SearchUpdates(context,true);
+                s.getVersion(true);
                 return state;
             }catch (Exception e){
                 hasError();
