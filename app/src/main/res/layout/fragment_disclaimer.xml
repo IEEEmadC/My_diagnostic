@@ -44,7 +44,6 @@
             android:id="@+id/textView32"
             android:text="Please note that the evaluation My Diagnostic provides is solely for informational and educatives purposes based on the information available in our database and is not a qualified medical opinion.
 This information about the symptoms has been obtained from various sources and can not be completely accurate and does not have to be the complete list of the symptoms of the diseases. You should consult with your doctor if not the first symptoms of a disease and that only your doctor can provide a correct diagnosis of symptoms in the precise way"
-            android:textAligment=""
             android:layout_marginRight="5dp"
             android:layout_marginLeft="6dp"
             />
@@ -68,7 +67,7 @@ This information about the symptoms has been obtained from various sources and c
             android:shadowRadius="1"
             android:checked="false"
             android:gravity="center"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="350dp" />
 
 </RelativeLayout>
