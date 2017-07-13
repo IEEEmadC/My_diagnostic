@@ -69,25 +69,10 @@ public class FourIntroductionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_four_introduction, container, false);
-        check = (CheckBox) view.findViewById(R.id.checkNotShow);
 
         savedData = getContext().getSharedPreferences("Data", Context.MODE_PRIVATE);
         editSavedData = savedData.edit();
 
-        check.setChecked(!savedData.getBoolean("Initial",true));
-
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    editSavedData.putBoolean("Initial",false);
-                    editSavedData.commit();
-                }else {
-                    editSavedData.putBoolean("Initial",true);
-                    editSavedData.commit();
-                }
-            }
-        });
         return view;
     }
 
