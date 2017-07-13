@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import db.Database;
 import db.LocalDatabase;
+import utils.SearchUpdates;
 
 public class DownloadActivity extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class DownloadActivity extends AppCompatActivity {
     private SharedPreferences.Editor editorPreferences;
     private AnimatedVectorDrawable animDrawable;
     private CoordinatorLayout coordinatorLayout;
+    private Boolean isUpdate;
     private int status;
     private boolean functionCalled;
 
@@ -36,6 +38,19 @@ public class DownloadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
         findViewById(R.id.activity_download);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            isUpdate = false;
+        } else {
+            isUpdate = extras.getBoolean("IS_UPDATE",false);
+        }
+
+        if(isUpdate){
+            SearchUpdates s = new SearchUpdates(this,true);
+            s.getVersion(true);
+        }
+
 
         //is first time
         preferences         = getSharedPreferences("Data", Context.MODE_PRIVATE);
@@ -73,22 +88,15 @@ public class DownloadActivity extends AppCompatActivity {
         }
         if(localDatabase.isDownloadFinished()){
             if(status==0){
-                Intent i = new Intent(this,UserDataActivity.class);
-                startActivity(i);
+                startActivity(new Intent(this,UserDataActivity.class));
                 this.finish();
             }else{
+                if(isUpdate){
+                    startActivity(new Intent(this,MainActivity.class));
+                }
                 this.finish();
             }
         }
     }
 
-    //TODO no funco
-    public class Download extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            localDatabase.initDatabase();
-            return null;
-        }
-    }
 }

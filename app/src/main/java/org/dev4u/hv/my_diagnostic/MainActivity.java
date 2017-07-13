@@ -1,7 +1,9 @@
 package org.dev4u.hv.my_diagnostic;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -27,6 +29,7 @@ import org.dev4u.hv.my_diagnostic.Fragments.SearchFragment;
 import org.dev4u.hv.my_diagnostic.FragmentsIntro.LauncherActivity;
 
 import utils.DiseaseUtilitesSingleton;
+import utils.SearchUpdates;
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener{
 
@@ -48,6 +51,16 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     private FragNavController mNavController;
     private SharedPreferences.Editor editSavedData;
     private int initial;
+    public static final String FINISH_ALERT = "finish_alert";
+
+    BroadcastReceiver finishAlert = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MainActivity.this.finish();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
             Intent gotoBeginning = new Intent(this,DownloadActivity.class);
             startActivity(gotoBeginning);
             this.finish();
+        }else{
+            if(savedData.getBoolean("SEARCH_AT_START",true)) new SearchUpdates(this,true).getVersion(false);
         }
 
         Init();
@@ -105,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
             }
         });
 
+
+        this.registerReceiver(this.finishAlert, new IntentFilter(FINISH_ALERT));
     }//end onCreate
 
 
@@ -113,6 +130,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         frm2  = new HistoryFragment();
         frm3  = new DiseaseFragment();
         frm4      = new MapFragment();
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        this.unregisterReceiver(finishAlert);
     }
 
 

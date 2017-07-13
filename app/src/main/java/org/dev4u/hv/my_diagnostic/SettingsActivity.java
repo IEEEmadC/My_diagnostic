@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         distance        = savedData.getFloat("DISTANCE",3);
         percentage      = savedData.getInt("PERCENTAGE",20);
 
-        searchUpdates   = new SearchUpdates(this);
+        searchUpdates   = new SearchUpdates(this,false);
 
 
         toggleSettings  = (ToggleButton) findViewById(R.id.toggleUpdates);
@@ -105,6 +105,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void Updates(){
-        searchUpdates.getVersion();
+        searchUpdates.getVersion(false);
     }
 }
