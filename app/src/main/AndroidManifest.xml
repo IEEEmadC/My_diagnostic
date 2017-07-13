@@ -27,13 +27,20 @@
             android:name=".FragmentsIntro.LauncherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".UserDataActivity"
             android:screenOrientation="portrait"></activity>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My_Diagnostic</string>
+    <string name="app_name">My Diagnostic</string>
     <string name="search">Search</string>
     <string name="medical_history">History</string>
     <string name="diseases">Diseases</string>
@@ -9,7 +9,6 @@
     <string name="exit">Exit</string>
     <string name="more">More</string>
     <string name="clear_symptoms">Clear Symptoms</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -26,7 +25,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="label_btn_find">Find</string>
-<string name="title_first_content_fragment">
+    <string name="title_first_content_fragment">
         Learn
     </string>
 
@@ -52,13 +51,11 @@
         Places Details
     </string>
     <string name="dialog_message">
-        contenido:
+        content:
     </string>
     <string name="share">Share with...</string>
     <string name="pie_chart">Pie Chart con mpAndroidChartLibrery</string>
-
-
-    <string name="download_message">All the diseases are stored in a cloud database, we compromise to work adding more data for you.</string>
+    <string name="download_message">All the diseases are stored in a cloud database, we are compromised to work adding more data for you.</string>
 
 
 </resources>

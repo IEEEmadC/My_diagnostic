@@ -31,12 +31,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
                     <AutoCompleteTextView
+                        android:completionThreshold="1"
                         android:layout_marginLeft="10dp"
                         android:id="@+id/txtSymptom"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textAutoComplete|textAutoCorrect"
-                        android:hint="Write a Symptom" />
+                        android:hint="Search your Symptom" />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button

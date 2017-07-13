@@ -236,22 +236,21 @@ public class SearchFragment extends BaseFragment {
             hideKeyBoard();
             for (Symptom s:DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms()) {
                 if(s.getSymptom().equals(txtSymptom.getText().toString())){
-                    Snackbar.make(coordinatorLayout,"Ya se agrego el sintoma "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout,"Symptom is already added "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
                     txtSymptom.setText("");
                     return;
                 }
             }
             txtSymptom.setText("");
-            Snackbar.make(coordinatorLayout,"Agregado "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout,"Symptom added "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
             if (mActionMode != null) {
                 mActionMode.finish();
             }
             DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms().add(temporary);
             multiSelectAdapter.notifyDataSetChanged();
-            Log.d("---------Agregado","Sintoma : "+temporary.getSymptom()+" Cantidad "+DiseaseUtilitesSingleton.getInstance().getTemporarySymptoms().size());
         }else{
             hideKeyBoard();
-            Snackbar.make(coordinatorLayout,"No existe el sintoma "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
+            Snackbar.make(coordinatorLayout,"Do not exist this symptom "+txtSymptom.getText().toString(),Snackbar.LENGTH_LONG).show();
         }
     }
     public void updateFragment(){
