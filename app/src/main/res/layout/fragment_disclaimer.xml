@@ -46,6 +46,9 @@
 This information about the symptoms has been obtained from various sources and can not be completely accurate and does not have to be the complete list of the symptoms of the diseases. You should consult with your doctor if not the first symptoms of a disease and that only your doctor can provide a correct diagnosis of symptoms in the precise way"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="6dp"
+            android:textColor="@color/light_font"
+            android:shadowColor="@color/text_shadow"
+            android:textSize="16dp"
             />
 
 
@@ -68,6 +71,7 @@ This information about the symptoms has been obtained from various sources and c
             android:checked="false"
             android:gravity="center"
             android:layout_marginLeft="70dp"
-            android:layout_marginTop="350dp" />
+            android:layout_marginTop="350dp"
+            android:textAlignment="viewStart" />
 
 </RelativeLayout>
