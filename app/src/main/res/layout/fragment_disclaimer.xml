@@ -36,26 +36,19 @@
         android:textSize="24dp"
         android:layout_marginTop="50dp"
        />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView32"
-            android:text="
-
-Please note that the evaluation My Diagnostic provides is solely for informational and educatives purposes based on the information available in our database and is not a qualified medical opinion."
-            android:textAlignment="center"
+            android:text="Please note that the evaluation My Diagnostic provides is solely for informational and educatives purposes based on the information available in our database and is not a qualified medical opinion.
+This information about the symptoms has been obtained from various sources and can not be completely accurate and does not have to be the complete list of the symptoms of the diseases. You should consult with your doctor if not the first symptoms of a disease and that only your doctor can provide a correct diagnosis of symptoms in the precise way"
+            android:textAligment=""
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="6dp"
             />
 
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TERMS"
-            android:id="@+id/btnTerm"
-            >
-
-        </Button>
 
     </LinearLayout>
 
@@ -65,7 +58,7 @@ Please note that the evaluation My Diagnostic provides is solely for information
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I Agree"
+            android:text="I Agree with this terms and conditions"
             android:id="@+id/checkTerms"
             android:textSize="20dp"
             android:textColor="@color/light_font"
@@ -76,9 +69,6 @@ Please note that the evaluation My Diagnostic provides is solely for information
             android:checked="false"
             android:gravity="center"
             android:layout_marginLeft="150dp"
-            android:layout_marginTop="350dp"
-
-            />
-
+            android:layout_marginTop="350dp" />
 
 </RelativeLayout>
