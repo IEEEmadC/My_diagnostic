@@ -46,13 +46,17 @@ Please note that the evaluation My Diagnostic provides is solely for information
             android:textAlignment="center"
             />
 
-        <TextView
+
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:text="fasdf"
-            android:textAlignment="center"
-            />
+            android:text="TERMS"
+            android:id="@+id/btnTerm"
+            >
+
+        </Button>
+
     </LinearLayout>
 
 </ScrollView>
