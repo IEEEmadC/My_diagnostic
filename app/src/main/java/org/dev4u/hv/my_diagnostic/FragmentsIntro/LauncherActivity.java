@@ -1,13 +1,17 @@
 package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,7 +46,30 @@ public class LauncherActivity extends AppCompatActivity {
         indicator.setViewPager(viewPager);
         manejadorAnim = new MiAnimacion(getBaseContext(),fondoApp);
         manejadorAnim.start();
+        /*
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Terms and conditions");
+        WebView wv = new WebView(this);
+        wv.loadUrl("file:///android_asset/EN/level1.html");
+        wv.setWebViewClient(new WebViewClient() {
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+
+                return true;
+            }
+        });
+
+        alert.setView(wv);
+        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
+*/
         lblSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +83,12 @@ public class LauncherActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return false;
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
