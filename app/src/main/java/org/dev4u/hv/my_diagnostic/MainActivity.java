@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
         editSavedData = savedData.edit();
         initial = savedData.getInt("STATUS",0);
+
+        Intent gotoIntro = new Intent(this,LauncherActivity.class);
+        startActivity(gotoIntro);
+
         if(initial==0){
             Intent gotoBeginning = new Intent(this,DownloadActivity.class);
             startActivity(gotoBeginning);
