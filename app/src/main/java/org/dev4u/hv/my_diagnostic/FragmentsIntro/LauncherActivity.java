@@ -48,8 +48,8 @@ public class LauncherActivity extends AppCompatActivity {
         backgroundApp = (RelativeLayout)findViewById(R.id.launcher_background);
         animationDrawable = (AnimationDrawable) backgroundApp.getBackground();
 
-        animationDrawable.setEnterFadeDuration(1000);
-        animationDrawable.setExitFadeDuration(500);
+        animationDrawable.setEnterFadeDuration(8000);
+        animationDrawable.setExitFadeDuration(4000);
 
         lblSkip = (TextView)findViewById(R.id.lblSkip);
         setupViewPager(viewPager);

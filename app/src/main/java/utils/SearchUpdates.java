@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -47,28 +49,32 @@ public class SearchUpdates {
     }
 
     public void getVersion(final boolean saveVersion) {
-        VolleySingleton.
-                getInstance(mContext).
-                addToRequestQueue(
-                        new JsonObjectRequest(
-                                Request.Method.GET,
-                                ConnectionSettings.GETData,
-                                null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        processVersion(response,saveVersion);
+        if(isNetworkAvailable(mContext)) {
+            VolleySingleton.
+                    getInstance(mContext).
+                    addToRequestQueue(
+                            new JsonObjectRequest(
+                                    Request.Method.GET,
+                                    ConnectionSettings.GETData,
+                                    null,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            processVersion(response, saveVersion);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            //error
+                                            Toast.makeText(mContext, "1 An error has occurred while My Diagnostic trying to connect the server", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        //error
-                                        Toast.makeText(mContext,"1 An error has occurred while My Diagnostic trying to connect the server",Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        )
-                );
+                            )
+                    );
+        }else if(!isFromMainActivity){
+            Toast.makeText(mContext, "You do not have access to the internet", Toast.LENGTH_SHORT).show();
+        }
     }
     private void processVersion(JSONObject response,boolean save){
         try {
@@ -123,5 +129,16 @@ public class SearchUpdates {
             }
         });
         alertDialogBuilider.create().show();
+    }
+
+    private boolean isNetworkAvailable(Context c) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            //we are connected to a network
+            return true;
+        } else
+            return false;
+
     }
 }
