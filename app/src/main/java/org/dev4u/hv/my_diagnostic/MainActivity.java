@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     protected void onResume() {
         super.onResume();
         //savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
-        Log.d("ON RESUMEN","<=================================================== previous : "+initial +" after : "+savedData.getInt("STATUS",0));
+        //Log.d("ON RESUMEN","<=================================================== previous : "+initial +" after : "+savedData.getInt("STATUS",0));
     }
 
     @Override
@@ -188,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
                 handler.post(new Runnable() {
                     public void run() {
                         threadFinish=true;
+                        if(frm1!=null)
+                            frm1.updateFragment();
+                        Log.d("Nuevo fragmento","<=================================================== busqueda ");
                     }
                 });
             }

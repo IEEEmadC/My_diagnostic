@@ -7,6 +7,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -105,6 +106,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void Updates(){
-        searchUpdates.getVersion(false);
+        try {
+            searchUpdates.getVersion(false);
+        }catch (Exception e){
+            Log.d("ERROR"," en la clase Search updates : "+e.getMessage());
+        }
+
     }
 }
