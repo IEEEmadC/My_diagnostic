@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient_anim"
+    android:background="@drawable/transicion"
     tools:context="org.dev4u.hv.my_diagnostic.FragmentsIntro.LauncherActivity">
 
     <android.support.v4.view.ViewPager
@@ -25,7 +25,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip"
+        android:text="Next"
         android:id="@+id/lblSkip"
         android:textColor="@color/light_font"
         android:shadowColor="@color/text_shadow"

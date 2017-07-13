@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transition xmlns:android="http://schemas.android.com/apk/res/android">
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- The drawables used here can be solid colors, gradients, shapes, images, etc. -->
-    <item android:drawable="@drawable/gradiente" />
-    <item android:drawable="@drawable/gradiente_2" />
-</transition>
+    <item android:drawable="@drawable/color1" android:duration="1000"/>
+
+    <item android:drawable="@drawable/color2" android:duration="1000"/>
+
+    <item android:drawable="@drawable/color3" android:duration="1000"/>
+
+    <item android:drawable="@drawable/color4" android:duration="1000"/>
+
+</animation-list>

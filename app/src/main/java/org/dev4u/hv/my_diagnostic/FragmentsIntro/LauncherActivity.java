@@ -1,6 +1,7 @@
 package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,25 +30,30 @@ public class LauncherActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private CircleIndicator indicator;
-    RelativeLayout fondoApp;
-    MiAnimacion manejadorAnim;
+    RelativeLayout backgroundApp;
     TextView lblSkip;
-    Button term;
+    AnimationDrawable animationDrawable;
     int pages=0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
+        getSupportActionBar().hide();
+
+
         viewPager = (ViewPager) findViewById(R.id.pager_introduction);
         indicator = (CircleIndicator) findViewById(R.id.indicator);
-        fondoApp = (RelativeLayout)findViewById(R.id.launcher_background);
+
+        backgroundApp = (RelativeLayout)findViewById(R.id.launcher_background);
+        animationDrawable = (AnimationDrawable) backgroundApp.getBackground();
+
+        animationDrawable.setEnterFadeDuration(1000);
+        animationDrawable.setExitFadeDuration(500);
+
         lblSkip = (TextView)findViewById(R.id.lblSkip);
         setupViewPager(viewPager);
         indicator.setViewPager(viewPager);
-        manejadorAnim = new MiAnimacion(getBaseContext(),fondoApp);
-        manejadorAnim.start();
-        term=(Button)findViewById(R.id.btnTerm);
 
         lblSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,52 +65,11 @@ public class LauncherActivity extends AppCompatActivity {
                 }
             }
         });
-        term.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Dialog();
-
-            }
-        });
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return false;
-        }
-    }
 
-    private void Dialog()
-    {
-
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Terms and conditions");
-        WebView wv = new WebView(this);
-        wv.loadUrl("file:///android_asset/EN/level1.html");
-        wv.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-
-                return true;
-            }
-        });
-
-        alert.setView(wv);
-        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-        alert.show();
-
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -144,4 +109,20 @@ public class LauncherActivity extends AppCompatActivity {
             mFragmentList.add(fragment);
         }
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(animationDrawable != null && !animationDrawable.isRunning()){
+            animationDrawable.start();
+        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(animationDrawable!=null && animationDrawable.isRunning()){
+            animationDrawable.stop();
+        }
+    }
+
 }
