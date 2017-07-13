@@ -45,13 +45,6 @@ public class DownloadActivity extends AppCompatActivity {
         } else {
             isUpdate = extras.getBoolean("IS_UPDATE",false);
         }
-
-        if(isUpdate){
-            SearchUpdates s = new SearchUpdates(this,true);
-            s.getVersion(true);
-        }
-
-
         //is first time
         preferences         = getSharedPreferences("Data", Context.MODE_PRIVATE);
         editorPreferences   = preferences.edit();
