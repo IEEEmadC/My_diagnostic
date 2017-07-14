@@ -6,3 +6,8 @@ My diagnostic is an applicaction for find diseases in a database that coincide w
 My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a
 health professional, Its utility is guiding a prediagnosis to be verified by a professional doctor
 
+My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a
+health professional, Its utility is guiding a prediagnosis to be verified by a professional doctor
+
+
+
