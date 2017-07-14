@@ -62,10 +62,10 @@
        <a  href ="https://developers.google.com/maps/terms">Google Map API</a>
     </string>
     <string name="enlace2" translatable="false">
-        <a  href = "https://github.com/lzyzsd/CircleProgress">Progress Bar Thermometer</a>
+        <a  href = "https://github.com/kofigyan/Thermometer/tree/master/app/src/main/java/com/janslab/thermometer">Thermometer Design</a>
     </string>
     <string name="enlace3" translatable="false">
-        <a  href = "https://github.com/akexorcist/Android-RoundCornerProgressBar">PieChart-MPAndroid Chart </a>
+        <a  href = "https://github.com/PhilJay/MPAndroidChart">PieChart-MPAndroid Chart </a>
     </string>
     <string name="enlace4" translatable="false">
         <a  href = "https://github.com/ongakuer/CircleIndicator">Circle Indicator Viewpager</a>
