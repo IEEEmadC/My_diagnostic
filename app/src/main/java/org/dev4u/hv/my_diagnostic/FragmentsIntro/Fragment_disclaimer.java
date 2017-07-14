@@ -97,7 +97,7 @@ public class Fragment_disclaimer extends Fragment {
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setTitle("Terms and conditions");
         WebView wv = new WebView(getContext());
-        wv.loadUrl("file:///android_asset/EN/level1.html");
+        wv.loadUrl("file:///android_asset/terms.html");
         wv.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

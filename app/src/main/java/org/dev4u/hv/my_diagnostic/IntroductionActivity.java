@@ -18,7 +18,7 @@ public class IntroductionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_introduction);
         WebView wView = (WebView) findViewById(R.id.webView);
         wView.getSettings().setJavaScriptEnabled(true);
-        wView.loadUrl("file:///android_asset/EN/level1.html");
+        wView.loadUrl("file:///android_asset/terms.html");
         wView.setWebViewClient(new MyWebViewClient());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
