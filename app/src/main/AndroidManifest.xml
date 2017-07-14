@@ -22,35 +22,33 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DownloadActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FragmentsIntro.LauncherActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UserDataActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCPNL19Statnfac_LR6sE9Hf42b77Uk_c0" />
 
-        <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

@@ -57,5 +57,18 @@
     <string name="pie_chart">Pie Chart con mpAndroidChartLibrery</string>
     <string name="download_message">All the diseases are stored in a cloud database, we are compromised to work adding more data for you.</string>
 
+    <!--   ACA ESTAN LOS LINK      -->
+    <string name="enlace1" translatable="false">
+       <a  href ="https://developers.google.com/maps/terms">Google Map API</a>
+    </string>
+    <string name="enlace2" translatable="false">
+        <a  href = "https://github.com/lzyzsd/CircleProgress">Progress Bar Thermometer</a>
+    </string>
+    <string name="enlace3" translatable="false">
+        <a  href = "https://github.com/akexorcist/Android-RoundCornerProgressBar">PieChart-MPAndroid Chart </a>
+    </string>
+    <string name="enlace4" translatable="false">
+        <a  href = "https://github.com/ongakuer/CircleIndicator">Circle Indicator Viewpager</a>
+    </string>
 
 </resources>
