@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a health professional, its usefulness lies in guiding a pre-diagnosis to be verified by a professional medical doctor"
+                        android:text="My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a health professional, its usefulness is  guiding a pre-diagnosis to be verified by a professional medical doctor"
                         android:id="@+id/lblcontent2"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -250,19 +250,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Marvin Méndez, me11i04001@usonsonate.edu.sv"
+                        android:text="Marvin Méndez me11i04001@usonsonate.edu.sv"
                         android:id="@+id/lblToNextLevel41"
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
                         android:layout_alignStart="@+id/textView4"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="60dp"
                         android:layout_marginBottom="10dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Jonathan Vásquez, hv12i04001@usonsonate.edu.sv"
+                        android:text="Jonathan Vásquez hv12i04001@usonsonate.edu.sv"
                         android:id="@+id/lblToNextLevel4"
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
@@ -280,7 +280,7 @@
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
                         android:layout_alignStart="@+id/textView4"
-                        android:layout_marginTop="70dp"
+                        android:layout_marginTop="110dp"
                         android:layout_marginBottom="10dp"
                         />
 
@@ -293,7 +293,7 @@
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
                         android:layout_alignStart="@+id/textView4"
-                        android:layout_marginTop="100dp"
+                        android:layout_marginTop="130dp"
                         android:layout_marginBottom="10dp"
                         />
                 </RelativeLayout>
