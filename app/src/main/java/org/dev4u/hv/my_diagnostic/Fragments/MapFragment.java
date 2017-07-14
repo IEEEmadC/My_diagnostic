@@ -230,7 +230,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (location == null)
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        {    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        Snackbar.make(this.getView(), "GPS is disable, please Active", Snackbar.LENGTH_LONG)
+                .show();}
         else
             handleNewLocation(location);
 
