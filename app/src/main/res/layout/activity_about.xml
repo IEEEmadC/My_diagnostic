@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="My diagnostic is an aplicaction for find diseases in a database that coincide with symptoms entered for user"
+                        android:text="My diagnostic is an applicaction for find diseases in a database that coincide with symptoms entered for user"
                         android:id="@+id/lblcontent1"
                         android:layout_below="@+id/textView"
                         android:layout_alignLeft="@+id/textView"
