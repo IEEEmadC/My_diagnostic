@@ -86,18 +86,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginBottom="10dp" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="  Introduction  "
-                        android:id="@+id/buttonIntroduction"
-                        android:translationZ="5dp"
-                        android:background="@drawable/button_style"
-                        android:textColor="#ffffff"
-                        android:layout_below="@+id/lblcontent2"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginTop="10dp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -217,7 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="My diagnostic is developed with purely academic goal for the IEEE MadC contest, it has been developed by students of the University of Sonsonate, El Salvador, C.A. which belong to IEEE Region 9."
+                        android:text="My diagnostic is developed with purely academic goal for the IEEE MadC contest, it has been developed by Team Dev4u."
                         android:id="@+id/lblToNextLevel3"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -257,11 +245,12 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp" />
 
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Jonathan Vasquez"
+                        android:text="Marvin Méndez, me11i04001@usonsonate.edu.sv"
                         android:id="@+id/lblToNextLevel41"
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
@@ -273,7 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Marvin Méndez"
+                        android:text="Jonathan Vásquez, hv12i04001@usonsonate.edu.sv"
                         android:id="@+id/lblToNextLevel4"
                         android:layout_below="@+id/textView4"
                         android:layout_alignLeft="@+id/textView4"
@@ -294,6 +283,7 @@
                         android:layout_marginTop="70dp"
                         android:layout_marginBottom="10dp"
                         />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
