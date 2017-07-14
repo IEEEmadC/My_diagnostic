@@ -70,16 +70,21 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
         editSavedData = savedData.edit();
         initial = savedData.getInt("STATUS",0);
 
-        Intent gotoIntro = new Intent(this,LauncherActivity.class);
-        startActivity(gotoIntro);
-
-        if(initial==0){
-            Intent gotoBeginning = new Intent(this,DownloadActivity.class);
+        if(!savedData.getBoolean("AGREE",false)){
+            Intent gotoBeginning = new Intent(this,LauncherActivity.class);
             startActivity(gotoBeginning);
             this.finish();
         }else{
-            if(savedData.getBoolean("SEARCH_AT_START",true)) new SearchUpdates(this,true).getVersion(false);
+            if(initial==0){
+                Intent gotoBeginning = new Intent(this,DownloadActivity.class);
+                startActivity(gotoBeginning);
+                this.finish();
+            }else{
+                if(savedData.getBoolean("SEARCH_AT_START",true)) new SearchUpdates(this,true).getVersion(false);
+            }
         }
+
+
 
         Init();
         //animation
@@ -176,12 +181,21 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
             case R.id.action_profile:
                 gotoProfile();
                 return true;
+            case R.id.action_about:
+                gotoAbout();
+                return true;
             case android.R.id.home:
                 onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void gotoAbout(){
+        ///TODO aqui llamar al about
+        //Intent intent = new Intent(this, AboutActivity.class);
+        //startActivity(intent);
+        //
     }
 
     public void Init(){

@@ -1,6 +1,9 @@
 package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +19,9 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.dev4u.hv.my_diagnostic.DownloadActivity;
 import org.dev4u.hv.my_diagnostic.FragmentsIntro.MiAnimacion;
 import org.dev4u.hv.my_diagnostic.R;
 
@@ -34,12 +39,17 @@ public class LauncherActivity extends AppCompatActivity {
     TextView lblSkip;
     AnimationDrawable animationDrawable;
     int pages=0;
+    Fragment_disclaimer frmfive;
+    private SharedPreferences savedData;
+    private SharedPreferences.Editor editSavedData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
         getSupportActionBar().hide();
+        savedData = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        editSavedData = savedData.edit();
 
 
         viewPager = (ViewPager) findViewById(R.id.pager_introduction);
@@ -61,7 +71,17 @@ public class LauncherActivity extends AppCompatActivity {
                 if(viewPager.getCurrentItem()!=(pages-1)){
                     viewPager.setCurrentItem( viewPager.getCurrentItem()+1 );
                 }else{
-                    LauncherActivity.this.finish();
+                    if(viewPager.getCurrentItem()==pages-1){
+                        if(frmfive.isAgreeChecked){
+                            editSavedData.putBoolean("AGREE",true);
+                            editSavedData.commit();
+                            Intent gotoDownload = new Intent(LauncherActivity.this,DownloadActivity.class);
+                            startActivity(gotoDownload);
+                            finish();
+                        }else{
+                            Toast.makeText(LauncherActivity.this,"If you want to use My Diagnostic you must accept the terms and conditions. ",Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
@@ -77,7 +97,7 @@ public class LauncherActivity extends AppCompatActivity {
         SecondIntroductionFragment frmSecond = new SecondIntroductionFragment();
         ThirdIntroductionFragment frmThird = new ThirdIntroductionFragment();
         FourIntroductionFragment frmFour = new FourIntroductionFragment();
-        Fragment_disclaimer frmfive = new Fragment_disclaimer();
+        frmfive = new Fragment_disclaimer();
         adapter.addFragment(frmFirst);
         adapter.addFragment(frmSecond);
         adapter.addFragment(frmThird);

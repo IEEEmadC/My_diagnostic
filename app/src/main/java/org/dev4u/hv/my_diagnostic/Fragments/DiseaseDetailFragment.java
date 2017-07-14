@@ -259,6 +259,6 @@ public void ChartSymptomFound(float p1,PieChart pieChart){
         DiseaseUtilitesSingleton.getInstance().saveOrUpdateHistory(true,medicalHistory);
         if(DiseaseUtilitesSingleton.getInstance().historyAdapter!=null)
             DiseaseUtilitesSingleton.getInstance().historyAdapter.notifyDataSetChanged();
-        Snackbar.make(coordinatorLayout,"Disease added to medical history",Snackbar.LENGTH_LONG).show();
+        Snackbar.make(coordinatorLayout,"Disease added to medical record",Snackbar.LENGTH_LONG).show();
     }
 }

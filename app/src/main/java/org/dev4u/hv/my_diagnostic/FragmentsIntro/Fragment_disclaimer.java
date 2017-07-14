@@ -1,11 +1,18 @@
 package org.dev4u.hv.my_diagnostic.FragmentsIntro;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import org.dev4u.hv.my_diagnostic.R;
 
@@ -57,11 +64,55 @@ public class Fragment_disclaimer extends Fragment {
         }
     }
 
+    View view;
+    public static CheckBox chkAgree=null;
+    private Button btnShowTerms;
+    public static boolean isAgreeChecked=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_disclaimer, container, false);
+        view         = inflater.inflate(R.layout.fragment_disclaimer, container, false);
+        chkAgree     = (CheckBox) view.findViewById(R.id.checkTerms);
+        btnShowTerms = (Button) view.findViewById(R.id.lblViewAll);
+        btnShowTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog();
+            }
+        });
+        chkAgree.setChecked(isAgreeChecked);
+        chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isAgreeChecked = isChecked;
+            }
+        });
+        return view;
     }
 
+
+    private void dialog()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        alert.setTitle("Terms and conditions");
+        WebView wv = new WebView(getContext());
+        wv.loadUrl("file:///android_asset/EN/level1.html");
+        wv.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+
+                return true;
+            }
+        });
+        alert.setView(wv);
+        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
+    }
 }
