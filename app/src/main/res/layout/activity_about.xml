@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a health professional, its usefulness is  guiding a pre-diagnosis to be verified by a professional medical doctor"
+                        android:text="My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a health professional, Its utility is guiding a prediagnosis to be verified by a professional doctor"
                         android:id="@+id/lblcontent2"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
