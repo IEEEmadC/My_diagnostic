@@ -63,6 +63,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
 
 {
 
+    View rootView;
     private GoogleMap googleMap;
     private String SgoogleMap;
     private static final String GOOGLE_API_KEY = "AIzaSyCPNL19Statnfac_LR6sE9Hf42b77Uk_c0";
@@ -146,7 +147,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_maps, container, false);
+        rootView = inflater.inflate(R.layout.activity_maps, container, false);
         setHasOptionsMenu(true);
 
 
@@ -231,7 +232,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback,Goog
 
         if (location == null)
         {    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        Snackbar.make(this.getView(), "GPS is disable, please Enabled", Snackbar.LENGTH_LONG)
+        Snackbar.make(rootView, "GPS is disable, please Enabled", Snackbar.LENGTH_LONG)
                 .show();}
         else
             handleNewLocation(location);
