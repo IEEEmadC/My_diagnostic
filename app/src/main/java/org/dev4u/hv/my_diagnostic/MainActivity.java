@@ -193,9 +193,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     }
     private void gotoAbout(){
         ///TODO aqui llamar al about
-        //Intent intent = new Intent(this, AboutActivity.class);
-        //startActivity(intent);
-        //
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+
     }
 
     public void Init(){
