@@ -5,6 +5,9 @@ For IEEEMadc Contest
 
 Team name : DEV4U
 
+### Download from Google Play
+
+[For Android 5+](https://play.google.com/store/apps/details?id=org.dev4u.hv.my_diagnostic)
 
 
 ### Submited Idea
