@@ -23,6 +23,7 @@ health professional, Its utility is guiding a prediagnosis to be verified by a p
 
 ### Authors
 
+Region 9 El Salvador
 
 Section/Student Branch: Universidad de Sonsonate
 
