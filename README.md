@@ -3,6 +3,16 @@
 
 For IEEEMadc Contest
 
+Team name : DEV4U
+
+
+
+### Submited Idea
+
+My Diagnostic is an app designed to help the user know about a specific disease by entering the different symptoms that the app will request as input data, this data will be analyzed using an statistic model and will be processed by comparing it with different symptoms belonging to different diseases that will be stored in the database, producing as a result, the diseases that match the search criteria where one or more symptoms coincide, showing the match percentage. It will also store the patient's medical records.
+
+### Abstract
+
 My diagnostic is an applicaction for find diseases in a database that coincide with symptoms entered for users.
 
 My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a
@@ -10,6 +20,13 @@ health professional, Its utility is guiding a prediagnosis to be verified by a p
 
 My diagnostic has been developed for purely academic purposes and should not replace the medical opinion of a
 health professional, Its utility is guiding a prediagnosis to be verified by a professional doctor
+
+### Authors
+
+
+Section/Student Branch: Universidad de Sonsonate
+
+Author: Jonathan Giovanny Hernandez / Marvin Antonio Mendez
 
 <hr>
 
