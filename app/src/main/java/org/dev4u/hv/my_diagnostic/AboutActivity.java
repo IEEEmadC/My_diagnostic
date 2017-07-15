@@ -9,5 +9,9 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+         ((TextView)findViewById(R.id.link1)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)findViewById(R.id.link2)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)findViewById(R.id.link3)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)findViewById(R.id.link4)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
