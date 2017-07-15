@@ -9,6 +9,9 @@ Team name : DEV4U
 
 [For Android 5+](https://play.google.com/store/apps/details?id=org.dev4u.hv.my_diagnostic)
 
+### Promotional Video
+
+https://youtu.be/6xzdRqEHd6w
 
 ### Submited Idea
 
