@@ -11,7 +11,7 @@ Team name : DEV4U
 
 ### Promotional Video
 
-[![IMAGE ALT TEXT](https://github.com/Tonysmarv/My_diagnostic/blob/master/preview.png)](https://youtu.be/6xzdRqEHd6w "My Diagnostic Video")
+[![IMAGE ALT TEXT](https://github.com/Tonysmarv/My_diagnostic/blob/master/preview.png)](https://youtu.be/4wkk696Zl-M "My Diagnostic Video")
 
 
 ### Submited Idea
