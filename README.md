@@ -1,6 +1,6 @@
 # My Diagnostic
 
-
+![My Diagnostic 2017](https://github.com/Tonysmarv/My_diagnostic/blob/master/poster.jpg)
 For IEEEMadc Contest
 
 Team name : DEV4U
